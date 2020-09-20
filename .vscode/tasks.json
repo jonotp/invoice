@@ -1,0 +1,48 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "serve",
+			"path": "functions/",
+			"problemMatcher": [],
+			"label": "Run functions",
+			"detail": "npm run build && firebase emulators:start --only functions"
+		},
+		{
+			"type": "npm",
+			"script": "serve",
+			"path": "client/",
+			"problemMatcher": [],
+			"label": "Client Run",
+			"detail": "npm run serve"
+		},
+		{
+			"type": "npm",
+			"script": "build:watch",
+			"path": "functions/",
+			"problemMatcher": [],
+			"label": "API Build",
+			"detail": "npm run build:watch"
+		},
+		{
+			"type": "npm",
+			"script": "debug",
+			"path": "functions/",
+			"problemMatcher": [],
+			"label": "API Run",
+			"detail": "Build functions and run functions with inspector"
+		},
+		{
+			"label":"Firebase Emulators",
+			"type" :"shell",
+			"command":"firebase emulators:start --only 'functions','database','firestore' --inspect-functions",
+			"detail": "Emulates functions, firestore, database and UI"
+		},
+		{
+			"label":"Run Web-app",
+			"dependsOn" : ["Client Run","API Build","Firebase Emulators"],
+			"detail": "Runs the whole web-application"
+		}
+	]
+}

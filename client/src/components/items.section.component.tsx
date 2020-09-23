@@ -1,26 +1,16 @@
-import React, {
-  useContext,
-  FunctionComponent,
-  // useState,
-} from "react";
-import { useForm, useFieldArray } from "react-hook-form";
+import React, { ChangeEvent, Dispatch, FunctionComponent, SetStateAction } from "react";
 import { Button, TextField } from "@material-ui/core";
-import { InvoiceContext, IItem } from "../contexts/invoice.context";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { IItem, DefaultItem } from "../types";
 
-const newItem: IItem = {
-  name: "",
-  quantity: 1,
-  price: 1,
-};
-
-interface IItemsForm {
-  items: IItem[];
+interface ItemsSectionProps {
+  state: IItem[];
+  setState: Dispatch<SetStateAction<IItem[]>>;
 }
 
 const decimalInput = {
@@ -32,46 +22,29 @@ const quanityInput = {
   min: 1,
 };
 
-const ItemsSection: FunctionComponent = () => {
-  const { items: contextItems, setInvoiceProperty } = useContext(
-    InvoiceContext
-  );
-  // const [items, setItems] = useState<IItem[]>(contextItems ?? []);
-  const { control, register, handleSubmit } = useForm<IItemsForm>({
-    defaultValues: { items: contextItems },
-  });
-  const { fields, append } = useFieldArray({
-    control,
-
-    // Corresponds to the property on defaultValue
-    name: "items",
-  });
-
-  const onSubmit = (data: IItemsForm) => {
-    console.log(data.items);
-    setInvoiceProperty("items", data.items);
-  };
-
+const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
+  state,
+  setState,
+}) => {
   const handleAddItem = () => {
-    // setItems(items.concat(newItem));
-    append(newItem);
+    setState((prevState) => prevState.concat(DefaultItem));
   };
 
-  // const handleTextChange = (index: number, property: string) => (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   event.persist();
-  //   setItems(
-  //     items.map((item: IItem, i: number) =>
-  //       i === index
-  //         ? {
-  //             ...item,
-  //             [property]: event.target.value,
-  //           }
-  //         : item
-  //     )
-  //   );
-  // };
+  const handleTextChange = (index: number, property: string) => (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    event.persist();
+    setState((prevState) => {
+      return prevState.map((item: IItem, i: number) =>
+        i === index
+          ? {
+              ...item,
+              [property]: event.target.value,
+            }
+          : item
+      );
+    });
+  };
   return (
     <section className="items-section">
       <h1>Enter the items you wish to invoice</h1>
@@ -86,82 +59,7 @@ const ItemsSection: FunctionComponent = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {fields.map((x, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  id={`name-${i}`}
-                  label="Name"
-                  name={`items[${i}].name`}
-                  inputRef={register()}
-                  defaultValue={x.name}
-                />
-              </TableCell>
-              <TableCell>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  type="number"
-                  inputProps={quanityInput}
-                  label="Quantity"
-                  name={`items[${i}].quantity`}
-                  error={x.quantity <= 0}
-                  inputRef={register()}
-                  defaultValue={x.quantity}
-                />
-              </TableCell>
-              <TableCell>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  type="number"
-                  inputProps={decimalInput}
-                  id={`discountPercentage-${i}`}
-                  label="Discount (%)"
-                  error={
-                    !!x.discountPercentage ? x.discountPercentage < 0 : false
-                  }
-                  name={`items[${i}].discountPercentage`}
-                  inputRef={register()}
-                  defaultValue={x.discountPercentage}
-                />
-              </TableCell>
-              <TableCell>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  type="number"
-                  inputProps={decimalInput}
-                  id={`price-${i}`}
-                  label="Price ($)"
-                  error={x.price < 0}
-                  name={`items[${i}].price`}
-                  inputRef={register()}
-                  defaultValue={x.price}
-                />
-              </TableCell>
-              <TableCell>
-                <TextField
-                  variant="filled"
-                  margin="normal"
-                  type="number"
-                  inputProps={decimalInput}
-                  id={`total-${i}`}
-                  label="Total ($)"
-                  value={
-                    !!x.discountPercentage
-                      ? x.price - x.price * x.discountPercentage * 0.01
-                      : x.price
-                  }
-                  name={`total`}
-                  disabled
-                />
-              </TableCell>
-            </TableRow>
-          ))}
-          {/* {items.map((x, i) => (
+          {state.map((x, i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
                 <TextField
@@ -235,7 +133,7 @@ const ItemsSection: FunctionComponent = () => {
                 />
               </TableCell>
             </TableRow>
-          ))} */}
+          ))}
         </TableBody>
       </Table>
       <Button
@@ -244,13 +142,6 @@ const ItemsSection: FunctionComponent = () => {
         onClick={handleAddItem}
       >
         Add Item
-      </Button>
-      <Button
-        color="primary"
-        variant="contained"
-        onClick={handleSubmit(onSubmit)}
-      >
-        Submit
       </Button>
     </section>
   );

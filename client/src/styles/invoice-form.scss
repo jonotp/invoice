@@ -1,0 +1,23 @@
+@import "./variables";
+
+h1 {
+  padding-bottom: 1rem;
+  color: $black;
+  border-bottom: 2px $grey solid;
+}
+
+.invoice-grid {
+  display: grid;
+  padding: 0 5%;
+  grid-template-columns: 1fr;
+  row-gap: 2rem;
+  text-align: left;
+}
+
+.table-head {
+  tr > th {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size:1rem;
+  }
+}

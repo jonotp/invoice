@@ -16,13 +16,13 @@ export interface IItem {
   name: string;
   quantity: number;
   price: number;
-  discountDecimal?: number;
+  discountPercentage?: number;
 }
 
 export interface IInvoice {
   invoiceNo: string;
   issueDate: Date;
-  paymentTerms?: string;
+  paymentTerm?: string;
   dueDate: Date;
   supplier: IPersonel;
   customer: IPersonel;
@@ -36,6 +36,7 @@ export interface IInvoice {
     property: string,
     data: string | number | boolean | Date | IItem[] | IPersonel
   ): void;
+  setInvoicePropertyViaSpread(data: {}): void;
 }
 
 const initialInvoiceState: IInvoice = {
@@ -63,10 +64,11 @@ const initialInvoiceState: IInvoice = {
     email: "",
     phone: "",
   },
-  items: [],
+  items: [{ name: "", quantity: 1, price: 0.0 }],
   hasGST: false,
   total: 0,
   setInvoiceProperty: () => {},
+  setInvoicePropertyViaSpread: () => {},
 };
 
 const InvoiceContext = createContext(initialInvoiceState);
@@ -84,8 +86,17 @@ const InvoiceProvider: FunctionComponent = ({ children }) => {
     });
   };
 
+  const setInvoicePropertyViaSpread = (data: {}) => {
+    setInvoice((prevState) => {
+      return {
+        ...prevState,
+        ...data,
+      };
+    });
+  };
+
   const initalState: IInvoice = {
-    invoiceNo: "",
+    invoiceNo: "INV01",
     issueDate: new Date(),
     dueDate: new Date(),
     supplier: {
@@ -108,10 +119,11 @@ const InvoiceProvider: FunctionComponent = ({ children }) => {
       email: "",
       phone: "",
     },
-    items: [],
+    items: [{ name: "", quantity: 1, price: 0.0 }],
     hasGST: false,
     total: 0,
     setInvoiceProperty,
+    setInvoicePropertyViaSpread,
   };
 
   const [invoice, setInvoice] = useState<IInvoice>(initalState);

@@ -9,8 +9,8 @@ import TableRow from "@material-ui/core/TableRow";
 import { IItem, DefaultItem } from "../types";
 
 interface ItemsSectionProps {
-  state: IItem[];
-  setState: Dispatch<SetStateAction<IItem[]>>;
+  items: IItem[];
+  onUpdateItems: Dispatch<SetStateAction<IItem[]>>;
 }
 
 const decimalInput = {
@@ -23,18 +23,18 @@ const quanityInput = {
 };
 
 const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
-  state,
-  setState,
+  items,
+  onUpdateItems,
 }) => {
   const handleAddItem = () => {
-    setState((prevState) => prevState.concat(DefaultItem));
+    onUpdateItems((prevState) => prevState.concat(DefaultItem));
   };
 
   const handleTextChange = (index: number, property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     event.persist();
-    setState((prevState) => {
+    onUpdateItems((prevState) => {
       return prevState.map((item: IItem, i: number) =>
         i === index
           ? {
@@ -59,7 +59,7 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {state.map((x, i) => (
+          {items.map((x, i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
                 <TextField

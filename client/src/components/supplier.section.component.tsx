@@ -9,24 +9,24 @@ import { TextField } from "@material-ui/core";
 import { IPersonel } from "../types";
 
 interface SupplierSectionProps {
-  supplierState: IPersonel;
-  setSupplierState: Dispatch<SetStateAction<IPersonel>>;
-  logoState: string;
-  setLogoState: Dispatch<SetStateAction<string>>;
+  supplier: IPersonel;
+  onUpdateSupplier: Dispatch<SetStateAction<IPersonel>>;
+  logo: string;
+  onUpdateLogo: Dispatch<SetStateAction<string>>;
 }
 
 const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
-  supplierState,
-  setSupplierState,
-  logoState,
-  setLogoState,
+  supplier,
+  onUpdateSupplier,
+  logo,
+  onUpdateLogo,
 }) => {
   const logoInput = createRef<HTMLInputElement>();
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     event.persist();
-    setSupplierState((prevState) => {
+    onUpdateSupplier((prevState) => {
       return {
         ...prevState,
         [property]: event.target.value,
@@ -38,7 +38,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
     // Need to consider change events users cancel the upload
     const files = event.target.files;
     if (files !== undefined && files !== null && files.length > 0) {
-      setLogoState(URL.createObjectURL(files[0]));
+      onUpdateLogo(URL.createObjectURL(files[0]));
     }
   };
 
@@ -58,7 +58,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         name="identity"
         variant="outlined"
         margin="normal"
-        value={supplierState.identity || ""}
+        value={supplier.identity || ""}
         onChange={handleInputChange("identity")}
       />
       <TextField
@@ -67,7 +67,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-name"
         label="Name"
         name="name"
-        value={supplierState.name || ""}
+        value={supplier.name || ""}
         onChange={handleInputChange("name")}
       />
       <TextField
@@ -76,7 +76,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-address"
         label="Address"
         name="address"
-        value={supplierState.address || ""}
+        value={supplier.address || ""}
         onChange={handleInputChange("address")}
       />
       <TextField
@@ -85,7 +85,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-city"
         label="City"
         name="city"
-        value={supplierState.city || ""}
+        value={supplier.city || ""}
         onChange={handleInputChange("city")}
       />
       <TextField
@@ -94,7 +94,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-state"
         label="State"
         name="state"
-        value={supplierState.state || ""}
+        value={supplier.state || ""}
         onChange={handleInputChange("state")}
       />
       <TextField
@@ -103,7 +103,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-zip"
         label="Zip Code / Postal Address"
         name="zip"
-        value={supplierState.zip || ""}
+        value={supplier.zip || ""}
         onChange={handleInputChange("zip")}
       />
       <TextField
@@ -112,7 +112,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-country"
         label="Country"
         name="country"
-        value={supplierState.country || ""}
+        value={supplier.country || ""}
         onChange={handleInputChange("country")}
       />
       <TextField
@@ -121,7 +121,7 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-email"
         label="Email"
         name="email"
-        value={supplierState.email || ""}
+        value={supplier.email || ""}
         onChange={handleInputChange("email")}
       />
       <TextField
@@ -130,14 +130,14 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         id="supplier-phone"
         label="Phone"
         name="phone"
-        value={supplierState.phone || ""}
+        value={supplier.phone || ""}
         onChange={handleInputChange("phone")}
       />
       <div>
         <img
           className="logo-img"
           onClick={onChangeLogo}
-          src={logoState}
+          src={logo}
           alt={`Invoice logo`}
         />
         <input

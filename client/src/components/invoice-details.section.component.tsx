@@ -12,20 +12,20 @@ import { IInvoiceDetails } from "../types";
 const defaultDate = new Date();
 
 interface InvoiceDetailSectionProps {
-  state: IInvoiceDetails;
-  setState: Dispatch<SetStateAction<IInvoiceDetails>>;
+  invoiceDetails: IInvoiceDetails;
+  onUpdateInvoiceDetails: Dispatch<SetStateAction<IInvoiceDetails>>;
 }
 
 const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
-  setState,
-  state,
+  invoiceDetails,
+  onUpdateInvoiceDetails,
 }: InvoiceDetailSectionProps) => {
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     event.persist();
-    if (setState === undefined) return;
-    setState((prevState) => {
+    if (onUpdateInvoiceDetails === undefined) return;
+    onUpdateInvoiceDetails((prevState) => {
       return {
         ...prevState,
         [property]: event.target.value,
@@ -36,7 +36,7 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
   const handleDateChange = (property: string) => (
     date: MaterialUiPickersDate
   ) => {
-    setState((prevState) => {
+    onUpdateInvoiceDetails((prevState) => {
       return {
         ...prevState,
         [property]: date,
@@ -48,7 +48,7 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
     event: ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
-    setState((prevState) => {
+    onUpdateInvoiceDetails((prevState) => {
       return {
         ...prevState,
         hasGST: checked,
@@ -65,7 +65,7 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
         label="Invoice No"
         variant="outlined"
         margin="normal"
-        value={state.invoiceNo || ""}
+        value={invoiceDetails.invoiceNo || ""}
         onChange={handleInputChange("invoiceNo")}
       />
       <KeyboardDatePicker
@@ -79,12 +79,12 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
         KeyboardButtonProps={{
           "aria-label": "change date",
         }}
-        value={state.issueDate || defaultDate}
+        value={invoiceDetails.issueDate || defaultDate}
         onChange={handleDateChange("issueDate")}
       />
       <div>
         <strong>Will your invoice include GST?</strong>
-        <Switch checked={state.hasGST} onChange={handleGSTToggle} />
+        <Switch checked={invoiceDetails.hasGST} onChange={handleGSTToggle} />
       </div>
     </section>
   );

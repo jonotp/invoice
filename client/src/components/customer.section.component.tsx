@@ -8,19 +8,19 @@ import { TextField } from "@material-ui/core";
 import { IPersonel } from "../types";
 
 interface CustomerSectionProps {
-  state: IPersonel;
-  setState: Dispatch<SetStateAction<IPersonel>>;
+  customer: IPersonel;
+  onCustomerUpdate: Dispatch<SetStateAction<IPersonel>>;
 }
 
 const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
-  state,
-  setState,
+  customer,
+  onCustomerUpdate,
 }) => {
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     event.persist();
-    setState((prevState) => {
+    onCustomerUpdate((prevState) => {
       return {
         ...prevState,
         [property]: event.target.value,
@@ -37,7 +37,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         name="identity"
         variant="outlined"
         margin="normal"
-        value={state.identity || ""}
+        value={customer.identity || ""}
         onChange={handleInputChange("identity")}
       />
       <TextField
@@ -46,7 +46,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-name"
         label="Name"
         name="name"
-        value={state.name || ""}
+        value={customer.name || ""}
         onChange={handleInputChange("name")}
       />
       <TextField
@@ -55,7 +55,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-address"
         label="Address"
         name="address"
-        value={state.address || ""}
+        value={customer.address || ""}
         onChange={handleInputChange("address")}
       />
       <TextField
@@ -64,16 +64,16 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-city"
         label="City"
         name="city"
-        value={state.city || ""}
+        value={customer.city || ""}
         onChange={handleInputChange("city")}
       />
       <TextField
         variant="outlined"
         margin="normal"
-        id="customer-state"
-        label="State"
-        name="state"
-        value={state.state || ""}
+        id="customer-customer"
+        label="customer"
+        name="customer"
+        value={customer.state || ""}
         onChange={handleInputChange("state")}
       />
       <TextField
@@ -82,7 +82,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-zip"
         label="Zip Code / Postal Address"
         name="zip"
-        value={state.zip || ""}
+        value={customer.zip || ""}
         onChange={handleInputChange("zip")}
       />
       <TextField
@@ -91,7 +91,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-country"
         label="Country"
         name="country"
-        value={state.country || ""}
+        value={customer.country || ""}
         onChange={handleInputChange("country")}
       />
       <TextField
@@ -100,7 +100,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-email"
         label="Email"
         name="email"
-        value={state.email || ""}
+        value={customer.email || ""}
         onChange={handleInputChange("email")}
       />
       <TextField
@@ -109,7 +109,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         id="customer-phone"
         label="Phone"
         name="phone"
-        value={state.phone || ""}
+        value={customer.phone || ""}
         onChange={handleInputChange("phone")}
       />
     </section>

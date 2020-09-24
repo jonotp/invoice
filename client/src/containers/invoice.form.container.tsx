@@ -52,26 +52,26 @@ const InvoiceFormContainer = () => {
       <div className="invoice-grid">
         <div className="invoice-section">
           <SupplierSection
-            supplierState={supplierDetails}
-            setSupplierState={setSupplierDetails}
-            logoState={logo}
-            setLogoState={setLogo}
+            supplier={supplierDetails}
+            onUpdateSupplier={setSupplierDetails}
+            logo={logo}
+            onUpdateLogo={setLogo}
           />
         </div>
         <div className="invoice-section">
           <CustomerSection
-            state={customerDetails}
-            setState={setCustomerDetails}
+            customer={customerDetails}
+            onCustomerUpdate={setCustomerDetails}
           />
         </div>
         <div className="invoice-section">
           <InvoiceDetailsSection
-            state={invoiceDetails}
-            setState={setInvoiceDetails}
+            invoiceDetails={invoiceDetails}
+            onUpdateInvoiceDetails={setInvoiceDetails}
           />
         </div>
         <div className="invoice-section">
-          <ItemsSection state={items} setState={setItems} />
+          <ItemsSection items={items} onUpdateItems={setItems} />
         </div>
       </div>
       <Button onClick={onSubmit}>

@@ -1,9 +1,9 @@
-import React, { useEffect, useState  } from "react";
+import React, { useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import SupplierSection from "../components/supplier.section.component";
-import CustomerSection from "../components/customer.section.component";
-import InvoiceDetailsSection from "../components/invoice-details.section.component";
-import ItemsSection from "../components/items.section.component";
+import SupplierSection from "../components/supplier-section.component";
+import CustomerSection from "../components/customer-section.component";
+import InvoiceDetailsSection from "../components/invoice-details-section.component";
+import ItemsSection from "../components/items-section.component";
 import {
   IPersonel,
   IItem,
@@ -12,7 +12,7 @@ import {
   DefaultItem,
   DefaultInvoiceDetails,
 } from "../types";
-import "../styles/invoice-form.scss";
+import "../styles/containers/invoice-form.container.scss";
 import DateFnsUtils from "@date-io/date-fns";
 import { Button } from "@material-ui/core";
 
@@ -44,8 +44,8 @@ const InvoiceFormContainer = () => {
     console.log("Customer Details", customerDetails);
     console.log("Invoice Details", invoiceDetails);
     console.log("Items", items);
-    console.log("Notes", notes)
-  }
+    console.log("Notes", notes);
+  };
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -74,9 +74,7 @@ const InvoiceFormContainer = () => {
           <ItemsSection items={items} onUpdateItems={setItems} />
         </div>
       </div>
-      <Button onClick={onSubmit}>
-        Submit
-      </Button>
+      <Button onClick={onSubmit}>Submit</Button>
     </MuiPickersUtilsProvider>
   );
 };

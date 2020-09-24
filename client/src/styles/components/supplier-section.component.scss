@@ -1,0 +1,82 @@
+@import "../variables";
+
+.supplier-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
+  gap: 1rem 1rem;
+  grid-template-areas:
+    "header header header header header"
+    "abn abn abn abn logo"
+    "name name name name logo"
+    "address address address city logo"
+    "country country state zip empty"
+    "email email phone phone empty";
+
+  h1 {
+    grid-area: header;
+  }
+}
+
+.logo-section {
+  padding: 1rem;
+  cursor:pointer;
+  border: 1px solid $light-grey;
+  transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+  .logo-container{
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color:$light-grey;
+    font-weight: bold;
+    font-size:1rem;
+    transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+
+  svg {
+    height: 5rem;
+    width: 5rem;
+    fill: $light-grey;
+    transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  }
+
+  &:hover {
+    border-color: $black;
+    .logo-container{
+      color: $black;
+    }
+    svg {
+      fill: $black;
+    }
+  }
+
+  &:active,
+  &:focus {
+    border: 2px solid rgb(63, 81, 255);
+    svg {
+      height: 5.5rem;
+      width: 5.5rem;
+      fill: rgb(63, 81, 255);
+    }
+
+    .logo-container{
+      color: rgb(63, 81, 255);
+      font-size:1.1rem;
+    }
+  }
+
+  .logo-img {
+    cursor: pointer;
+    max-width:100%;
+    max-height:130px;
+    object-fit: cover;
+    transition: 0.5s ease all;
+    margin-bottom:1rem;
+  }
+
+  .logo-uploader {
+    display: none;
+  }
+}

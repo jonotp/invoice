@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { TextField } from "@material-ui/core";
 import { IPersonel } from "../types";
+import "../styles/components/customer-section.component.scss";
 
 interface CustomerSectionProps {
   customer: IPersonel;
@@ -36,67 +37,75 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         label="ABN"
         name="identity"
         variant="outlined"
-        margin="normal"
+        margin="none"
+        style={{ gridArea: "abn" }}
         value={customer.identity || ""}
         onChange={handleInputChange("identity")}
       />
       <TextField
-        variant="outlined"
-        margin="normal"
         id="customer-name"
         label="Name"
         name="name"
+        variant="outlined"
+        margin="none"
+        style={{ gridArea: "name" }}
         value={customer.name || ""}
         onChange={handleInputChange("name")}
       />
       <TextField
-        variant="outlined"
-        margin="normal"
         id="customer-address"
         label="Address"
         name="address"
+        variant="outlined"
+        margin="none"
+        style={{ gridArea: "address" }}
         value={customer.address || ""}
         onChange={handleInputChange("address")}
       />
       <TextField
-        variant="outlined"
-        margin="normal"
         id="customer-city"
         label="City"
         name="city"
+        variant="outlined"
+        margin="none"
+        style={{ gridArea: "city" }}
         value={customer.city || ""}
         onChange={handleInputChange("city")}
       />
       <TextField
+        id="customer-state"
+        label="State"
+        name="state"
         variant="outlined"
-        margin="normal"
-        id="customer-customer"
-        label="customer"
-        name="customer"
+        margin="none"
+        style={{ gridArea: "state" }}
         value={customer.state || ""}
         onChange={handleInputChange("state")}
       />
       <TextField
-        variant="outlined"
-        margin="normal"
         id="customer-zip"
-        label="Zip Code / Postal Address"
+        label="Zip Code"
         name="zip"
+        variant="outlined"
+        margin="none"
+        style={{ gridArea: "zip" }}
         value={customer.zip || ""}
         onChange={handleInputChange("zip")}
       />
       <TextField
-        variant="outlined"
-        margin="normal"
         id="customer-country"
         label="Country"
         name="country"
+        variant="outlined"
+        margin="none"
+        style={{ gridArea: "country" }}
         value={customer.country || ""}
         onChange={handleInputChange("country")}
       />
-      <TextField
+      {/* For now we do not need contact information for the customer */}
+      {/* <TextField
         variant="outlined"
-        margin="normal"
+        margin="none"
         id="customer-email"
         label="Email"
         name="email"
@@ -105,13 +114,13 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
       />
       <TextField
         variant="outlined"
-        margin="normal"
+        margin="none"
         id="customer-phone"
         label="Phone"
         name="phone"
         value={customer.phone || ""}
         onChange={handleInputChange("phone")}
-      />
+      /> */}
     </section>
   );
 };

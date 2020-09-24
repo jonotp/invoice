@@ -8,6 +8,7 @@ import { Switch, TextField } from "@material-ui/core";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { IInvoiceDetails } from "../types";
+import "../styles/components/invoice-details-section.component.scss";
 
 const defaultDate = new Date();
 
@@ -57,14 +58,15 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
   };
 
   return (
-    <section className="payment-section">
+    <section className="invoice-details-section">
       <h1>Enter Invoice details</h1>
       <TextField
         id="invoiceNo"
         name="invoiceNo"
         label="Invoice No"
         variant="outlined"
-        margin="normal"
+        margin="none"
+        style={{gridArea:"invoice-no"}}
         value={invoiceDetails.invoiceNo || ""}
         onChange={handleInputChange("invoiceNo")}
       />
@@ -72,17 +74,18 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
         id="issueDate"
         name="issueDate"
         label="Issue Date"
-        margin="normal"
+        margin="none"
         inputVariant="outlined"
         format="dd/MM/yyyy"
         disablePast
         KeyboardButtonProps={{
           "aria-label": "change date",
         }}
+        style={{gridArea: "issue-date"}}
         value={invoiceDetails.issueDate || defaultDate}
         onChange={handleDateChange("issueDate")}
       />
-      <div>
+      <div style={{gridArea:"gst"}}>
         <strong>Will your invoice include GST?</strong>
         <Switch checked={invoiceDetails.hasGST} onChange={handleGSTToggle} />
       </div>

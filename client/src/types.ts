@@ -6,11 +6,12 @@ export interface IPersonel {
   state: string;
   zip: string;
   country: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
 }
 
 export const DefaultPersonel = {
+  identity: "",
   name: "",
   address:"",
   city: "",
@@ -23,13 +24,14 @@ export const DefaultPersonel = {
 
 export interface IItem {
   name: string;
+  description: string;
   quantity: number;
   price: number;
-  discountPercentage?: number;
 }
 
 export const DefaultItem = {
   name: "",
+  description:"",
   quantity: 1,
   price: 0,
 }
@@ -45,17 +47,13 @@ export const DefaultInvoiceDetails = {
   issueDate: new Date(),
   hasGST: false,
 }
-
 export interface IInvoice {
-  invoiceDetails: IInvoiceDetails;
+  invoiceNo: string;
+  issueDate: Date;
+  logo?: string;
   supplier: IPersonel;
   customer: IPersonel;
   items: IItem[];
-  logo?: string;
+  hasGST: boolean;
   notes?: string;
-  setInvoiceProperty(
-    property: string,
-    data: string | number | boolean | Date | IItem[] | IPersonel | IInvoiceDetails
-  ): void;
-  setInvoicePropertyViaSpread(data: {}): void;
 }

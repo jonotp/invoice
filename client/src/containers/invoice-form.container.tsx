@@ -2,15 +2,13 @@ import React, { useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SupplierSection from "../components/supplier-section.component";
 import CustomerSection from "../components/customer-section.component";
-import InvoiceDetailsSection from "../components/invoice-details-section.component";
 import ItemsSection from "../components/items-section.component";
 import {
   IPersonel,
   IItem,
-  IInvoiceDetails,
   DefaultPersonel,
   DefaultItem,
-  DefaultInvoiceDetails,
+  IInvoice,
 } from "../types";
 import "../styles/containers/invoice-form.container.scss";
 import DateFnsUtils from "@date-io/date-fns";
@@ -18,17 +16,21 @@ import { Button } from "@material-ui/core";
 
 const InvoiceFormContainer = () => {
   const isAuthenticated = false;
+
+  const [logo, setLogo] = useState("");
   const [supplierDetails, setSupplierDetails] = useState<IPersonel>(
     DefaultPersonel
   );
-  const [logo, setLogo] = useState("");
+
+  const [invoiceNo, setInvoiceNo] = useState("");
+  const [issueDate, setIssueDate] = useState(new Date());
   const [customerDetails, setCustomerDetails] = useState<IPersonel>(
     DefaultPersonel
   );
-  const [invoiceDetails, setInvoiceDetails] = useState<IInvoiceDetails>(
-    DefaultInvoiceDetails
-  );
+
+  const [hasGST, setHasGST] = useState(false);
   const [items, setItems] = useState<IItem[]>([DefaultItem]);
+
   const [notes, setNotes] = useState("");
 
   useEffect(() => {
@@ -39,12 +41,18 @@ const InvoiceFormContainer = () => {
   }, [isAuthenticated]);
 
   const onSubmit = () => {
-    console.log("Supplier Details", supplierDetails);
-    console.log("logo", logo);
-    console.log("Customer Details", customerDetails);
-    console.log("Invoice Details", invoiceDetails);
-    console.log("Items", items);
-    console.log("Notes", notes);
+    const invoice: IInvoice = {
+      invoiceNo,
+      issueDate,
+      logo,
+      supplier: supplierDetails,
+      customer: customerDetails,
+      hasGST,
+      items,
+      notes,
+    };
+
+    console.log(invoice);
   };
 
   return (
@@ -62,16 +70,19 @@ const InvoiceFormContainer = () => {
           <CustomerSection
             customer={customerDetails}
             onCustomerUpdate={setCustomerDetails}
+            invoiceNo={invoiceNo}
+            onInvoiceNoUpdate={setInvoiceNo}
+            issueDate={issueDate}
+            onIssueDateUpdate={setIssueDate}
           />
         </div>
         <div className="invoice-section">
-          <InvoiceDetailsSection
-            invoiceDetails={invoiceDetails}
-            onUpdateInvoiceDetails={setInvoiceDetails}
+          <ItemsSection
+            items={items}
+            onItemsUpdate={setItems}
+            hasGST={hasGST}
+            onGSTUpdate={setHasGST}
           />
-        </div>
-        <div className="invoice-section">
-          <ItemsSection items={items} onUpdateItems={setItems} />
         </div>
       </div>
       <Button onClick={onSubmit}>Submit</Button>

@@ -7,15 +7,25 @@ import React, {
 import { TextField } from "@material-ui/core";
 import { IPersonel } from "../types";
 import "../styles/components/customer-section.component.scss";
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 interface CustomerSectionProps {
   customer: IPersonel;
   onCustomerUpdate: Dispatch<SetStateAction<IPersonel>>;
+  invoiceNo: string;
+  onInvoiceNoUpdate: Dispatch<SetStateAction<string>>;
+  issueDate: Date;
+  onIssueDateUpdate: Dispatch<SetStateAction<Date>>;
 }
 
 const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
   customer,
   onCustomerUpdate,
+  invoiceNo,
+  onInvoiceNoUpdate,
+  issueDate,
+  onIssueDateUpdate,
 }) => {
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
@@ -29,9 +39,19 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
     });
   };
 
+  const handleInvoiceNoChange = (event: ChangeEvent<HTMLInputElement>) => {
+    onInvoiceNoUpdate(event.target.value);
+  }
+
+  const handleDateChange = (date: MaterialUiPickersDate) => {
+    if (date !== null) {
+      onIssueDateUpdate(date);
+    }
+  };
+
   return (
     <section className="customer-section">
-      <h1>Enter customer information</h1>
+      <h1>Enter customer & invoice information</h1>
       <TextField
         id="customer-identity"
         label="ABN"
@@ -102,25 +122,31 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         value={customer.country || ""}
         onChange={handleInputChange("country")}
       />
-      {/* For now we do not need contact information for the customer */}
-      {/* <TextField
-        variant="outlined"
-        margin="none"
-        id="customer-email"
-        label="Email"
-        name="email"
-        value={customer.email || ""}
-        onChange={handleInputChange("email")}
-      />
       <TextField
+        id="invoiceNo"
+        name="invoiceNo"
+        label="Invoice No"
         variant="outlined"
         margin="none"
-        id="customer-phone"
-        label="Phone"
-        name="phone"
-        value={customer.phone || ""}
-        onChange={handleInputChange("phone")}
-      /> */}
+        style={{ gridArea: "invoice-no" }}
+        value={invoiceNo || ""}
+        onChange={handleInvoiceNoChange}
+      />
+      <KeyboardDatePicker
+        id="issueDate"
+        name="issueDate"
+        label="Issue Date"
+        margin="none"
+        inputVariant="outlined"
+        format="dd/MM/yyyy"
+        disablePast
+        KeyboardButtonProps={{
+          "aria-label": "change date",
+        }}
+        style={{ gridArea: "issue-date" }}
+        value={issueDate}
+        onChange={handleDateChange}
+      />
     </section>
   );
 };

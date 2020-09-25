@@ -1,14 +1,14 @@
 .customer-section {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 2fr;
   grid-template-rows: auto;
   gap: 1rem 1rem;
   grid-template-areas:
-    "header header header"
-    "abn abn abn"
-    "name name name"
-    "address address city"
-    "country state zip";
+    "header header header header header"
+    "abn abn abn abn invoice-no"
+    "name name name name issue-date"
+    "address address address city empty"
+    "country country state zip empty";
 
     h1{
       grid-area: header;

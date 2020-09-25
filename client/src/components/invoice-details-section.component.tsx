@@ -85,10 +85,6 @@ const InvoiceDetailsSection: FunctionComponent<InvoiceDetailSectionProps> = ({
         value={invoiceDetails.issueDate || defaultDate}
         onChange={handleDateChange("issueDate")}
       />
-      <div style={{gridArea:"gst"}}>
-        <strong>Will your invoice include GST?</strong>
-        <Switch checked={invoiceDetails.hasGST} onChange={handleGSTToggle} />
-      </div>
     </section>
   );
 };

@@ -60,9 +60,20 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
     onGSTUpdate(!hasGST);
   };
 
-  // EPISILON is need to correctly round things like 1.005
+  const getGST = (item: IItem): string =>
+    (item.quantity * item.price * 0.1).toFixed(2);
+
+  const getTotal = (item: IItem): string =>
+    hasGST
+      ? (
+          item.quantity *
+          (Number(item.price) + Number(item.price * 0.1))
+        ).toFixed(2)
+      : (item.quantity * item.price).toFixed(2);
+
+  // EPISILON is needed to correctly round things like 1.005
   const getToTwoDecimalPlaces = (num: number) =>
-    Math.round((num + Number.EPSILON) * 100) / 100;
+    (Math.round((num + Number.EPSILON) * 100) / 100).toFixed(2);
 
   const subTotal = getToTwoDecimalPlaces(
     items.reduce((prev, curr) => (prev += curr.price * curr.quantity), 0)
@@ -75,9 +86,9 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
           0
         )
       )
-    : 0;
+    : getToTwoDecimalPlaces(0);
 
-  const total = getToTwoDecimalPlaces(subTotal + taxTotal);
+  const total = getToTwoDecimalPlaces(Number(subTotal) + Number(taxTotal));
 
   return (
     <section className="items-section">
@@ -158,7 +169,7 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
                     inputProps={decimalInput}
                     id={`gst-${i}`}
                     label="GST ($)"
-                    value={x.price * 0.1}
+                    value={getGST(x)}
                     name={`total-${i}`}
                     disabled
                   />
@@ -172,17 +183,14 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
                   inputProps={decimalInput}
                   id={`total-${i}`}
                   label="Total ($)"
-                  value={
-                    hasGST
-                      ? x.quantity * (Number(x.price) + Number(x.price * 0.1))
-                      : x.quantity * x.price
-                  }
+                  value={getTotal(x)}
                   name={`total-${i}`}
                   disabled
                 />
               </TableCell>
             </TableRow>
           ))}
+          {/* Used to shift the spanned table to the end */}
           <TableRow>
             <TableCell rowSpan={4}></TableCell>
             <TableCell rowSpan={4}></TableCell>

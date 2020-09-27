@@ -1,27 +1,36 @@
 @import "../variables";
 
-h1 {
-  padding-bottom: 1rem;
-  color: $grey;
-  border-bottom: 2px $grey solid;
-}
-
 .invoice-grid {
   display: grid;
   padding: 0 5%;
   grid-template-columns: 1fr;
   row-gap: 2rem;
   text-align: left;
+
+  h1 {
+    padding-bottom: 1rem;
+    color: $grey;
+    border-bottom: 2px $grey solid;
+  }
+}
+
+.submit-button {
+  padding: 0.5rem 1rem !important;
+  margin: 1rem 0rem !important;
+}
+
+.notes-field {
+  width: 50%;
 }
 
 .table-head {
   tr > th {
     font-weight: bold;
     text-transform: uppercase;
-    font-size:1rem;
+    font-size: 1rem;
   }
 }
 
-.total-section{
+.total-section {
   border-top: 1px solid $black;
 }

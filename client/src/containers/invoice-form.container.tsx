@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SupplierSection from "../components/supplier-section.component";
 import CustomerSection from "../components/customer-section.component";
@@ -10,9 +10,9 @@ import {
   DefaultItem,
   IInvoice,
 } from "../types";
-import "../styles/containers/invoice-form.container.scss";
 import DateFnsUtils from "@date-io/date-fns";
-import { Button } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
+import "../styles/containers/invoice-form.container.scss";
 
 const InvoiceFormContainer = () => {
   const isAuthenticated = false;
@@ -51,9 +51,14 @@ const InvoiceFormContainer = () => {
       items,
       notes,
     };
-
+    
     console.log(invoice);
   };
+
+  const handleNotesTextChange = (event : ChangeEvent<HTMLInputElement>) => {
+    event.persist();
+    setNotes(event.target.value);
+  }
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -84,8 +89,25 @@ const InvoiceFormContainer = () => {
             onGSTUpdate={setHasGST}
           />
         </div>
+        <div className="invoice-section">
+          <section className="notes-section">
+            <h1>Enter any additional notes</h1>
+            <TextField
+              id="notes"
+              label="Additional notes"
+              name="notes"
+              margin="none"
+              className="notes-field"
+              rows={4}
+              rowsMax={8}
+              multiline={true}
+              value={notes}
+              onChange={handleNotesTextChange}
+            />
+          </section>
+        </div>
       </div>
-      <Button onClick={onSubmit}>Submit</Button>
+      <Button className="submit-button" color="primary" variant="contained" onClick={onSubmit}>Submit</Button>
     </MuiPickersUtilsProvider>
   );
 };

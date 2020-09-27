@@ -3,6 +3,7 @@ import React, {
   Dispatch,
   FunctionComponent,
   SetStateAction,
+  memo,
 } from "react";
 import { Button, Switch, TextField } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -223,4 +224,4 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
   );
 };
 
-export default ItemsSection;
+export default memo(ItemsSection);

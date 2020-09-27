@@ -3,6 +3,7 @@ import React, {
   Dispatch,
   SetStateAction,
   ChangeEvent,
+  memo,
 } from "react";
 import { TextField } from "@material-ui/core";
 import { IPersonel } from "../types";
@@ -151,4 +152,4 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
   );
 };
 
-export default CustomerSection;
+export default memo(CustomerSection);

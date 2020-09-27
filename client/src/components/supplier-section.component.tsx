@@ -4,6 +4,7 @@ import React, {
   SetStateAction,
   ChangeEvent,
   createRef,
+  memo,
 } from "react";
 import { TextField } from "@material-ui/core";
 import ImageIcon from "@material-ui/icons/Image";
@@ -172,4 +173,4 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
   );
 };
 
-export default SupplierSection;
+export default memo(SupplierSection);

@@ -39,6 +39,9 @@ const Navbar = () => {
           <Button variant="text">
             <Link to={routes.INVOICE_FORM}>Form</Link>
           </Button>
+          <Button variant="text">
+            <Link to={routes.INVOICE_PREVIEW}>Preview</Link>
+          </Button>
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"

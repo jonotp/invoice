@@ -13,13 +13,13 @@ export interface IPersonel {
 export const DefaultPersonel = {
   identity: "",
   name: "",
-  address:"",
+  address: "",
   city: "",
-  state: "", 
-  zip: "", 
-  country:"", 
-  email: "", 
-  phone: "", 
+  state: "",
+  zip: "",
+  country: "",
+  email: "",
+  phone: "",
 }
 
 export interface IItem {
@@ -31,12 +31,12 @@ export interface IItem {
 
 export const DefaultItem = {
   name: "",
-  description:"",
+  description: "",
   quantity: 1,
   price: 0,
 }
 
-export interface IInvoiceDetails{
+export interface IInvoiceDetails {
   invoiceNo: string;
   issueDate: Date;
   hasGST: boolean;
@@ -56,4 +56,20 @@ export interface IInvoice {
   items: IItem[];
   hasGST: boolean;
   notes?: string;
+}
+
+export interface Colors {
+  primary: string;
+  secondary: string;
+  background: string;
+  text: string;
+}
+
+export interface PDFProps {
+  invoice: IInvoice,
+  colors: Colors,
+  getLineTax(x : IItem): string,
+  getLineTotal(x : IItem): string,
+  getTaxTotal(x : IItem[], taxAmount: number): string,
+  getSubTotal(x : IItem[]): string,
 }

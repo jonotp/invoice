@@ -23,14 +23,12 @@ export const DefaultPersonel = {
 }
 
 export interface IItem {
-  name: string;
   description: string;
   quantity: number;
   price: number;
 }
 
 export const DefaultItem = {
-  name: "",
   description: "",
   quantity: 1,
   price: 0,
@@ -54,7 +52,8 @@ export interface IInvoice {
   supplier: IPersonel;
   customer: IPersonel;
   items: IItem[];
-  hasGST: boolean;
+  hasTax: boolean;
+  taxRatePercentage: number;
   notes?: string;
 }
 
@@ -68,8 +67,8 @@ export interface Colors {
 export interface PDFProps {
   invoice: IInvoice,
   colors: Colors,
-  getLineTax(x : IItem): string,
-  getLineTotal(x : IItem): string,
-  getTaxTotal(x : IItem[], taxAmount: number): string,
-  getSubTotal(x : IItem[]): string,
+  getLineTax(x: IItem, taxAmount: number): string,
+  getLineTotal(x: IItem, taxAmount: number): string,
+  getTaxTotal(x: IItem[], taxAmount: number): string,
+  getSubTotal(x: IItem[]): string,
 }

@@ -19,19 +19,19 @@
 
 .logo-section {
   padding: 1rem;
-  cursor:pointer;
+  cursor: pointer;
   border: 1px solid $light-grey;
   transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 
-  .logo-container{
-    height:100%;
+  .logo-container {
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color:$light-grey;
+    color: $light-grey;
     font-weight: bold;
-    font-size:1rem;
+    font-size: 1rem;
     transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
@@ -44,7 +44,7 @@
 
   &:hover {
     border-color: $black;
-    .logo-container{
+    .logo-container {
       color: $black;
     }
     svg {
@@ -54,26 +54,26 @@
 
   &:active,
   &:focus {
-    border: 2px solid rgb(63, 81, 255);
+    border: 2px solid $primary-light;
     svg {
       height: 5.5rem;
       width: 5.5rem;
-      fill: rgb(63, 81, 255);
+      fill:  $primary-light;
     }
 
-    .logo-container{
-      color: rgb(63, 81, 255);
-      font-size:1.1rem;
+    .logo-container {
+      color: $primary-light;
+      font-size: 1.1rem;
     }
   }
 
   .logo-img {
     cursor: pointer;
-    max-width:100%;
-    max-height:130px;
+    max-width: 100%;
+    max-height: 130px;
     object-fit: cover;
     transition: 0.5s ease all;
-    margin-bottom:1rem;
+    margin-bottom: 1rem;
   }
 
   .logo-uploader {

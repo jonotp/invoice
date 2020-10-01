@@ -28,7 +28,8 @@ const InvoiceFormContainer = () => {
     DefaultPersonel
   );
 
-  const [hasGST, setHasGST] = useState(false);
+  const [hasTax, setHasTax] = useState(true);
+  const [taxRatePercentage, setTaxRatePercentage] = useState(10);
   const [items, setItems] = useState<IItem[]>([DefaultItem]);
 
   const [notes, setNotes] = useState("");
@@ -47,7 +48,8 @@ const InvoiceFormContainer = () => {
       logo,
       supplier: supplierDetails,
       customer: customerDetails,
-      hasGST,
+      hasTax,
+      taxRatePercentage,
       items,
       notes,
     };
@@ -86,8 +88,10 @@ const InvoiceFormContainer = () => {
             <ItemsSection
               items={items}
               onItemsUpdate={setItems}
-              hasGST={hasGST}
-              onGSTUpdate={setHasGST}
+              hasTax={hasTax}
+              onHasTaxUpdate={setHasTax}
+              taxRate={taxRatePercentage}
+              onTaxRateUpdate={setTaxRatePercentage}
             />
           </div>
           <div className="invoice-section">

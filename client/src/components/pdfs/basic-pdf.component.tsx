@@ -94,7 +94,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
       textAlign: "right",
     },
     price: {
-      width: invoice.hasGST ? "11.25%" : "22.5%",
+      width: invoice.taxRatePercentage > 0? "11.25%" : "22.5%",
       textAlign: "right",
     },
     tax: {
@@ -137,9 +137,10 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
     },
   });
 
+  const tax = invoice.taxRatePercentage;
   const dateDue = format(invoice.issueDate, "do MMMM, yyyy");
   const subTotal = getSubTotal(invoice.items);
-  const taxTotal = getTaxTotal(invoice.items, invoice.hasGST ? 10 : 0);
+  const taxTotal = getTaxTotal(invoice.items, tax);
   const total = Number(subTotal) + Number(taxTotal);
 
   return (
@@ -235,19 +236,19 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
             <Text style={[styles.description]}>Description</Text>
             <Text style={[styles.quantity]}>Quantity</Text>
             <Text style={[styles.price]}>Price</Text>
-            {invoice.hasGST ? <Text style={[styles.tax]}>Tax</Text> : null}
+            {invoice.taxRatePercentage > 0 ? <Text style={[styles.tax]}>Tax</Text> : null}
             <Text style={[styles.total]}>Line Total</Text>
           </View>
           {invoice.items.map((x, i) => {
             return (
               <View key={i} style={[styles.flexRow, styles.tableRow]}>
-                <Text style={styles.description}>{x.name}</Text>
+                <Text style={styles.description}>{x.description}</Text>
                 <Text style={styles.quantity}>{x.quantity}</Text>
                 <Text style={styles.price}>${x.price}</Text>
-                {invoice.hasGST ? (
-                  <Text style={styles.tax}>${getLineTax(x)}</Text>
+                {invoice.taxRatePercentage > 0 ? (
+                  <Text style={styles.tax}>${getLineTax(x, tax)}</Text>
                 ) : null}
-                <Text style={styles.total}>${getLineTotal(x)}</Text>
+                <Text style={styles.total}>${getLineTotal(x,tax)}</Text>
               </View>
             );
           })}

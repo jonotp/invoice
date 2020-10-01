@@ -66,36 +66,38 @@ const colors: Colors = {
   text: "#333",
 };
 
-const InvoicePDFContainer: FunctionComponent = () => {
-  const invoice = testData;
+function getLineTax(item: IItem, taxAmount: number) {
+  return getToTwoDecimalPlaces(item.quantity * item.price * taxAmount * 0.01);
+}
 
-  const getLineTax = (item: IItem): string =>
-    getToTwoDecimalPlaces(item.quantity * item.price * 0.1);
-
-  const getLineTotal = (item: IItem): string =>
-    invoice.hasGST
-      ? getToTwoDecimalPlaces(
-          item.quantity * (Number(item.price) + Number(item.price * 0.1))
-        )
-      : getToTwoDecimalPlaces(item.quantity * item.price);
-
-  const getTaxTotal = (items: IItem[], taxAmount: number) => {
-    if (taxAmount === 0) return getToTwoDecimalPlaces(0);
-    return getToTwoDecimalPlaces(
-      items.reduce(
-        (prev, curr) =>
-          (prev += curr.price * (taxAmount * 0.01) * curr.quantity),
-        0
+function getLineTotal(item: IItem, taxAmount: number) {
+  return taxAmount > 0
+    ? getToTwoDecimalPlaces(
+        item.quantity *
+          (Number(item.price) + Number(item.price * taxAmount * 0.01))
       )
-    );
-  };
+    : getToTwoDecimalPlaces(item.quantity * item.price);
+}
 
-  const getSubTotal = (items: IItem[]) => {
-    return getToTwoDecimalPlaces(
-      items.reduce((prev, curr) => (prev += curr.price * curr.quantity), 0)
-    );
-  };
+function getTaxTotal(items: IItem[], taxAmount: number) {
+  if (taxAmount === 0) return getToTwoDecimalPlaces(0);
+  return getToTwoDecimalPlaces(
+    items.reduce(
+      (prev, curr) => (prev += curr.price * (taxAmount * 0.01) * curr.quantity),
+      0
+    )
+  );
+}
 
+function getSubTotal(items: IItem[]) {
+  return getToTwoDecimalPlaces(
+    items.reduce((prev, curr) => (prev += curr.price * curr.quantity), 0)
+  );
+}
+
+const InvoicePDFPReviewer: FunctionComponent<IInvoice> = (
+  invoice: IInvoice
+) => {
   return (
     <section className="invoice-pdf-container">
       <PDFViewer width="90%" height="1200">
@@ -131,4 +133,30 @@ const InvoicePDFContainer: FunctionComponent = () => {
   );
 };
 
-export default InvoicePDFContainer;
+const InvoiceDownloadButton: FunctionComponent<IInvoice> = (invoice) => {
+  return (
+    <Button color="primary" variant="contained">
+      <PDFDownloadLink
+        className="pdf-link"
+        document={
+          <BasicPDF
+            invoice={invoice}
+            colors={colors}
+            getLineTax={getLineTax}
+            getLineTotal={getLineTotal}
+            getTaxTotal={getTaxTotal}
+            getSubTotal={getSubTotal}
+          />
+        }
+        fileName="invoice.pdf"
+      >
+        Print PDF
+      </PDFDownloadLink>
+    </Button>
+  );
+};
+
+export const TestInvoicePDFPreviewer: FunctionComponent = () => {
+};
+
+export default InvoicePDFPReviewer;

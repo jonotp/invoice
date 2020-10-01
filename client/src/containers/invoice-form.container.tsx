@@ -51,64 +51,73 @@ const InvoiceFormContainer = () => {
       items,
       notes,
     };
-    
+
     console.log(invoice);
   };
 
-  const handleNotesTextChange = (event : ChangeEvent<HTMLInputElement>) => {
+  const handleNotesTextChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
     setNotes(event.target.value);
-  }
+  };
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div className="invoice-grid">
-        <div className="invoice-section">
-          <SupplierSection
-            supplier={supplierDetails}
-            onUpdateSupplier={setSupplierDetails}
-            logo={logo}
-            onUpdateLogo={setLogo}
-          />
-        </div>
-        <div className="invoice-section">
-          <CustomerSection
-            customer={customerDetails}
-            onCustomerUpdate={setCustomerDetails}
-            invoiceNo={invoiceNo}
-            onInvoiceNoUpdate={setInvoiceNo}
-            issueDate={issueDate}
-            onIssueDateUpdate={setIssueDate}
-          />
-        </div>
-        <div className="invoice-section">
-          <ItemsSection
-            items={items}
-            onItemsUpdate={setItems}
-            hasGST={hasGST}
-            onGSTUpdate={setHasGST}
-          />
-        </div>
-        <div className="invoice-section">
-          <section className="notes-section">
-            <h1>Enter any additional notes</h1>
-            <TextField
-              id="notes"
-              label="Additional notes"
-              name="notes"
-              margin="none"
-              className="notes-field"
-              rows={4}
-              rowsMax={8}
-              multiline={true}
-              value={notes}
-              onChange={handleNotesTextChange}
+    <section className="invoice-form">
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className="invoice-grid">
+          <div className="invoice-section">
+            <SupplierSection
+              supplier={supplierDetails}
+              onUpdateSupplier={setSupplierDetails}
+              logo={logo}
+              onUpdateLogo={setLogo}
             />
-          </section>
+          </div>
+          <div className="invoice-section">
+            <CustomerSection
+              customer={customerDetails}
+              onCustomerUpdate={setCustomerDetails}
+              invoiceNo={invoiceNo}
+              onInvoiceNoUpdate={setInvoiceNo}
+              issueDate={issueDate}
+              onIssueDateUpdate={setIssueDate}
+            />
+          </div>
+          <div className="invoice-section">
+            <ItemsSection
+              items={items}
+              onItemsUpdate={setItems}
+              hasGST={hasGST}
+              onGSTUpdate={setHasGST}
+            />
+          </div>
+          <div className="invoice-section">
+            <section className="notes-section">
+              <h1>Enter any additional notes</h1>
+              <TextField
+                id="notes"
+                label="Additional notes"
+                name="notes"
+                margin="none"
+                className="notes-field"
+                rows={4}
+                rowsMax={8}
+                multiline={true}
+                value={notes}
+                onChange={handleNotesTextChange}
+              />
+            </section>
+          </div>
         </div>
-      </div>
-      <Button className="submit-button" color="primary" variant="contained" onClick={onSubmit}>Submit</Button>
-    </MuiPickersUtilsProvider>
+        <Button
+          className="submit-button"
+          color="primary"
+          variant="contained"
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
+      </MuiPickersUtilsProvider>
+    </section>
   );
 };
 

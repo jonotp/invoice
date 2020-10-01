@@ -5,9 +5,13 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  Button,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import { Link } from "react-router-dom";
+import * as routes from "../routes";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -29,6 +33,12 @@ const Navbar = () => {
           Invoice Generator
         </Typography>
         <div>
+          <Button variant="text">
+            <Link to={routes.HOME}>Home</Link>
+          </Button>
+          <Button variant="text">
+            <Link to={routes.INVOICE_FORM}>Form</Link>
+          </Button>
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"

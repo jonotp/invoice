@@ -21,6 +21,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface NavItemProps {
+  route: string;
+  label: string;
+}
+
+function NavItem({ route, label }: NavItemProps) {
+  return (
+    <Button variant="text">
+      <Link to={route}>{label}</Link>
+    </Button>
+  );
+}
+
 const Navbar = () => {
   const classes = useStyles();
   return (
@@ -33,15 +46,9 @@ const Navbar = () => {
           Invoice Generator
         </Typography>
         <div>
-          <Button variant="text">
-            <Link to={routes.HOME}>Home</Link>
-          </Button>
-          <Button variant="text">
-            <Link to={routes.INVOICE_FORM}>Form</Link>
-          </Button>
-          <Button variant="text">
-            <Link to={routes.INVOICE_PREVIEW}>Preview</Link>
-          </Button>
+          <NavItem route={routes.HOME} label="Home"/>
+          <NavItem route={routes.INVOICE_FORM} label="Form"/>
+          <NavItem route={routes.INVOICE_PREVIEW} label="Preview"/>
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"

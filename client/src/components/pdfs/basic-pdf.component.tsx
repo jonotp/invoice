@@ -10,6 +10,12 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import { format } from "date-fns";
+import {
+  getLineTax,
+  getLineTotal,
+  getSubTotal,
+  getTaxTotal,
+} from "../../constants";
 
 Font.register({
   family: "Open Sans",
@@ -31,14 +37,7 @@ Font.register({
   ],
 });
 
-const BasicPDF: FunctionComponent<PDFProps> = ({
-  invoice,
-  colors,
-  getLineTax,
-  getLineTotal,
-  getTaxTotal,
-  getSubTotal,
-}) => {
+const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
   const styles = StyleSheet.create({
     body: {
       fontFamily: "Open Sans",
@@ -94,7 +93,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
       textAlign: "right",
     },
     price: {
-      width: invoice.taxRatePercentage > 0? "11.25%" : "22.5%",
+      width: invoice.taxRatePercentage > 0 ? "11.25%" : "22.5%",
       textAlign: "right",
     },
     tax: {
@@ -236,7 +235,9 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
             <Text style={[styles.description]}>Description</Text>
             <Text style={[styles.quantity]}>Quantity</Text>
             <Text style={[styles.price]}>Price</Text>
-            {invoice.taxRatePercentage > 0 ? <Text style={[styles.tax]}>Tax</Text> : null}
+            {invoice.taxRatePercentage > 0 ? (
+              <Text style={[styles.tax]}>Tax</Text>
+            ) : null}
             <Text style={[styles.total]}>Line Total</Text>
           </View>
           {invoice.items.map((x, i) => {
@@ -248,7 +249,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
                 {invoice.taxRatePercentage > 0 ? (
                   <Text style={styles.tax}>${getLineTax(x, tax)}</Text>
                 ) : null}
-                <Text style={styles.total}>${getLineTotal(x,tax)}</Text>
+                <Text style={styles.total}>${getLineTotal(x, tax)}</Text>
               </View>
             );
           })}
@@ -277,7 +278,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({
                 <Text>$ {taxTotal}</Text>
               </View>
             </View>
-            <View style={[styles.flexRow,styles.totalRow]}>
+            <View style={[styles.flexRow, styles.totalRow]}>
               <View style={[styles.flexGrow]}>
                 <Text style={[styles.subHeadings]}>Total</Text>
               </View>

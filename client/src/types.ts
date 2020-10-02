@@ -67,8 +67,4 @@ export interface Colors {
 export interface PDFProps {
   invoice: IInvoice,
   colors: Colors,
-  getLineTax(x: IItem, taxAmount: number): string,
-  getLineTotal(x: IItem, taxAmount: number): string,
-  getTaxTotal(x: IItem[], taxAmount: number): string,
-  getSubTotal(x: IItem[]): string,
 }

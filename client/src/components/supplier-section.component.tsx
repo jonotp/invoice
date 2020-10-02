@@ -3,13 +3,12 @@ import React, {
   Dispatch,
   SetStateAction,
   ChangeEvent,
-  createRef,
   memo,
 } from "react";
 import { TextField } from "@material-ui/core";
-import ImageIcon from "@material-ui/icons/Image";
 import { IPersonel } from "../types";
 import "../styles/components/supplier-section.component.scss";
+import LogoUploader from "./logo-uploader.component";
 
 interface SupplierSectionProps {
   supplier: IPersonel;
@@ -24,7 +23,6 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
   logo,
   onUpdateLogo,
 }) => {
-  const logoInput = createRef<HTMLInputElement>();
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -35,21 +33,6 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         [property]: event.target.value,
       };
     });
-  };
-
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    // Need to consider change events users cancel the upload
-    const files = event.target.files;
-    if (files !== undefined && files !== null && files.length > 0) {
-      onUpdateLogo(URL.createObjectURL(files[0]));
-    }
-  };
-
-  const onChangeLogo = () => {
-    const input = logoInput.current;
-    if (input !== undefined && input !== null) {
-      input.click();
-    }
   };
 
   return (
@@ -145,30 +128,11 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         value={supplier.phone || ""}
         onChange={handleInputChange("phone")}
       />
-      <div
-        className="logo-section"
-        onClick={onChangeLogo}
+      <LogoUploader
+        logo={logo}
+        onUpdateLogo={onUpdateLogo}
         style={{ gridArea: "logo" }}
-      >
-        {logo.trim().length > 0 ? (
-          <div className="logo-container">
-            <img className="logo-img" src={logo} alt={`Invoice logo`} />
-            <span>Click to change logo</span>
-          </div>
-        ) : (
-          <div className="logo-container">
-            <ImageIcon />
-            <span>Click to add logo</span>
-          </div>
-        )}
-        <input
-          className="logo-uploader"
-          ref={logoInput}
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
-      </div>
+      />
     </section>
   );
 };

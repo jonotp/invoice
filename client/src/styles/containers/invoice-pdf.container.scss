@@ -1,13 +1,5 @@
 @import "../variables";
 
-section {
-  padding: 1rem;
-}
-
-section + section {
-  border-top: 1px solid $black;
-}
-
 .pdf-link {
   text-decoration: none;
   color: inherit;

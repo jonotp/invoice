@@ -55,12 +55,12 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
       <h1>Enter customer & invoice information</h1>
       <TextField
         id="customer-identity"
-        label="ABN"
+        label="Business Identifier"
         name="identity"
         variant="outlined"
         margin="none"
-        style={{ gridArea: "abn" }}
-        value={customer.identity || ""}
+        style={{ gridArea: "businessId" }}
+        value={customer.businessId || ""}
         onChange={handleInputChange("identity")}
       />
       <TextField

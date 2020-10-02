@@ -40,12 +40,12 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
       <h1>Enter your company information</h1>
       <TextField
         id="supplier-identity"
-        label="ABN"
+        label="Business Identifier"
         name="identity"
         variant="outlined"
         margin="none"
-        style={{ gridArea: "abn" }}
-        value={supplier.identity || ""}
+        style={{ gridArea: "businessId" }}
+        value={supplier.businessId || ""}
         onChange={handleInputChange("identity")}
       />
       <TextField

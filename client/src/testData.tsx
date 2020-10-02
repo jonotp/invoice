@@ -3,7 +3,7 @@ import { IInvoice } from "./types";
 // Folder containing test data 
 const TestInvoice: IInvoice = {
   supplier: {
-    identity: "123 456 789",
+    businessId: "123 456 789",
     name: "The Krusty Krab",
     address: "1 Krusty Street",
     city: "Bikkini Bottom",
@@ -14,7 +14,7 @@ const TestInvoice: IInvoice = {
     phone: "0400000000",
   },
   customer: {
-    identity: "",
+    businessId: "",
     name: "Sponge Bob",
     address: "1 Pineapple Street",
     city: "Bikkini Bottom",

@@ -157,7 +157,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
           {/* Supplier */}
           <View style={[styles.flexGrow2, styles.borderBox]}>
             <Text style={[styles.heading]}>Bill From:</Text>
-            <Text style={[styles.textBold]}>{invoice.supplier.identity}</Text>
+            <Text style={[styles.textBold]}>{invoice.supplier.businessId}</Text>
             <Text>{invoice.supplier.name}</Text>
             <Text>{invoice.supplier.address}</Text>
             <Text>
@@ -193,7 +193,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
           {/* Customer */}
           <View style={[styles.flexGrow2, styles.borderBox]}>
             <Text style={[styles.heading]}>Bill To:</Text>
-            <Text>{invoice.customer.identity}</Text>
+            <Text>{invoice.customer.businessId}</Text>
             <Text>{invoice.customer.name}</Text>
             <Text>{invoice.customer.address}</Text>
             <Text>

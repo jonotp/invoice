@@ -1,5 +1,5 @@
 export interface IPersonel {
-  identity?: string;
+  businessId?: string;
   name: string;
   address: string;
   city: string;

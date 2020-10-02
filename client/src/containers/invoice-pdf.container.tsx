@@ -43,29 +43,6 @@ const InvoicePDFPReviewer: FunctionComponent<IInvoice> = (
   );
 };
 
-const InvoiceDownloadButton: FunctionComponent<IInvoice> = (invoice) => {
-  return (
-    <Button color="primary" variant="contained">
-      <PDFDownloadLink
-        className="pdf-link"
-        document={
-          <BasicPDF
-            invoice={invoice}
-            colors={colors}
-            getLineTax={getLineTax}
-            getLineTotal={getLineTotal}
-            getTaxTotal={getTaxTotal}
-            getSubTotal={getSubTotal}
-          />
-        }
-        fileName="invoice.pdf"
-      >
-        Print PDF
-      </PDFDownloadLink>
-    </Button>
-  );
-};
-
 export const TestInvoicePDFPreviewer: FunctionComponent = () => {
   return InvoicePDFPReviewer(TestInvoice);
 };

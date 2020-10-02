@@ -279,6 +279,7 @@ const TaxRateDialogue: FunctionComponent<TaxRateDialogueProps> = ({
       setIsValid(!error(value));
       setInput(value);
     }
+  // eslint-disable-next-line
   }, [open]);
 
   const handleSubmit = () => {

@@ -9,10 +9,19 @@ import {
   DefaultPersonel,
   DefaultItem,
   IInvoice,
+  Colors,
 } from "../types";
 import DateFnsUtils from "@date-io/date-fns";
 import { Button, TextField } from "@material-ui/core";
 import "../styles/containers/invoice-form.container.scss";
+import {HiddenInvoiceDownloader} from "../components/invoice-download.component";
+
+const colors: Colors = {
+  primary: "#29485d",
+  secondary: "#95A8AC",
+  background: "#FFD962",
+  text: "#333",
+};
 
 const InvoiceFormContainer = () => {
   const isAuthenticated = false;
@@ -33,6 +42,7 @@ const InvoiceFormContainer = () => {
   const [items, setItems] = useState<IItem[]>([DefaultItem]);
 
   const [notes, setNotes] = useState("");
+  const [invoice, setInvoice] = useState<IInvoice>();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -42,7 +52,7 @@ const InvoiceFormContainer = () => {
   }, [isAuthenticated]);
 
   const onSubmit = () => {
-    const invoice: IInvoice = {
+    const submittedInvoice: IInvoice = {
       invoiceNo,
       issueDate,
       logo,
@@ -54,7 +64,8 @@ const InvoiceFormContainer = () => {
       notes,
     };
 
-    console.log(invoice);
+    console.log(submittedInvoice);
+    setInvoice(submittedInvoice);
   };
 
   const handleNotesTextChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +74,8 @@ const InvoiceFormContainer = () => {
   };
 
   return (
-    <section className="invoice-form">
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <section className="invoice-form">
         <div className="invoice-grid">
           <div className="invoice-section">
             <SupplierSection
@@ -120,8 +131,11 @@ const InvoiceFormContainer = () => {
         >
           Submit
         </Button>
-      </MuiPickersUtilsProvider>
-    </section>
+        {invoice !== undefined && invoice !== null ? (
+          <HiddenInvoiceDownloader invoice={invoice} colors={colors} />
+        ) : null}
+      </section>
+    </MuiPickersUtilsProvider>
   );
 };
 

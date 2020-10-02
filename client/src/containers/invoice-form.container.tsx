@@ -3,6 +3,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SupplierSection from "../components/supplier-section.component";
 import CustomerSection from "../components/customer-section.component";
 import ItemsSection from "../components/items-section.component";
+import HiddenInvoiceDownloader from "../components/hidden-invoice-downloader.component";
 import {
   IPersonel,
   IItem,
@@ -14,7 +15,6 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import { Button, TextField } from "@material-ui/core";
 import "../styles/containers/invoice-form.container.scss";
-import {HiddenInvoiceDownloader} from "../components/invoice-download.component";
 
 const colors: Colors = {
   primary: "#29485d",
@@ -23,7 +23,7 @@ const colors: Colors = {
   text: "#333",
 };
 
-const InvoiceFormContainer = () => {
+const InvoiceForm = () => {
   const isAuthenticated = false;
 
   const [logo, setLogo] = useState("");
@@ -139,4 +139,4 @@ const InvoiceFormContainer = () => {
   );
 };
 
-export default InvoiceFormContainer;
+export default InvoiceForm;

@@ -1,6 +1,7 @@
 import { Button, Paper, TextField } from "@material-ui/core";
 import React, { ChangeEvent, useContext, useState } from "react";
-import LogoUploader from "../components/logo-uploader.component";
+import { LogoUploader, getFile } from "../components/logo-uploader.component";
+import FirebaseContext from "../contexts/firebase.context";
 import { DefaultUser, IUser } from "../types";
 import "../styles/containers/sign-up-page.container.scss";
 
@@ -9,6 +10,7 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const firebase = useContext(FirebaseContext);
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -32,7 +34,9 @@ const SignUpPage = () => {
 
   const onSubmit = async () => {
     try {
-      console.log("Sign up the user now");
+      const file = getFile();
+      const createdUser = await firebase.signUp(user, password,file);
+      console.log(createdUser);
     } catch (error) {
       console.log(error);
     }

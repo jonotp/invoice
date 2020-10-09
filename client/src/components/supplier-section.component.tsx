@@ -8,7 +8,7 @@ import React, {
 import { TextField } from "@material-ui/core";
 import { IPersonel } from "../types";
 import "../styles/components/supplier-section.component.scss";
-import LogoUploader from "./logo-uploader.component";
+import { LogoUploader } from "./logo-uploader.component";
 
 interface SupplierSectionProps {
   supplier: IPersonel;

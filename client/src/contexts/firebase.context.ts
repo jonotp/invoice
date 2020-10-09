@@ -1,0 +1,90 @@
+import app from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
+import { createContext } from 'react';
+import { IUser } from '../types';
+
+const config = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_DATABASE_URL,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+};
+
+class Firebase {
+  auth: firebase.auth.Auth;
+  db: firebase.firestore.Firestore;
+  storage: firebase.storage.Storage;
+  user: IUser | null;
+
+  constructor() {
+    app.initializeApp(config);
+    this.auth = app.auth();
+    this.db = app.firestore();
+    this.storage = app.storage();
+
+    // For development purposes. Will store all data in emulated firestore
+    if (process.env.NODE_ENV.toLowerCase() === "development") {
+      this.db.settings({
+        host: "localhost:3002",
+        ssl: false,
+      })
+    }
+
+    this.user = null;
+  }
+
+  // Auth API
+  signUp = async (formUser: IUser, password: string, file: File | null) => {
+    const createdUser = await this.auth.createUserWithEmailAndPassword(formUser.email, password);
+    if (createdUser.user === null) {
+      throw Error("User could not be created");
+    }
+
+    const imagePath = file !== null ? await this.uploadFile(file, `logo/${createdUser.user?.uid}_${Date.now()}`) : null;
+
+    const storedUser: IUser = imagePath === null ? {
+      ...formUser,
+      userId: createdUser.user?.uid,
+    } : {
+        ...formUser,
+        logo: imagePath,
+        userId: createdUser.user?.uid,
+      };
+
+    const { id } = await this.db.collection("users").add(storedUser);
+    const user = await this.db.collection("users").doc(id).get();
+    return user.data();
+  }
+
+  signIn = (email: string, password: string) => this.auth.signInWithEmailAndPassword(email, password);
+
+  signOut = () => this.auth.signOut();
+
+  resetPassword = (email: string) => this.auth.sendPasswordResetEmail(email);
+
+  updatePassword = (password: string) => this.auth.currentUser?.updatePassword(password);
+
+  getTokenId = async () => await this.auth.currentUser?.getIdToken(false);
+
+  uploadFile = async (file: File, path: string) => {
+    const metadata = {
+      contentType: file.type
+    };
+
+    const storageRef = this.storage.ref(`images/${path}`);
+    await storageRef.put(file, metadata);
+    return await storageRef.getDownloadURL();
+  }
+}
+
+const FirebaseContext = createContext(new Firebase());
+
+export default FirebaseContext;
+export {
+  Firebase
+};

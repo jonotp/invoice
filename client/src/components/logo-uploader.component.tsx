@@ -6,7 +6,15 @@ interface LogoUploaderProps {
   style?: object;
   className?: string;
   logo: string;
-  onUpdateLogo: (x: string) => void; 
+  onUpdateLogo: (x: string) => void;
+}
+
+const logoInputRef = createRef<HTMLInputElement>();
+
+const getFile = () => {
+  const files = logoInputRef.current?.files;
+  const file = files !== undefined  && files !== null && files?.length > 0 ? files[0] : null;
+  return file;
 }
 
 const LogoUploader = ({
@@ -15,10 +23,8 @@ const LogoUploader = ({
   logo,
   onUpdateLogo,
 }: LogoUploaderProps) => {
-  const logoInput = createRef<HTMLInputElement>();
-
   const onChangeLogo = () => {
-    const input = logoInput.current;
+    const input = logoInputRef.current;
     if (input !== undefined && input !== null) {
       input.click();
     }
@@ -51,7 +57,7 @@ const LogoUploader = ({
       )}
       <input
         className="logo-input"
-        ref={logoInput}
+        ref={logoInputRef}
         type="file"
         accept="image/*"
         onChange={handleImageChange}
@@ -60,4 +66,4 @@ const LogoUploader = ({
   );
 };
 
-export default LogoUploader;
+export { LogoUploader, logoInputRef, getFile };

@@ -1,3 +1,23 @@
+export interface IUser {
+  userId: string;
+  name: string;
+  email: string;
+  businessId?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  country?: string;
+  phone?: string;
+  logo?: string;
+}
+
+export const DefaultUser: IUser = {
+  userId: "",
+  name: "",
+  email: "",
+}
+
 export interface IPersonel {
   businessId?: string;
   name: string;

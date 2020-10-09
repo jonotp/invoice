@@ -1,0 +1,27 @@
+@import "../variables";
+
+.sign-up-page {
+  .paper {
+    width: 768px;
+    padding: 2rem;
+    margin: 5rem auto;
+  }
+  .sign-up-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+    grid-template-areas:
+      "account-header account-header account-header account-header"
+      "empty name name empty2"
+      "empty email email empty2"
+      "empty password password empty2"
+      "empty password-confirmation password-confirmation empty2"
+      "additional-details-header additional-details-header additional-details-header additional-details-header"
+      "business-id business-id phone phone"
+      "address address logo logo"
+      "city state logo logo"
+      "zip country logo logo"
+      "empty3 empty3 empty3 sign-up-button";
+  }
+}

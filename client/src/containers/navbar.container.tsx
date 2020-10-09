@@ -37,7 +37,7 @@ function NavItem({ route, label }: NavItemProps) {
 const Navbar = () => {
   const classes = useStyles();
   return (
-    <AppBar className={classes.root} position="static">
+    <AppBar className={classes.root} position="sticky">
       <Toolbar>
         <IconButton edge="start" color="inherit" aria-label="menu">
           <MenuIcon />
@@ -48,6 +48,7 @@ const Navbar = () => {
         <div>
           <NavItem route={routes.HOME} label="Home"/>
           <NavItem route={routes.INVOICE_FORM} label="Form"/>
+          <NavItem route={routes.SIGN_UP} label="Sign up"/>
           <NavItem route={routes.INVOICE_PREVIEW} label="Preview"/>
           <IconButton
             aria-label="account of current user"

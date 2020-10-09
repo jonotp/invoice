@@ -1,14 +1,20 @@
-import React, { ChangeEvent, createRef, Dispatch, SetStateAction } from "react";
+import React, { ChangeEvent, createRef } from "react";
 import ImageIcon from "@material-ui/icons/Image";
 import "../styles/components/logo-uploader.component.scss";
 
 interface LogoUploaderProps {
-  style?:object;
+  style?: object;
   className?: string;
   logo: string;
-  onUpdateLogo: Dispatch<SetStateAction<string>>;
+  onUpdateLogo: (x: string) => void; 
 }
-const LogoUploader = ({ style, className, logo, onUpdateLogo }: LogoUploaderProps) => {
+
+const LogoUploader = ({
+  style,
+  className,
+  logo,
+  onUpdateLogo,
+}: LogoUploaderProps) => {
   const logoInput = createRef<HTMLInputElement>();
 
   const onChangeLogo = () => {

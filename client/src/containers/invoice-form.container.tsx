@@ -20,7 +20,9 @@ import {
   IUser,
 } from "../types";
 import DateFnsUtils from "@date-io/date-fns";
-import { Button, TextField } from "@material-ui/core";
+import { AppContext } from "../contexts/app.context";
+import { FirebaseContext } from "../contexts/firebase.context";
+import { USER_ACTION_TYPE } from "../constants";
 import "../styles/containers/invoice-form.container.scss";
 
 const colors: Colors = {
@@ -31,7 +33,8 @@ const colors: Colors = {
 };
 
 const InvoiceForm = () => {
-  const isAuthenticated = false;
+  const firebase = useContext(FirebaseContext);
+  const { state, dispatch } = useContext(AppContext);
 
   const [supplierDetails, setSupplierDetails] = useState<IUser>(
     DefaultUser
@@ -52,11 +55,23 @@ const InvoiceForm = () => {
   const [invoice, setInvoice] = useState<IInvoice>();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      // Set supplier details
-      // Set gst and logo
-    }
-  }, [isAuthenticated]);
+    console.count("in use effect");
+    (async () => {
+      if (state.auth === null) return;
+
+      if (state.user === null) {
+        // Set supplier details
+        const user = await firebase?.getUser(state.auth.uid);
+        if (user !== null) {
+          dispatch({ type: USER_ACTION_TYPE.SAVE_USER_DETAILS, payload: user });
+        }
+
+        // TODO: Set tax rate
+      } else if (state.user !== null && supplierDetails.userId === "") {
+        setSupplierDetails(state.user);
+      }
+    })();
+  }, [state]);
 
   const onSubmit = () => {
     const submittedInvoice: IInvoice = {

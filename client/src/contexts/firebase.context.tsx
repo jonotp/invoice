@@ -65,9 +65,12 @@ class Firebase {
             userId: createdUser.user?.uid,
           };
 
-    const { id } = await this.db.collection("users").add(storedUser);
-    const user = await this.db.collection("users").doc(id).get();
-    return user.data();
+    await this.db
+      .collection("users")
+      .doc(createdUser.user?.uid)
+      .set(storedUser);
+
+    return await this.getUser(createdUser.user?.uid);
   };
 
   signIn = async (email: string, password: string) => {
@@ -79,12 +82,7 @@ class Firebase {
       throw new Error("User could not be found");
     }
 
-    const user = await this.db
-      .collection("users")
-      .where("userId", "==", credentials.user?.uid)
-      .limit(1)
-      .get();
-    return user.size <= 0 ? null : user.docs[0].data();
+    return await this.getUser(credentials.user?.uid);
   };
 
   signOut = () => this.auth.signOut();
@@ -106,6 +104,12 @@ class Firebase {
     await storageRef.put(file, metadata);
     return await storageRef.getDownloadURL();
   };
+
+  getUser = async (userId: string) => {
+    const user = await this.db.collection("users").doc(userId).get();
+    return user.data();
+  };
+
 }
 
 // Don't want to initialise it yet. Equivalent to setting a null instance

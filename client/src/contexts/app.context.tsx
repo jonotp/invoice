@@ -4,40 +4,36 @@ import React, {
   useReducer,
 } from "react";
 import userReducer from "../reducers/user.reducer";
-import { IUser, IUserContextState } from "../types";
+import { IUser, IAppContext } from "../types";
 
 type Action =
   | { type: "SAVE_USER_SESSION" }
   | { type: "DELETE_USER_SESSION" }
   | { type: "UPDATE_USER_SESSION" };
 
-type InitialStateType = {
-  user: IUser | null;
-};
-
 const initialState = {
   user: null,
 };
 
-const UserContext = createContext<{
-  state: InitialStateType;
+const AppContext = createContext<{
+  state: IAppContext;
   dispatch: React.Dispatch<any>;
 }>({
   state: initialState,
   dispatch: () => null,
 });
 
-const reducer = (state: IUserContextState, action: Action) => ({
-  user: userReducer(state.user, action)
+const reducer = (state: IAppContext, action: Action) => ({
+  user: userReducer(state.user, action),
 });
 
-const UserContextProvder = ({ children }: PropsWithChildren<any>) => {
+const AppContextProvider = ({ children }: PropsWithChildren<any>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <UserContext.Provider value={{ state, dispatch }}>
+    <AppContext.Provider value={{ state, dispatch }}>
       {children}
-    </UserContext.Provider>
+    </AppContext.Provider>
   );
 };
 
-export { UserContext, UserContextProvder };
+export { AppContext, AppContextProvider };

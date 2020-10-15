@@ -1,4 +1,4 @@
-export interface IUserContextState{
+export interface IAppContext{
   user: IUser | null,
 };
 

@@ -1,13 +1,13 @@
 import React, { PropsWithChildren } from "react";
 import { FirebaseProvider } from "../contexts/firebase.context";
-import { UserContextProvder } from "../contexts/user.context";
+import { AppContextProvider } from "../contexts/app.context";
 
 const Providers = ({ children }: PropsWithChildren<any>) => {
   return (
     <FirebaseProvider>
-      <UserContextProvder>
+      <AppContextProvider>
         {children}
-      </UserContextProvder>
+      </AppContextProvider>
     </FirebaseProvider>
   );
 };

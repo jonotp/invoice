@@ -4,7 +4,7 @@ import React, { ChangeEvent, useContext, useState } from "react";
 import { LogoUploader, getFile } from "../components/logo-uploader.component";
 import { DefaultUser, IUser } from "../types";
 import { FirebaseContext } from "../contexts/firebase.context";
-import { UserContext } from "../contexts/user.context";
+import { AppContext } from "../contexts/app.context";
 import { USER_ACTION_TYPE } from "../constants";
 import * as ROUTES from "../routes";
 import "../styles/containers/sign-up-page.container.scss";
@@ -16,7 +16,7 @@ const SignUpPage = () => {
 
   const history = useHistory();
   const firebase = useContext(FirebaseContext);
-  const { dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(AppContext);
 
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
@@ -43,7 +43,7 @@ const SignUpPage = () => {
     try {
       const file = getFile();
       const createdUser = await firebase?.signUp(user, password, file);
-      dispatch({ type: USER_ACTION_TYPE.SAVE_USER_SESSION, payload: createdUser });
+      dispatch({ type: USER_ACTION_TYPE.SAVE_USER_DETAILS, payload: createdUser });
       history.push(ROUTES.HOME);
     } catch (error) {
       console.log(error);

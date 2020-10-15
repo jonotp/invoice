@@ -10,7 +10,7 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
-import * as routes from "../routes";
+import * as ROUTES from "../routes";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,10 +46,11 @@ const Navbar = () => {
           Invoice Generator
         </Typography>
         <div>
-          <NavItem route={routes.HOME} label="Home"/>
-          <NavItem route={routes.INVOICE_FORM} label="Form"/>
-          <NavItem route={routes.SIGN_UP} label="Sign up"/>
-          <NavItem route={routes.INVOICE_PREVIEW} label="Preview"/>
+          <NavItem route={ROUTES.SIGN_IN} label="Sign In" />
+          <NavItem route={ROUTES.HOME} label="Home" />
+          <NavItem route={ROUTES.INVOICE_FORM} label="Form" />
+          <NavItem route={ROUTES.SIGN_UP} label="Sign up" />
+          <NavItem route={ROUTES.INVOICE_PREVIEW} label="Preview" />
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"

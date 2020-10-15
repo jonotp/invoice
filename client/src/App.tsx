@@ -9,6 +9,7 @@ import "./styles/App.scss";
 import { FirebaseContext } from "./contexts/firebase.context";
 import { AppContext } from "./contexts/app.context";
 import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "./constants";
+import SignInPage from "./containers/sign-in-page.container";
 
 const App = () => {
   const firebase = useContext(FirebaseContext);
@@ -36,6 +37,7 @@ const App = () => {
           <Route exact path={ROUTES.HOME} component={InvoiceForm} />
           <Route path={ROUTES.INVOICE_FORM} component={InvoiceForm} />
           <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+          <Route path={ROUTES.SIGN_IN} component={SignInPage} />
           <Route
             path={ROUTES.INVOICE_PREVIEW}
             component={TestInvoicePDFPreviewer}

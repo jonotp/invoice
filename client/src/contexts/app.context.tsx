@@ -3,6 +3,7 @@ import React, {
   PropsWithChildren,
   useReducer,
 } from "react";
+import authReducer from "../reducers/auth.reducer";
 import userReducer from "../reducers/user.reducer";
 import { IUser, IAppContext } from "../types";
 
@@ -13,6 +14,7 @@ type Action =
 
 const initialState = {
   user: null,
+  auth: null,
 };
 
 const AppContext = createContext<{
@@ -25,6 +27,7 @@ const AppContext = createContext<{
 
 const reducer = (state: IAppContext, action: Action) => ({
   user: userReducer(state.user, action),
+  auth: authReducer(state.auth, action)
 });
 
 const AppContextProvider = ({ children }: PropsWithChildren<any>) => {

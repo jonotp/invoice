@@ -1,5 +1,6 @@
 export interface IAppContext{
   user: IUser | null,
+  auth: firebase.User | null | boolean
 };
 
 export interface IUser {

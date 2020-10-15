@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   makeStyles,
@@ -11,6 +11,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../routes";
+import SignOutButton from "../components/sign-out.component";
+import { AppContext } from "../contexts/app.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,6 +38,12 @@ function NavItem({ route, label }: NavItemProps) {
 
 const Navbar = () => {
   const classes = useStyles();
+  const { state } = useContext(AppContext);
+
+  const handleIconClick = () => {
+    console.log(state);
+  }
+
   return (
     <AppBar className={classes.root} position="sticky">
       <Toolbar>
@@ -51,11 +59,14 @@ const Navbar = () => {
           <NavItem route={ROUTES.INVOICE_FORM} label="Form" />
           <NavItem route={ROUTES.SIGN_UP} label="Sign up" />
           <NavItem route={ROUTES.INVOICE_PREVIEW} label="Preview" />
+          <Button>
+            <SignOutButton />
+          </Button>
           <IconButton
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            onClick={() => alert("Open user profile or dropdown")}
+            onClick={handleIconClick}
             color="inherit"
           >
             <AccountCircle />

@@ -1,16 +1,23 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SupplierSection from "../components/supplier-section.component";
 import CustomerSection from "../components/customer-section.component";
 import ItemsSection from "../components/items-section.component";
 import HiddenInvoiceDownloader from "../components/hidden-invoice-downloader.component";
 import {
-  IPersonel,
+  ICustomer,
   IItem,
   DefaultPersonel,
   DefaultItem,
   IInvoice,
   Colors,
+  DefaultUser,
+  IUser,
 } from "../types";
 import DateFnsUtils from "@date-io/date-fns";
 import { Button, TextField } from "@material-ui/core";
@@ -26,14 +33,13 @@ const colors: Colors = {
 const InvoiceForm = () => {
   const isAuthenticated = false;
 
-  const [logo, setLogo] = useState("");
-  const [supplierDetails, setSupplierDetails] = useState<IPersonel>(
-    DefaultPersonel
+  const [supplierDetails, setSupplierDetails] = useState<IUser>(
+    DefaultUser
   );
 
   const [invoiceNo, setInvoiceNo] = useState("");
   const [issueDate, setIssueDate] = useState(new Date());
-  const [customerDetails, setCustomerDetails] = useState<IPersonel>(
+  const [customerDetails, setCustomerDetails] = useState<ICustomer>(
     DefaultPersonel
   );
 
@@ -42,6 +48,7 @@ const InvoiceForm = () => {
   const [items, setItems] = useState<IItem[]>([DefaultItem]);
 
   const [notes, setNotes] = useState("");
+
   const [invoice, setInvoice] = useState<IInvoice>();
 
   useEffect(() => {
@@ -55,7 +62,6 @@ const InvoiceForm = () => {
     const submittedInvoice: IInvoice = {
       invoiceNo,
       issueDate,
-      logo,
       supplier: supplierDetails,
       customer: customerDetails,
       hasTax,
@@ -81,8 +87,6 @@ const InvoiceForm = () => {
             <SupplierSection
               supplier={supplierDetails}
               onUpdateSupplier={setSupplierDetails}
-              logo={logo}
-              onUpdateLogo={setLogo}
             />
           </div>
           <div className="invoice-section">

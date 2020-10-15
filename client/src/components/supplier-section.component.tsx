@@ -6,22 +6,18 @@ import React, {
   memo,
 } from "react";
 import { TextField } from "@material-ui/core";
-import { IPersonel } from "../types";
+import { IUser } from "../types";
 import "../styles/components/supplier-section.component.scss";
 import { LogoUploader } from "./logo-uploader.component";
 
 interface SupplierSectionProps {
-  supplier: IPersonel;
-  onUpdateSupplier: Dispatch<SetStateAction<IPersonel>>;
-  logo: string;
-  onUpdateLogo: Dispatch<SetStateAction<string>>;
+  supplier: IUser;
+  onUpdateSupplier: Dispatch<SetStateAction<IUser>>;
 }
 
 const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
   supplier,
   onUpdateSupplier,
-  logo,
-  onUpdateLogo,
 }) => {
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
@@ -34,6 +30,15 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
       };
     });
   };
+
+  const handleLogoChange = (value: string) => {
+    onUpdateSupplier((prevState) => {
+      return {
+        ...prevState,
+        logo: value
+      }
+    });
+  }
 
   return (
     <section className="supplier-section">
@@ -129,8 +134,8 @@ const SupplierSection: FunctionComponent<SupplierSectionProps> = ({
         onChange={handleInputChange("phone")}
       />
       <LogoUploader
-        logo={logo}
-        onUpdateLogo={onUpdateLogo}
+        logo={supplier.logo}
+        onUpdateLogo={handleLogoChange}
         style={{ gridArea: "logo" }}
       />
     </section>

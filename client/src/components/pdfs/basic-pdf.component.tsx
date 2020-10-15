@@ -178,9 +178,9 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
               { position: "relative", alignItems: "flex-end" },
             ]}
           >
-            {invoice.logo != null ? (
+            {invoice.supplier.logo != null ? (
               <Image
-                source={invoice.logo}
+                source={invoice.supplier.logo}
                 style={{
                   width: "100%",
                 }}

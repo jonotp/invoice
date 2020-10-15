@@ -1,8 +1,8 @@
 import { Reducer } from "react";
 import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "../constants";
 
-const authReducer: Reducer<firebase.User | boolean | null, any> = (
-  state: firebase.User | boolean | null,
+const authReducer: Reducer<firebase.User | null, any> = (
+  state: firebase.User | null,
   action: any
 ) => {
   switch (action.type) {

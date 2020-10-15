@@ -5,7 +5,7 @@ import "../styles/components/logo-uploader.component.scss";
 interface LogoUploaderProps {
   style?: object;
   className?: string;
-  logo: string;
+  logo: string | undefined;
   onUpdateLogo: (x: string) => void;
 }
 
@@ -13,9 +13,12 @@ const logoInputRef = createRef<HTMLInputElement>();
 
 const getFile = () => {
   const files = logoInputRef.current?.files;
-  const file = files !== undefined  && files !== null && files?.length > 0 ? files[0] : null;
+  const file =
+    files !== undefined && files !== null && files?.length > 0
+      ? files[0]
+      : null;
   return file;
-}
+};
 
 const LogoUploader = ({
   style,
@@ -44,7 +47,7 @@ const LogoUploader = ({
       style={style}
       onClick={onChangeLogo}
     >
-      {logo.trim().length > 0 ? (
+      {logo !== undefined && logo.trim().length > 0 ? (
         <div className="logo-container">
           <img className="logo-img" src={logo} alt={`Invoice logo`} />
           <span>Click to change logo</span>

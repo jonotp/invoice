@@ -1,6 +1,6 @@
-export interface IAppContext{
-  user: IUser | null,
-  auth: firebase.User | null | boolean
+export interface IAppContext {
+  user: IUser | null;
+  auth: firebase.User | null;
 };
 
 export interface IUser {
@@ -23,7 +23,7 @@ export const DefaultUser: IUser = {
   email: "",
 }
 
-export interface IPersonel {
+export interface ICustomer {
   businessId?: string;
   name: string;
   address: string;
@@ -73,9 +73,8 @@ export const DefaultInvoiceDetails = {
 export interface IInvoice {
   invoiceNo: string;
   issueDate: Date;
-  logo?: string;
-  supplier: IPersonel;
-  customer: IPersonel;
+  supplier: IUser;
+  customer: ICustomer;
   items: IItem[];
   hasTax: boolean;
   taxRatePercentage: number;

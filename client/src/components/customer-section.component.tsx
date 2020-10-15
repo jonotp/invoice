@@ -6,14 +6,14 @@ import React, {
   memo,
 } from "react";
 import { TextField } from "@material-ui/core";
-import { IPersonel } from "../types";
+import { ICustomer } from "../types";
 import "../styles/components/customer-section.component.scss";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 interface CustomerSectionProps {
-  customer: IPersonel;
-  onCustomerUpdate: Dispatch<SetStateAction<IPersonel>>;
+  customer: ICustomer;
+  onCustomerUpdate: Dispatch<SetStateAction<ICustomer>>;
   invoiceNo: string;
   onInvoiceNoUpdate: Dispatch<SetStateAction<string>>;
   issueDate: Date;
@@ -61,7 +61,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         margin="none"
         style={{ gridArea: "businessId" }}
         value={customer.businessId || ""}
-        onChange={handleInputChange("identity")}
+        onChange={handleInputChange("businessId")}
       />
       <TextField
         id="customer-name"

@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { Colors, IInvoice } from "../types";
 import { Button } from "@material-ui/core";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import BasicPDF from "../components/pdfs/basic-pdf.component";
 import TestInvoice from "../testData";
 import "../styles/containers/invoice-pdf.container.scss";
+import withAuthorization from "./with-authorization.container";
 
 const colors: Colors = {
   primary: "#29485d",
@@ -13,27 +14,17 @@ const colors: Colors = {
   text: "#333",
 };
 
-const InvoicePDFPReviewer: FunctionComponent<IInvoice> = (
-  invoice: IInvoice
-) => {
+const InvoicePDFPReviewer = (invoice: IInvoice) => {
   return (
     <section className="invoice-pdf-container">
       <PDFViewer width="90%" height="1200">
-        <BasicPDF
-          invoice={invoice}
-          colors={colors}
-        />
+        <BasicPDF invoice={invoice} colors={colors} />
       </PDFViewer>
       <br />
       <Button color="primary" variant="contained">
         <PDFDownloadLink
           className="pdf-link"
-          document={
-            <BasicPDF
-              invoice={invoice}
-              colors={colors}
-            />
-          }
+          document={<BasicPDF invoice={invoice} colors={colors} />}
           fileName="invoice.pdf"
         >
           Print PDF
@@ -43,8 +34,9 @@ const InvoicePDFPReviewer: FunctionComponent<IInvoice> = (
   );
 };
 
-export const TestInvoicePDFPreviewer: FunctionComponent = () => {
-  return InvoicePDFPReviewer(TestInvoice);
-};
+const condition = (authUser: firebase.User | null) => !!authUser;
 
-export default InvoicePDFPReviewer;
+const TestInvoicePDFPreviewer = () =>
+  withAuthorization(condition)(InvoicePDFPReviewer(TestInvoice));
+
+export { InvoicePDFPReviewer, TestInvoicePDFPreviewer };

@@ -1,3 +1,7 @@
+export interface IUserContextState{
+  user: IUser | null,
+};
+
 export interface IUser {
   userId: string;
   name: string;

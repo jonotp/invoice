@@ -1,5 +1,11 @@
 import { IItem } from "./types";
 
+export const USER_ACTION_TYPE = {
+  "SAVE_USER_SESSION":"SAVE_USER_SESSSION",
+  "DELETE_USER_SESSION":"DELETE_USER_SESSION",
+  "UPDATE_USER_SESSION":"UPDATE_USER_SESSION"
+}
+
 export const getToTwoDecimalPlaces = (num: number) =>
   (Math.round((num + Number.EPSILON) * 100) / 100).toFixed(2);
 

@@ -12,12 +12,14 @@ const withAuthorization = (
   const {state : {auth}} = useContext(AppContext);
 
   useEffect(() => {
-    console.log("Within authorization");
-
     const listener = firebase?.auth.onAuthStateChanged((authUser) => {
-      if (!condition(authUser)) {
-        console.log("User is not authorized for this route");
+      if(authUser === null) {
+        console.log("Unauthenticated user")
         history.push(ROUTES.SIGN_IN);
+      }
+      else if (!condition(authUser)) {
+        console.log("User is not authorized for this route");
+        history.push(ROUTES.NOT_FOUND);
       } else {
         console.log("User is authorized");
       }

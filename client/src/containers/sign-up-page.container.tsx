@@ -1,8 +1,12 @@
 import { Button, Paper, TextField } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import React, { ChangeEvent, useContext, useState } from "react";
 import { LogoUploader, getFile } from "../components/logo-uploader.component";
-import FirebaseContext from "../contexts/firebase.context";
 import { DefaultUser, IUser } from "../types";
+import { FirebaseContext } from "../contexts/firebase.context";
+import { UserContext } from "../contexts/user.context";
+import { USER_ACTION_TYPE } from "../constants";
+import * as ROUTES from "../routes";
 import "../styles/containers/sign-up-page.container.scss";
 
 const SignUpPage = () => {
@@ -10,7 +14,10 @@ const SignUpPage = () => {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
+  const history = useHistory();
   const firebase = useContext(FirebaseContext);
+  const { dispatch } = useContext(UserContext);
+
   const handleInputChange = (property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -35,8 +42,9 @@ const SignUpPage = () => {
   const onSubmit = async () => {
     try {
       const file = getFile();
-      const createdUser = await firebase.signUp(user, password,file);
-      console.log(createdUser);
+      const createdUser = await firebase?.signUp(user, password, file);
+      dispatch({ type: USER_ACTION_TYPE.SAVE_USER_SESSION, payload: createdUser });
+      history.push(ROUTES.HOME);
     } catch (error) {
       console.log(error);
     }

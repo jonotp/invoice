@@ -2,7 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
-import { createContext } from 'react';
+import React, { createContext, PropsWithChildren } from "react";
 import { IUser } from '../types';
 
 const config = {
@@ -65,7 +65,7 @@ class Firebase {
 
   signOut = () => this.auth.signOut();
 
-  resetPassword = (email: string) => this.auth.sendPasswordResetEmail(email);
+  sendPasswordResetEmail = (email: string) => this.auth.sendPasswordResetEmail(email);
 
   updatePassword = (password: string) => this.auth.currentUser?.updatePassword(password);
 
@@ -82,9 +82,18 @@ class Firebase {
   }
 }
 
-const FirebaseContext = createContext(new Firebase());
+// Don't want to initialise it yet. Equivalent to setting a null instance
+const FirebaseContext = createContext<Firebase | null>(null);
+const FirebaseProvider = ({children} :PropsWithChildren<any>) => {
+  return(
+    <FirebaseContext.Provider value={new Firebase()}>
+      {children}
+    </FirebaseContext.Provider>
+  );
+}
 
-export default FirebaseContext;
 export {
-  Firebase
+  Firebase,
+  FirebaseContext,
+  FirebaseProvider
 };

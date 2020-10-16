@@ -110,6 +110,10 @@ class Firebase {
     return user.data();
   };
 
+  updateUser = async (userId: string, user: IUser) => {
+    this.db.collection("users").doc(userId).set(user);
+    return await this.getUser(userId);
+  };
 }
 
 // Don't want to initialise it yet. Equivalent to setting a null instance

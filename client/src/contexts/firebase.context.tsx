@@ -29,7 +29,7 @@ class Firebase {
     // For development purposes. Will store all data in emulated firestore
     if (process.env.NODE_ENV.toLowerCase() === "development") {
       this.db.settings({
-        host: "localhost:3002",
+        host: "localhost:8080",
         ssl: false,
       });
     }

@@ -21,6 +21,7 @@
       "runtimeArgs": [
         "--inspect-brk",
         "${workspaceRoot}/functions/node_modules/jest/bin/jest.js",
+        "--onlyChanged",
         "--runInBand",
       ],
       "console": "integratedTerminal",

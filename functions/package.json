@@ -9,7 +9,7 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "test": "jest --detectOpenHandles",
-    "test:watch": "jest --detechOpenHandles --watch",
+    "test:watch": "jest --onlyChanged --detectOpenHandles --watch",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },

@@ -1,21 +1,28 @@
 import * as firebase from "@firebase/testing";
+import * as fs from "fs";
 
-const setup = async (rules: string, auth?: object) => {
+const setup = async (rulesPath: string, projectId?: string) => {
 
   // We are creating a temporary project with firebase so needs a unique projectId
-  const projectId = `firestore-rules-${Date.now()}`
-  const db = await firebase.initializeTestApp({ projectId: projectId, auth: auth }).firestore();
-  const adminDB = await firebase.initializeAdminApp({ projectId: projectId }).firestore();
+  const rules = fs.readFileSync(rulesPath, "utf8");
+  projectId = projectId || `firestore-rules-${Date.now()}`
   await firebase.loadFirestoreRules({
     projectId: projectId,
     rules: rules,
   });
 
-  return { db, adminDB, projectId };
+  return { projectId };
 }
 
 const teardown = async () => {
   Promise.all(firebase.apps().map(app => app.delete()));
 }
 
-export { setup, teardown };
+const getFirestore = (projectId: string, auth?: object) => {
+  return firebase.initializeTestApp({ projectId: projectId, auth: auth }).firestore();
+}
+
+const getAdminFirestore = (projectId: string) => {
+  return firebase.initializeAdminApp({ projectId: projectId }).firestore();
+}
+export { setup, teardown, getFirestore, getAdminFirestore };

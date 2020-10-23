@@ -5,7 +5,7 @@ import React, {
 } from "react";
 import authReducer from "../reducers/auth.reducer";
 import userReducer from "../reducers/user.reducer";
-import { IUser, IAppContext } from "../types";
+import { IAppContext } from "../types";
 
 type Action =
   | { type: "SAVE_USER_SESSION" }

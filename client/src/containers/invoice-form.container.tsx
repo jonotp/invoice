@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import SupplierSection from "../components/supplier-section.component";
 import CustomerSection from "../components/customer-section.component";
@@ -45,9 +40,7 @@ const InvoiceForm = () => {
   const firebase = useContext(FirebaseContext);
   const { state, dispatch } = useContext(AppContext);
 
-  const [supplierDetails, setSupplierDetails] = useState<IUser>(
-    DefaultUser
-  );
+  const [supplierDetails, setSupplierDetails] = useState<IUser>(DefaultUser);
 
   const [invoiceNo, setInvoiceNo] = useState("");
   const [issueDate, setIssueDate] = useState(new Date());
@@ -70,10 +63,18 @@ const InvoiceForm = () => {
       if (state.auth === null) return;
 
       if (state.user === null) {
+
         // Set supplier details
-        const user = await firebase?.getUser(state.auth.uid);
-        if (user !== null) {
-          dispatch({ type: USER_ACTION_TYPE.SAVE_USER_DETAILS, payload: user });
+        try {
+          const user = await firebase?.getUser(state.auth.uid);
+          if (user !== null) {
+            dispatch({
+              type: USER_ACTION_TYPE.SAVE_USER_DETAILS,
+              payload: user,
+            });
+          }
+        } catch (err) {
+          console.log("Failed to get customer data");
         }
 
         // TODO: Set tax rate
@@ -81,7 +82,9 @@ const InvoiceForm = () => {
         setSupplierDetails(state.user);
       }
     })();
-  }, [state]);
+
+  // eslint-disable-next-line
+  }, [state, firebase, dispatch]);
 
   const onSubmit = () => {
     const submittedInvoice: IInvoice = {

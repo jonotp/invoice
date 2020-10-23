@@ -36,7 +36,7 @@ const App = () => {
     return () => {
       if (listener !== undefined) listener();
     };
-  }, []);
+  }, [firebase, dispatch]);
 
   return (
     <div className="App">

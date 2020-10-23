@@ -43,7 +43,10 @@ const SignUpPage = () => {
     try {
       const file = getFile();
       const createdUser = await firebase?.signUp(user, password, file);
-      dispatch({ type: USER_ACTION_TYPE.SAVE_USER_DETAILS, payload: createdUser });
+      dispatch({
+        type: USER_ACTION_TYPE.SAVE_USER_DETAILS,
+        payload: createdUser,
+      });
       history.push(ROUTES.HOME);
     } catch (error) {
       console.log(error);
@@ -51,7 +54,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <section className="sign-up-page">
+    <section className="sign-up-page" data-testid="sign-up-page">
       <Paper elevation={2} className="paper">
         <section className="sign-up-form">
           <h2 style={{ gridArea: "account-header" }}>Account</h2>
@@ -59,6 +62,7 @@ const SignUpPage = () => {
             id="name"
             label="Name"
             name="name"
+            data-testid="name"
             variant="outlined"
             margin="none"
             style={{ gridArea: "name" }}
@@ -70,6 +74,7 @@ const SignUpPage = () => {
             id="email"
             label="Email"
             name="email"
+            data-testid="email"
             variant="outlined"
             margin="none"
             style={{ gridArea: "email" }}
@@ -82,6 +87,7 @@ const SignUpPage = () => {
             label="Password"
             name="password"
             type="password"
+            data-testid="password"
             variant="outlined"
             margin="none"
             style={{ gridArea: "password" }}
@@ -93,6 +99,7 @@ const SignUpPage = () => {
             id="password-confirmation"
             label="Password Confirmation"
             name="password-confirmation"
+            data-testid="password-confirmation"
             type="password"
             variant="outlined"
             margin="none"
@@ -184,8 +191,8 @@ const SignUpPage = () => {
             style={{ gridArea: "logo" }}
           />
           <div style={{ gridArea: "sign-up-button" }}>
-            <Button color="primary" variant="contained" onClick={onSubmit}>
-              Sign up
+            <Button color="primary" variant="contained" data-testid="submit-button" onClick={onSubmit}>
+              Sign Up
             </Button>
           </div>
         </section>

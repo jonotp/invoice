@@ -54,7 +54,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <section className="sign-up-page" data-testid="sign-up-page">
+    <section className="sign-up-page" data-testid={signUpPageTestIds.page}>
       <Paper elevation={2} className="paper">
         <section className="sign-up-form">
           <h2 style={{ gridArea: "account-header" }}>Account</h2>
@@ -62,7 +62,7 @@ const SignUpPage = () => {
             id="name"
             label="Name"
             name="name"
-            data-testid="name"
+            data-testid={signUpPageTestIds.name}
             variant="outlined"
             margin="none"
             style={{ gridArea: "name" }}
@@ -74,7 +74,7 @@ const SignUpPage = () => {
             id="email"
             label="Email"
             name="email"
-            data-testid="email"
+            data-testid={signUpPageTestIds.email}
             variant="outlined"
             margin="none"
             style={{ gridArea: "email" }}
@@ -87,7 +87,7 @@ const SignUpPage = () => {
             label="Password"
             name="password"
             type="password"
-            data-testid="password"
+            data-testid={signUpPageTestIds.password}
             variant="outlined"
             margin="none"
             style={{ gridArea: "password" }}
@@ -99,7 +99,7 @@ const SignUpPage = () => {
             id="password-confirmation"
             label="Password Confirmation"
             name="password-confirmation"
-            data-testid="password-confirmation"
+            data-testid={signUpPageTestIds.passwordConfirmation}
             type="password"
             variant="outlined"
             margin="none"
@@ -191,7 +191,12 @@ const SignUpPage = () => {
             style={{ gridArea: "logo" }}
           />
           <div style={{ gridArea: "sign-up-button" }}>
-            <Button color="primary" variant="contained" data-testid="submit-button" onClick={onSubmit}>
+            <Button
+              color="primary"
+              variant="contained"
+              data-testid={signUpPageTestIds.submitButton}
+              onClick={onSubmit}
+            >
               Sign Up
             </Button>
           </div>
@@ -201,4 +206,14 @@ const SignUpPage = () => {
   );
 };
 
+const signUpPageTestIds = {
+  page: "sign-up-page",
+  name: "name",
+  email: "email",
+  password: "password",
+  passwordConfirmation: "password-confirmation",
+  submitButton:"submit-button"
+};
+
 export default SignUpPage;
+export { signUpPageTestIds };

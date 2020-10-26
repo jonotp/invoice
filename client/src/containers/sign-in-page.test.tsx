@@ -7,13 +7,20 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { createMemoryHistory } from "history";
-import SignInPage from "./sign-in-page.container";
+import SignInPage, { signInPageTestIds } from "./sign-in-page.container";
 import * as ROUTES from "../routes";
 import { Router, Switch, Route } from "react-router-dom";
 import { Firebase, FirebaseContext } from "../contexts/firebase.context";
-import { getInputFieldByTestId } from "../test-helper";
+import { changeInputByTestId } from "../test-helper";
 
 const firebase = new Firebase();
+
+const testData = {
+  email: "spongebob@invoice.com",
+  password: "test@1234",
+  weakPassword: "asd",
+};
+
 const renderMockApp = () => {
   const MockedHomePage = () => <div>Home page</div>;
   const history = createMemoryHistory();
@@ -40,16 +47,18 @@ beforeEach(() => {
 describe("Sign in tests", () => {
   it("Renders appropriate fields on sign in page", async () => {
     const { getByTestId } = render(<SignInPage />);
-    expect(getByTestId("sign-in-page")).toBeInTheDocument();
-    expect(getByTestId("email")).toBeInTheDocument();
+    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
+    expect(getByTestId(signInPageTestIds.email)).toBeInTheDocument();
     expect(
-      getByTestId("email").getElementsByTagName("INPUT")[0]
+      getByTestId(signInPageTestIds.email).getElementsByTagName("INPUT")[0]
     ).toBeRequired();
-    expect(getByTestId("password")).toBeInTheDocument();
+    expect(getByTestId(signInPageTestIds.password)).toBeInTheDocument();
     expect(
-      getByTestId("password").getElementsByTagName("INPUT")[0]
+      getByTestId(signInPageTestIds.password).getElementsByTagName("INPUT")[0]
     ).toBeRequired();
-    expect(getByTestId("submit-button")).toHaveTextContent("Sign In");
+    expect(getByTestId(signInPageTestIds.submitButton)).toHaveTextContent(
+      "Sign In"
+    );
   });
 
   it("Can't submit the sign in form empty required fields", async () => {
@@ -58,10 +67,12 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
 
     const { getByTestId } = renderMockApp();
-    expect(getByTestId("sign-in-page")).toBeInTheDocument();
+    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
 
-    expect(getByTestId("submit-button")).toHaveTextContent("Sign In");
-    fireEvent.click(getByTestId("submit-button"));
+    expect(getByTestId(signInPageTestIds.submitButton)).toHaveTextContent(
+      "Sign In"
+    );
+    fireEvent.click(getByTestId(signInPageTestIds.submitButton));
   });
 
   it("Can't sign in with an invalid user", async () => {
@@ -70,18 +81,19 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.reject({ code: "auth/user-not-found" }));
 
     const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId("sign-in-page")).toBeInTheDocument();
+    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
 
-    const email = getInputFieldByTestId(getByTestId)("email");
-    fireEvent.change(email, { target: { value: "spongebob@invoice.com" } });
-    expect(email.value).toBe("spongebob@invoice.com");
+    const email = changeInputByTestId(getByTestId)(signInPageTestIds.email)(
+      testData.email
+    );
+    expect(email.value).toBe(testData.email);
+    const password = changeInputByTestId(getByTestId)(
+      signInPageTestIds.password
+    )(testData.weakPassword);
+    expect(password.value).toBe(testData.weakPassword);
 
-    const password = getInputFieldByTestId(getByTestId)("password");
-    fireEvent.change(password, { target: { value: "asd" } });
-    expect(password.value).toBe("asd");
-
-    fireEvent.click(getByTestId("submit-button"));
-    await waitFor(() => queryByTestId("sign-in-page"));
+    fireEvent.click(getByTestId(signInPageTestIds.submitButton));
+    await waitFor(() => queryByTestId(signInPageTestIds.page));
   });
 
   it("Can sign in with a valid user", async () => {
@@ -90,16 +102,17 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.resolve({ message: "works" }));
 
     const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId("sign-in-page")).toBeInTheDocument();
+    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
 
-    const email = getInputFieldByTestId(getByTestId)("email");
-    fireEvent.change(email, { target: { value: "spongebob@invoice.com" } });
+    changeInputByTestId(getByTestId)(signInPageTestIds.email)(testData.email);
+    changeInputByTestId(getByTestId)(signInPageTestIds.password)(
+      testData.password
+    );
 
-    const password = getInputFieldByTestId(getByTestId)("password");
-    fireEvent.change(password, { target: { value: "12qwert" } });
-
-    fireEvent.click(getByTestId("submit-button"));
-    await waitForElementToBeRemoved(() => queryByTestId("sign-in-page"));
+    fireEvent.click(getByTestId(signInPageTestIds.submitButton));
+    await waitForElementToBeRemoved(() =>
+      queryByTestId(signInPageTestIds.page)
+    );
   });
 });
 

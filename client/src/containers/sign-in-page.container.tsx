@@ -26,7 +26,7 @@ const SignInPage = () => {
   };
 
   return (
-    <section className="sign-in-page" data-testid="sign-in-page">
+    <section className={signInPageTestIds.page} data-testid="sign-in-page">
       <Paper elevation={2} className="paper">
         <section className="sign-in-form">
           <h2 style={{ gridArea: "account-header" }}>Sign in</h2>
@@ -34,7 +34,7 @@ const SignInPage = () => {
             id="email"
             label="Email"
             name="email"
-            data-testid="email"
+            data-testid={signInPageTestIds.email}
             variant="outlined"
             margin="none"
             style={{ gridArea: "email" }}
@@ -46,7 +46,7 @@ const SignInPage = () => {
             id="password"
             label="Password"
             name="password"
-            data-testid="password"
+            data-testid={signInPageTestIds.password}
             type="password"
             variant="outlined"
             margin="none"
@@ -56,7 +56,7 @@ const SignInPage = () => {
             required
           />
           <div style={{ gridArea: "sign-in-button", textAlign:"center" }}>
-            <Button color="primary" variant="contained" data-testid="submit-button" type="submit" onClick={onSubmit}>
+            <Button color="primary" variant="contained" data-testid={signInPageTestIds.submitButton} type="submit" onClick={onSubmit}>
               Sign In
             </Button>
           </div>
@@ -66,4 +66,12 @@ const SignInPage = () => {
   );
 };
 
+const signInPageTestIds = {
+  page: "sign-in-page",
+  email: "email",
+  password: "password",
+  submitButton: "subtmit-button"
+}
+
 export default SignInPage;
+export { signInPageTestIds }

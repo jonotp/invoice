@@ -6,7 +6,6 @@ import {
   waitForElementToBeRemoved,
   waitFor,
 } from "@testing-library/react";
-import { mocked } from "ts-jest/utils";
 import { createMemoryHistory } from "history";
 import SignInPage from "./sign-in-page.container";
 import * as ROUTES from "../routes";
@@ -14,14 +13,17 @@ import { Router, Switch, Route } from "react-router-dom";
 import { Firebase, FirebaseContext } from "../contexts/firebase.context";
 import { getInputFieldByTestId } from "../test-helper";
 
+// Need to mock here to get all imports as undefined. Will then mock the used functions onto the import
 jest.mock("../contexts/firebase.context");
 
-const renderMockApp = (firebase: Firebase = new Firebase()) => {
+const renderMockApp = () => {
   const MockedHomePage = () => <div>Home page</div>
   const history = createMemoryHistory();
   history.push(ROUTES.SIGN_IN);
   const renderer = render(
-    <FirebaseContext.Provider value={firebase}>
+    // FirebaseContext is undefined but it somehow registers as a context in react
+    // Need to instantiate a new Firebase each time because we assign different prototypic values
+    <FirebaseContext.Provider value={new Firebase()}>
       <div>
         <Router history={history}>
           <Switch>
@@ -34,10 +36,6 @@ const renderMockApp = (firebase: Firebase = new Firebase()) => {
   );
   return renderer;
 };
-
-beforeEach(() => {
-  mocked(Firebase).mockClear();
-});
 
 describe("Sign in tests", () => {
   it("Renders appropriate fields on sign in page", async () => {
@@ -55,9 +53,7 @@ describe("Sign in tests", () => {
   });
 
   it("Can't submit the sign in form empty required fields", async () => {
-    const signIn = jest.fn();
-    Firebase.prototype.signIn = signIn;
-    signIn.mockReturnValue(Promise.reject({code:"auth/invalid-email"}));
+    Firebase.prototype.signIn = jest.fn().mockReturnValue(Promise.reject({code:"auth/invalid-email"}));
 
     const { getByTestId } = renderMockApp();
     expect(getByTestId("sign-in-page")).toBeInTheDocument();
@@ -67,9 +63,7 @@ describe("Sign in tests", () => {
   });
 
   it("Can't sign in with an invalid user", async () => {
-    const signIn = jest.fn();
-    Firebase.prototype.signIn = signIn;
-    signIn.mockReturnValue(Promise.reject({code:"auth/user-not-found"}));
+    Firebase.prototype.signIn = jest.fn().mockReturnValue(Promise.reject({code:"auth/user-not-found"}));
 
     const { getByTestId, queryByTestId } = renderMockApp();
     expect(getByTestId("sign-in-page")).toBeInTheDocument();
@@ -87,9 +81,7 @@ describe("Sign in tests", () => {
   });
 
   it("Can sign in with a valid user", async () => {
-    const signIn = jest.fn();
-    Firebase.prototype.signIn = signIn;
-    signIn.mockReturnValue(Promise.resolve("works"));
+    Firebase.prototype.signIn = jest.fn().mockReturnValue(Promise.resolve("works"));
 
     const { getByTestId, queryByTestId } = renderMockApp();
     expect(getByTestId("sign-in-page")).toBeInTheDocument();

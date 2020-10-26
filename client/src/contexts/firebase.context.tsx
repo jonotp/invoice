@@ -21,7 +21,10 @@ class Firebase {
   storage: firebase.storage.Storage;
 
   constructor() {
-    app.initializeApp(config);
+    if (app.apps.length <= 0) {
+      app.initializeApp(config);
+    }
+
     this.auth = app.auth();
     this.db = app.firestore();
     this.storage = app.storage();

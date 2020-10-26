@@ -34,7 +34,7 @@
       "request": "launch",
       "cwd": "${workspaceRoot}/client",
       "runtimeExecutable": "${workspaceRoot}/client/node_modules/.bin/react-scripts",
-      "args": ["test", "--runInBand", "--no-cache", "--env=jsdom"],
+      "args": ["test", "--runInBand", "--no-cache", "--env=jest-environment-jsdom-sixteen"],
       "protocol": "inspector",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"

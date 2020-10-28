@@ -1,18 +1,6 @@
 import { IItem } from "./types";
-export const GENERIC_ACTION_TYPE = {
-  DELETE_ALL: "DELETE_ALL",
-};
 
-export const AUTH_ACTION_TYPE = {
-  SAVE_AUTH_SESSION: "SAVE_AUTH_SESSION",
-  DELETE_AUTH_SESSION: "DELETE_AUTH_SESSION",
-};
-
-export const USER_ACTION_TYPE = {
-  SAVE_USER_DETAILS: "SAVE_USER_DETAILS",
-  DELETE_USER_DETAILS: "DELETE_USER_DETAIL",
-  UPDATE_USER_DETAILS: "UPDATE_USER_DETAILS",
-};
+export const capitalizeFirstLetter = (str : string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
 export const getToTwoDecimalPlaces = (num: number) =>
   (Math.round((num + Number.EPSILON) * 100) / 100).toFixed(2);

@@ -13,7 +13,7 @@ import * as ROUTES from "./routes";
 import "./styles/App.scss";
 import { FirebaseContext } from "./contexts/firebase.context";
 import { AppContext } from "./contexts/app.context";
-import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "./constants";
+import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "./types";
 import SignInPage from "./containers/sign-in-page.container";
 import NotFoundPage from "./containers/not-found.container";
 

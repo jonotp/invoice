@@ -25,7 +25,7 @@ import {
 } from "@material-ui/core";
 import { AppContext } from "../contexts/app.context";
 import { FirebaseContext } from "../contexts/firebase.context";
-import { USER_ACTION_TYPE } from "../constants";
+import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../components/logo-uploader.component";
 import "../styles/containers/invoice-form.container.scss";
 

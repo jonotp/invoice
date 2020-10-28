@@ -1,5 +1,5 @@
 import { Reducer } from "react";
-import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "../constants";
+import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "../types";
 
 const authReducer: Reducer<firebase.User | null, any> = (
   state: firebase.User | null,

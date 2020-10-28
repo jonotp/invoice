@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import { FirebaseContext } from "../contexts/firebase.context";
 import { AppContext } from "../contexts/app.context";
-import { USER_ACTION_TYPE } from "../constants";
+import { ALERT_ACTION_TYPE, ALERT_TYPE, USER_ACTION_TYPE } from "../types";
 import * as ROUTES from "../routes";
 import "../styles/containers/sign-in-page.container.scss";
 

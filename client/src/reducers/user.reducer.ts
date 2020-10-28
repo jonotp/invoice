@@ -1,6 +1,5 @@
 import { Reducer } from "react";
-import { GENERIC_ACTION_TYPE, USER_ACTION_TYPE } from "../constants";
-import { IUser } from "../types";
+import { IUser, GENERIC_ACTION_TYPE, USER_ACTION_TYPE  } from "../types";
 
 const userReducer: Reducer<IUser | null, any> = (
   state: IUser | null,

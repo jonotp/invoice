@@ -5,7 +5,7 @@ import { LogoUploader, getFile } from "../components/logo-uploader.component";
 import { DefaultUser, IUser } from "../types";
 import { FirebaseContext } from "../contexts/firebase.context";
 import { AppContext } from "../contexts/app.context";
-import { USER_ACTION_TYPE } from "../constants";
+import { USER_ACTION_TYPE } from "../types";
 import * as ROUTES from "../routes";
 import "../styles/containers/sign-up-page.container.scss";
 

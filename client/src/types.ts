@@ -92,3 +92,18 @@ export interface PDFProps {
   invoice: IInvoice,
   colors: Colors,
 }
+
+export enum GENERIC_ACTION_TYPE {
+  DELETE_ALL,
+};
+
+export enum AUTH_ACTION_TYPE {
+  SAVE_AUTH_SESSION,
+  DELETE_AUTH_SESSION,
+};
+
+export enum USER_ACTION_TYPE {
+  SAVE_USER_DETAILS,
+  DELETE_USER_DETAILS,
+  UPDATE_USER_DETAILS,
+};

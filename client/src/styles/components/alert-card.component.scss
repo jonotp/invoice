@@ -1,0 +1,25 @@
+@import "../variables";
+
+.alert-card {
+  margin-top: 0rem;
+  width: 100%;
+  transform: translateX(50vw);
+  height: 0;
+  transition: transform 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+  &.show {
+    margin-top: 1rem;
+    height: auto;
+    transform: translateX(0);
+  }
+
+  > * {
+    opacity: 80%;
+    transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      opacity: 100%;
+      transform: scale(1.03);
+    }
+  }
+}

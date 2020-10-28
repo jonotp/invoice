@@ -16,6 +16,8 @@ import { AppContext } from "./contexts/app.context";
 import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "./types";
 import SignInPage from "./containers/sign-in-page.container";
 import NotFoundPage from "./containers/not-found.container";
+import { AlertsContextProvider } from "./contexts/alerts.context";
+import Alerts from "./containers/alerts.container";
 
 const App = () => {
   const firebase = useContext(FirebaseContext);
@@ -43,18 +45,21 @@ const App = () => {
       <Router>
         <Navbar />
         <div className="app-body">
-          <Switch>
-            <Route exact path={ROUTES.HOME} component={InvoiceForm} />
-            <Route path={ROUTES.INVOICE_FORM} component={InvoiceForm} />
-            <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-            <Route
-              path={ROUTES.INVOICE_PREVIEW}
-              component={TestInvoicePDFPreviewer}
-            />
-            <Route path={ROUTES.NOT_FOUND} component={NotFoundPage} />
-            <Redirect from="*" to={ROUTES.NOT_FOUND} />
-          </Switch>
+          <AlertsContextProvider>
+            <Switch>
+              <Route exact path={ROUTES.HOME} component={InvoiceForm} />
+              <Route path={ROUTES.INVOICE_FORM} component={InvoiceForm} />
+              <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+              <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+              <Route
+                path={ROUTES.INVOICE_PREVIEW}
+                component={TestInvoicePDFPreviewer}
+              />
+              <Route path={ROUTES.NOT_FOUND} component={NotFoundPage} />
+              <Redirect from="*" to={ROUTES.NOT_FOUND} />
+            </Switch>
+            <Alerts />
+          </AlertsContextProvider>
         </div>
       </Router>
     </div>

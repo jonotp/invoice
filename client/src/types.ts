@@ -3,6 +3,13 @@ export interface IAppContext {
   auth: firebase.User | null;
 };
 
+export interface IAlert {
+  id: string;
+  title?: string;
+  message: string;
+  type: ALERT_TYPE;
+}
+
 export interface IUser {
   userId: string;
   name: string;
@@ -107,3 +114,16 @@ export enum USER_ACTION_TYPE {
   DELETE_USER_DETAILS,
   UPDATE_USER_DETAILS,
 };
+
+export enum ALERT_ACTION_TYPE{
+  ADD_ALERT,
+  DELETE_ALERT,
+  CLEAR_ALERTS
+}
+
+export enum ALERT_TYPE {
+  ERROR = "error",
+  WARNING = "warning",
+  INFO = "info",
+  SUCCESS = "success",
+}

@@ -1,17 +1,23 @@
 import React from "react";
 import {
   render,
-  cleanup,
-  fireEvent,
   waitForElementToBeRemoved,
   waitFor,
+  screen,
 } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
 import SignInPage, { signInPageTestIds } from "./sign-in-page.container";
 import * as ROUTES from "../routes";
 import { Router, Switch, Route } from "react-router-dom";
-import { Firebase, FirebaseContext } from "../contexts/firebase.context";
-import { changeInputByTestId } from "../test-helper";
+import {
+  Firebase,
+  FirebaseContext,
+  FirebaseProvider,
+} from "../contexts/firebase.context";
+import { typeIntoTextBox, typeIntoLabelField } from "../test-helper";
+import Alerts from "./alerts.container";
+import { AlertsContextProvider } from "../contexts/alerts.context";
 
 const firebase = new Firebase();
 
@@ -46,33 +52,32 @@ beforeEach(() => {
 
 describe("Sign in tests", () => {
   it("Renders appropriate fields on sign in page", async () => {
-    const { getByTestId } = render(<SignInPage />);
-    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
-    expect(getByTestId(signInPageTestIds.email)).toBeInTheDocument();
-    expect(
-      getByTestId(signInPageTestIds.email).getElementsByTagName("INPUT")[0]
-    ).toBeRequired();
-    expect(getByTestId(signInPageTestIds.password)).toBeInTheDocument();
-    expect(
-      getByTestId(signInPageTestIds.password).getElementsByTagName("INPUT")[0]
-    ).toBeRequired();
-    expect(getByTestId(signInPageTestIds.submitButton)).toHaveTextContent(
-      "Sign In"
-    );
+    render(<SignInPage />);
+    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
+    expect(screen.getByRole("textbox", { name: "Email" })).toBeRequired();
+    expect(screen.getByLabelText(/password/i)).toBeRequired();
+    expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
   });
 
-  it("Can't submit the sign in form empty required fields", async () => {
+  it("Can't submit the sign in form wth empty required fields", async () => {
     jest
       .spyOn(firebase, "signIn")
       .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
 
-    const { getByTestId } = renderMockApp();
-    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
+    renderMockApp();
+    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
 
-    expect(getByTestId(signInPageTestIds.submitButton)).toHaveTextContent(
-      "Sign In"
+    userEvent.click(screen.getByRole("button", { name: "Sign In" }));
+    await waitFor(() =>
+      expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
+        "aria-invalid",
+        "true"
+      )
     );
-    fireEvent.click(getByTestId(signInPageTestIds.submitButton));
+    expect(screen.getByLabelText(/password/i)).toHaveAttribute(
+      "aria-invalid",
+      "true"
+    );
   });
 
   it("Can't sign in with an invalid user", async () => {
@@ -80,20 +85,24 @@ describe("Sign in tests", () => {
       .spyOn(firebase, "signIn")
       .mockReturnValue(Promise.reject({ code: "auth/user-not-found" }));
 
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
+    renderMockApp();
+    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
+    const email = typeIntoTextBox("Email", testData.email);
+    expect(email).toHaveValue(testData.email);
+    const password = typeIntoLabelField("Password", testData.weakPassword);
+    expect(password).toHaveValue(testData.weakPassword);
 
-    const email = changeInputByTestId(getByTestId)(signInPageTestIds.email)(
-      testData.email
+    userEvent.click(screen.getByTestId(signInPageTestIds.submitButton));
+    await waitFor(() =>
+      expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
+        "aria-invalid",
+        "true"
+      )
     );
-    expect(email.value).toBe(testData.email);
-    const password = changeInputByTestId(getByTestId)(
-      signInPageTestIds.password
-    )(testData.weakPassword);
-    expect(password.value).toBe(testData.weakPassword);
-
-    fireEvent.click(getByTestId(signInPageTestIds.submitButton));
-    await waitFor(() => queryByTestId(signInPageTestIds.page));
+    expect(screen.getByLabelText(/password/i)).toHaveAttribute(
+      "aria-invalid",
+      "true"
+    );
   });
 
   it("Can sign in with a valid user", async () => {
@@ -101,19 +110,35 @@ describe("Sign in tests", () => {
       .spyOn(firebase, "signIn")
       .mockReturnValue(Promise.resolve({ message: "works" }));
 
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signInPageTestIds.page)).toBeInTheDocument();
+    renderMockApp();
+    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
+    typeIntoTextBox("Email", testData.email);
+    typeIntoLabelField("Password", testData.password);
 
-    changeInputByTestId(getByTestId)(signInPageTestIds.email)(testData.email);
-    changeInputByTestId(getByTestId)(signInPageTestIds.password)(
-      testData.password
-    );
-
-    fireEvent.click(getByTestId(signInPageTestIds.submitButton));
+    userEvent.click(screen.getByTestId(signInPageTestIds.submitButton));
     await waitForElementToBeRemoved(() =>
-      queryByTestId(signInPageTestIds.page)
+      screen.getByTestId(signInPageTestIds.page)
     );
   });
-});
 
-afterEach(cleanup);
+  it("Can see alert message after invalid sign in", async () => {
+    jest
+      .spyOn(firebase, "signIn")
+      .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
+
+    render(
+      <FirebaseContext.Provider value={firebase}>
+        <AlertsContextProvider>
+          <div>
+            <SignInPage />
+            <Alerts />
+          </div>
+        </AlertsContextProvider>
+      </FirebaseContext.Provider>
+    );
+
+    userEvent.click(screen.getByRole("button", { name: "Sign In" }));
+    await screen.findByRole("alert");
+    screen.getByText("Bad credentials. Please login again.");
+  });
+});

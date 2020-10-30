@@ -1,28 +1,31 @@
 import React from "react";
 import {
   render,
-  cleanup,
-  fireEvent,
   waitFor,
   waitForElementToBeRemoved,
+  screen,
 } from "@testing-library/react";
-import SignUpPage, {
-  signUpPageTestIds,
-} from "./sign-up-page.container";
+import userEvent from "@testing-library/user-event";
+import SignUpPage from "./sign-up-page.container";
 import { Firebase, FirebaseContext } from "../contexts/firebase.context";
 import { createMemoryHistory } from "history";
 import { Route, Router, Switch } from "react-router-dom";
 import * as ROUTES from "../routes";
-import { changeInputByTestId } from "../test-helper";
+import {
+  typeIntoElement,
+  typeIntoTextBox,
+} from "../test-helper";
+import Alerts from "./alerts.container";
+import { AlertsContextProvider } from "../contexts/alerts.context";
 
 const firebase = new Firebase();
 const testData = {
   name: "sponge bob",
   email: "spongebob@invoice.com",
-  password: "test@1234",
-  unmatchedPassword: "UOW@123",
+  password: "1asdjfk#$(1",
+  unmatchedPassword: "asdfj1",
   weakPassword: "asd",
-  duplicateEmail: "duplicate@invoice.com"
+  duplicateEmail: "duplicate@invoice.com",
 };
 
 const renderMockApp = () => {
@@ -49,25 +52,18 @@ beforeEach(() => {
 });
 
 describe("Sign up tests", () => {
-
-  it("Renders appropriate input fields on sign up page", async () => {
-    const { getByTestId } = render(<SignUpPage />);
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
-    expect(getByTestId(signUpPageTestIds.name)).toBeInTheDocument();
-    expect(getByTestId(signUpPageTestIds.name).getElementsByTagName("INPUT")[0]).toBeRequired();
-    expect(getByTestId(signUpPageTestIds.email)).toBeInTheDocument();
+  it("Can see appropriate input fields on sign up page", async () => {
+    render(<SignUpPage />);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      /sign up/i
+    );
+    expect(screen.getByRole("textbox", { name: /name/i })).toBeRequired();
+    expect(screen.getByRole("textbox", { name: /email/i })).toBeRequired();
+    expect(screen.getByPlaceholderText(/^password$/i)).toBeRequired();
     expect(
-      getByTestId(signUpPageTestIds.email).getElementsByTagName("INPUT")[0]
+      screen.getByPlaceholderText(/password confirmation/i)
     ).toBeRequired();
-    expect(getByTestId(signUpPageTestIds.password)).toBeInTheDocument();
-    expect(
-      getByTestId(signUpPageTestIds.password).getElementsByTagName("INPUT")[0]
-    ).toBeRequired();
-    expect(getByTestId(signUpPageTestIds.passwordConfirmation)).toBeInTheDocument();
-    expect(
-      getByTestId(signUpPageTestIds.passwordConfirmation).getElementsByTagName("INPUT")[0]
-    ).toBeRequired();
-    expect(getByTestId(signUpPageTestIds.submitButton)).toHaveTextContent("Sign Up");
+    expect(screen.getByRole("button", { name: /sign up/i }));
   });
 
   it("Can't create account with empty required fields", async () => {
@@ -75,10 +71,26 @@ describe("Sign up tests", () => {
       .spyOn(firebase, "signUp")
       .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
 
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
-    fireEvent.click(getByTestId(signUpPageTestIds.submitButton));
-    await waitFor(() => queryByTestId(signUpPageTestIds.page));
+    renderMockApp();
+
+    userEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await waitFor(() =>
+      expect(screen.getByRole("textbox", { name: /name/i })).toHaveAttribute(
+        "aria-invalid",
+        "true"
+      )
+    );
+    expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute(
+      "aria-invalid",
+      "true"
+    );
+    expect(screen.getByPlaceholderText(/^password$/i)).toHaveAttribute(
+      "aria-invalid",
+      "true"
+    );
+    expect(
+      screen.getByPlaceholderText(/password confirmation/i)
+    ).toHaveAttribute("aria-invalid", "true");
   });
 
   it("Can't create account when password and password confirmation values do not match", async () => {
@@ -86,22 +98,38 @@ describe("Sign up tests", () => {
       .spyOn(firebase, "signUp")
       .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
 
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
+    renderMockApp();
 
-    changeInputByTestId(getByTestId)(signUpPageTestIds.name)(testData.name);
-    changeInputByTestId(getByTestId)(signUpPageTestIds.email)(testData.email);
-
-    const password = changeInputByTestId(getByTestId)(signUpPageTestIds.password)(
+    typeIntoTextBox("name", testData.name) as HTMLInputElement;
+    typeIntoTextBox("email", testData.email) as HTMLInputElement;
+    const password = typeIntoElement(
+      screen.getByPlaceholderText(/^password$/i),
       testData.password
-    );
-    const passwordConfirmation = changeInputByTestId(getByTestId)(
-      signUpPageTestIds.passwordConfirmation
-    )(testData.unmatchedPassword);
-    expect(password.value).not.toBe(passwordConfirmation.value);
+    ) as HTMLInputElement;
+    const passwordConfirmation = typeIntoElement(
+      screen.getByPlaceholderText(/password confirmation/i),
+      testData.unmatchedPassword
+    ) as HTMLInputElement;
+    expect(password.value).not.toEqual(passwordConfirmation.value);
 
-    fireEvent.click(getByTestId(signUpPageTestIds.submitButton));
-    await waitFor(() => queryByTestId(signUpPageTestIds.page));
+    userEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await waitFor(() =>
+      expect(
+        screen.getByPlaceholderText(/password confirmation/i)
+      ).toHaveAttribute("aria-invalid", "true")
+    );
+    expect(screen.getByPlaceholderText(/^password$/i)).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
+    expect(screen.getByRole("textbox", { name: /name/i })).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
+    expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
   });
 
   it("Can't create account if the password is too weak", async () => {
@@ -109,44 +137,37 @@ describe("Sign up tests", () => {
       .spyOn(firebase, "signUp")
       .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
 
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
-
-    changeInputByTestId(getByTestId)(signUpPageTestIds.name)(testData.name);
-    changeInputByTestId(getByTestId)(signUpPageTestIds.email)(testData.email);
-    const password = changeInputByTestId(getByTestId)(signUpPageTestIds.password)(
+    renderMockApp();
+    typeIntoTextBox("name", testData.name);
+    typeIntoTextBox("email", testData.email);
+    const password = typeIntoElement(
+      screen.getByPlaceholderText(/^password$/i),
       testData.weakPassword
+    ) as HTMLInputElement;
+    const passwordConfirmation = typeIntoElement(
+      screen.getByPlaceholderText(/password confirmation/i),
+      testData.weakPassword
+    ) as HTMLInputElement;
+    expect(password.value).toEqual(passwordConfirmation.value);
+
+    userEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await waitFor(() =>
+      expect(screen.getByPlaceholderText(/^password$/i)).toHaveAttribute(
+        "aria-invalid",
+        "true"
+      )
     );
-    const passwordConfirmation = changeInputByTestId(getByTestId)(
-      signUpPageTestIds.passwordConfirmation
-    )(testData.weakPassword);
-    expect(password.value).toBe(passwordConfirmation.value);
-
-    fireEvent.click(getByTestId(signUpPageTestIds.submitButton));
-    await waitFor(() => queryByTestId(signUpPageTestIds.page));
-  });
-
-  it("Can't create account if the email address is already in use", async () => {
-    jest
-      .spyOn(firebase, "signUp")
-      .mockReturnValue(Promise.reject({ code: "auth/email-alread-in-use" }));
-
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
-
-    changeInputByTestId(getByTestId)(signUpPageTestIds.name)(testData.name);
-    changeInputByTestId(getByTestId)(signUpPageTestIds.email)(testData.duplicateEmail);
-    const password = changeInputByTestId(getByTestId)(signUpPageTestIds.password)(
-      testData.password
+    expect(
+      screen.getByPlaceholderText(/password confirmation/i)
+    ).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByRole("textbox", { name: /name/i })).toHaveAttribute(
+      "aria-invalid",
+      "false"
     );
-    const passwordConfirmation = changeInputByTestId(getByTestId)(
-      signUpPageTestIds.passwordConfirmation
-    )(testData.password);
-    expect(password.value).toBe(passwordConfirmation.value);
-
-    fireEvent.click(getByTestId(signUpPageTestIds.submitButton));
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
-    await waitFor(() => queryByTestId(signUpPageTestIds.page));
+    expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
   });
 
   it("Can create account if the required fields are entered and the email does not have an account already", async () => {
@@ -154,25 +175,72 @@ describe("Sign up tests", () => {
       .spyOn(firebase, "signUp")
       .mockReturnValue(Promise.resolve({ message: "Account created" }));
 
-    const { getByTestId, queryByTestId } = renderMockApp();
-    expect(getByTestId(signUpPageTestIds.page)).toBeInTheDocument();
+    renderMockApp();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      /sign up/i
+    );
 
-    changeInputByTestId(getByTestId)(signUpPageTestIds.name)(testData.name);
-    changeInputByTestId(getByTestId)(signUpPageTestIds.email)(testData.email);
-    const password = changeInputByTestId(getByTestId)(signUpPageTestIds.password)(
+    typeIntoTextBox("name", testData.name);
+    typeIntoTextBox("email", testData.email);
+    typeIntoElement(
+      screen.getByPlaceholderText(/^password$/i),
       testData.password
     );
-    const passwordConfirmation = changeInputByTestId(getByTestId)(
-      signUpPageTestIds.passwordConfirmation
-    )(testData.password);
-    expect(password.value).toBe(passwordConfirmation.value);
+    typeIntoElement(
+      screen.getByPlaceholderText(/password confirmation/i),
+      testData.password
+    );
 
-    fireEvent.click(getByTestId(signUpPageTestIds.submitButton));
+    userEvent.click(screen.getByRole("button", { name: /sign up/i }));
     await waitForElementToBeRemoved(() =>
-      queryByTestId(signUpPageTestIds.page)
+      screen.getByRole("heading", { level: 1 })
     );
   });
-  
-});
 
-afterEach(cleanup);
+  it("Can see alert when failing to create account with an email address already in use", async () => {
+    jest
+      .spyOn(firebase, "signUp")
+      .mockReturnValue(Promise.reject({ code: "auth/email-alread-in-use" }));
+
+    render(
+      <FirebaseContext.Provider value={firebase}>
+        <AlertsContextProvider>
+          <div>
+            <SignUpPage />
+            <Alerts />
+          </div>
+        </AlertsContextProvider>
+      </FirebaseContext.Provider>
+    );
+
+    typeIntoTextBox("name", testData.name);
+    typeIntoTextBox("email", testData.email);
+    typeIntoElement(
+      screen.getByPlaceholderText(/^password$/i),
+      testData.password
+    );
+    typeIntoElement(
+      screen.getByPlaceholderText(/password confirmation/i),
+      testData.password
+    );
+
+    userEvent.click(screen.getByRole("button", { name: /sign up/i }));
+    await screen.findByRole("alert");
+    screen.getByText(/email already in use/i);
+    expect(screen.getByPlaceholderText(/^password$/i)).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
+    expect(
+      screen.getByPlaceholderText(/password confirmation/i)
+    ).toHaveAttribute("aria-invalid", "false");
+    expect(screen.getByRole("textbox", { name: /name/i })).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
+    expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute(
+      "aria-invalid",
+      "false"
+    );
+  });
+});

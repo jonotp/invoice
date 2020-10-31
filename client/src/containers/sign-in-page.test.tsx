@@ -7,14 +7,10 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
-import SignInPage, { signInPageTestIds } from "./sign-in-page.container";
+import SignInPage from "./sign-in-page.container";
 import * as ROUTES from "../routes";
 import { Router, Switch, Route } from "react-router-dom";
-import {
-  Firebase,
-  FirebaseContext,
-  FirebaseProvider,
-} from "../contexts/firebase.context";
+import { Firebase, FirebaseContext } from "../contexts/firebase.context";
 import { typeIntoTextBox, typeIntoLabelField } from "../test-helper";
 import Alerts from "./alerts.container";
 import { AlertsContextProvider } from "../contexts/alerts.context";
@@ -23,7 +19,7 @@ const firebase = new Firebase();
 
 const testData = {
   email: "spongebob@invoice.com",
-  password: "test@1234",
+  password: "asdf213@",
   weakPassword: "asd",
 };
 
@@ -51,12 +47,14 @@ beforeEach(() => {
 });
 
 describe("Sign in tests", () => {
-  it("Renders appropriate fields on sign in page", async () => {
+  it("Can see appropriate fields on sign in page", async () => {
     render(<SignInPage />);
     expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
-    expect(screen.getByRole("textbox", { name: "Email" })).toBeRequired();
+    expect(screen.getByRole("textbox", { name: /email/i })).toBeRequired();
     expect(screen.getByLabelText(/password/i)).toBeRequired();
-    expect(screen.getByRole("button", { name: "Sign In" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sign in/i })
+    ).toBeInTheDocument();
   });
 
   it("Can't submit the sign in form wth empty required fields", async () => {
@@ -67,9 +65,9 @@ describe("Sign in tests", () => {
     renderMockApp();
     expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
 
-    userEvent.click(screen.getByRole("button", { name: "Sign In" }));
+    userEvent.click(screen.getByRole("button", { name: /sign in/i }));
     await waitFor(() =>
-      expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
+      expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute(
         "aria-invalid",
         "true"
       )
@@ -92,9 +90,9 @@ describe("Sign in tests", () => {
     const password = typeIntoLabelField("Password", testData.weakPassword);
     expect(password).toHaveValue(testData.weakPassword);
 
-    userEvent.click(screen.getByTestId(signInPageTestIds.submitButton));
+    userEvent.click(screen.getByRole("button", { name: /sign in/i }));
     await waitFor(() =>
-      expect(screen.getByRole("textbox", { name: "Email" })).toHaveAttribute(
+      expect(screen.getByRole("textbox", { name: /email/i })).toHaveAttribute(
         "aria-invalid",
         "true"
       )
@@ -111,13 +109,15 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.resolve({ message: "works" }));
 
     renderMockApp();
-    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      /sign in/i
+    );
     typeIntoTextBox("Email", testData.email);
     typeIntoLabelField("Password", testData.password);
 
-    userEvent.click(screen.getByTestId(signInPageTestIds.submitButton));
+    userEvent.click(screen.getByRole("button", { name: /sign in/i }));
     await waitForElementToBeRemoved(() =>
-      screen.getByTestId(signInPageTestIds.page)
+      screen.getByRole("heading", { level: 1 })
     );
   });
 
@@ -137,7 +137,7 @@ describe("Sign in tests", () => {
       </FirebaseContext.Provider>
     );
 
-    userEvent.click(screen.getByRole("button", { name: "Sign In" }));
+    userEvent.click(screen.getByRole("button", { name: /sign in/i }));
     await screen.findByRole("alert");
     screen.getByText("Bad credentials. Please login again.");
   });

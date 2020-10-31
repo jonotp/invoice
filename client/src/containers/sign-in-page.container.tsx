@@ -37,16 +37,20 @@ const SignInPage = () => {
   };
 
   return (
-    <section className={signInPageTestIds.page} data-testid="sign-in-page">
+    <section className="sign-in-page">
       <Paper elevation={2} className="paper">
-        <form className="sign-in-form" onSubmit={onSubmit} noValidate={true} autoComplete="off">
-          <h2 style={{ gridArea: "account-header" }}>Sign in</h2>
+        <form
+          className="sign-in-form"
+          onSubmit={onSubmit}
+          noValidate={true}
+          autoComplete="off"
+        >
+          <h1 style={{ gridArea: "account-header" }}>Sign in</h1>
           <TextField
             id="email"
             label="Email"
             name="email"
             type="email"
-            data-testid={signInPageTestIds.email}
             variant="outlined"
             margin="none"
             style={{ gridArea: "email" }}
@@ -60,7 +64,6 @@ const SignInPage = () => {
             label="Password"
             name="password"
             type="password"
-            data-testid={signInPageTestIds.password}
             variant="outlined"
             margin="none"
             style={{ gridArea: "password" }}
@@ -70,12 +73,7 @@ const SignInPage = () => {
             required
           />
           <div style={{ gridArea: "sign-in-button", textAlign: "center" }}>
-            <Button
-              color="primary"
-              variant="contained"
-              data-testid={signInPageTestIds.submitButton}
-              type="submit"
-            >
+            <Button color="primary" variant="contained" type="submit">
               Sign In
             </Button>
           </div>
@@ -85,12 +83,4 @@ const SignInPage = () => {
   );
 };
 
-const signInPageTestIds = {
-  page: "sign-in-page",
-  email: "email",
-  password: "password",
-  submitButton: "subtmit-button",
-};
-
 export default SignInPage;
-export { signInPageTestIds };

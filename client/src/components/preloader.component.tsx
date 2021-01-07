@@ -9,10 +9,12 @@ const Preloader = () => {
     <div className={classStyle}>
       {isLoading ? (
         <div>
+           {/* eslint-disable */}
           <div role="loader" className="square"></div>
           <div role="loader" className="square"></div>
           <div role="loader" className="square"></div>
           <div role="loader" className="square"></div>
+          {/* eslint-enable */}
         </div>
       ) : null}
     </div>

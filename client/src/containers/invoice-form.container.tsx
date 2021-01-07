@@ -25,6 +25,7 @@ import {
 } from "@material-ui/core";
 import { AppContext } from "../contexts/app.context";
 import { FirebaseContext } from "../contexts/firebase.context";
+import { PreloaderContext } from "../contexts/preloader.context";
 import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../components/logo-uploader.component";
 import "../styles/containers/invoice-form.container.scss";
@@ -39,6 +40,7 @@ const colors: Colors = {
 const InvoiceForm = () => {
   const firebase = useContext(FirebaseContext);
   const { state, dispatch } = useContext(AppContext);
+  const { setIsLoading } = useContext(PreloaderContext);
 
   const [supplierDetails, setSupplierDetails] = useState<IUser>(DefaultUser);
 
@@ -58,15 +60,18 @@ const InvoiceForm = () => {
   const [isProfileDialogueOpen, setIsProfileDialogueOpen] = useState(false);
 
   useEffect(() => {
-    console.count("in use effect");
     (async () => {
+      console.log({auth:state.auth,user:state.user});
       if (state.auth === null) return;
 
+      // May set this in the app component instead
       if (state.user === null) {
+        setIsLoading(true);
 
         // Set supplier details
         try {
           const user = await firebase?.getUser(state.auth.uid);
+          console.log(user);
           if (user !== null) {
             dispatch({
               type: USER_ACTION_TYPE.SAVE_USER_DETAILS,
@@ -77,14 +82,15 @@ const InvoiceForm = () => {
           console.log("Failed to get customer data");
         }
 
+        setIsLoading(false);
+
         // TODO: Set tax rate
       } else if (state.user !== null && supplierDetails.userId === "") {
         setSupplierDetails(state.user);
       }
     })();
 
-  // eslint-disable-next-line
-  }, [state, firebase, dispatch]);
+  }, [state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails]);
 
   const onSubmit = () => {
     const submittedInvoice: IInvoice = {

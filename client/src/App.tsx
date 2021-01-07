@@ -43,7 +43,7 @@ const App = () => {
     return () => {
       if (listener !== undefined) listener();
     };
-  }, [firebase, dispatch]);
+  }, [firebase, dispatch, setIsLoading]);
 
   return (
     <div className="App">

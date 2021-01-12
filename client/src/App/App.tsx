@@ -11,7 +11,7 @@ import SignUpPage from "../SignUp/sign-up-page.container";
 import { TestInvoicePDFPreviewer } from "../Invoice/invoice-pdf-previewer.container";
 import * as ROUTES from "../routes";
 import FirebaseContext from "../Firebase/firebase.context";
-import { AppContext } from "./app.context";
+import AppContext from "./app.context";
 import { AUTH_ACTION_TYPE, GENERIC_ACTION_TYPE } from "../types";
 import SignInPage from "../SignIn/sign-in-page.container";
 import NotFoundPage from "../NotFound/not-found.container";

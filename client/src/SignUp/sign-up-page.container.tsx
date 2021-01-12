@@ -4,7 +4,7 @@ import React, { ChangeEvent, useContext, useState } from "react";
 import { LogoUploader, getFile } from "../LogoUploader/logo-uploader.component";
 import { ALERT_ACTION_TYPE, ALERT_TYPE, DefaultUser, IUser } from "../types";
 import FirebaseContext from "../Firebase/firebase.context";
-import { AppContext } from "../App/app.context";
+import AppContext from "../App/app.context";
 import { USER_ACTION_TYPE } from "../types";
 import * as ROUTES from "../routes";
 import AlertsContext from "../Alert/alerts.context";

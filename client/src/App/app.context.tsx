@@ -1,18 +1,6 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  useReducer,
-} from "react";
-import authReducer from "../Authorization/auth.reducer";
-import userReducer from "../User/user.reducer";
+import React, { createContext } from "react";
 import { IAppContext } from "../types";
-
-type Action =
-  | { type: "SAVE_USER_SESSION" }
-  | { type: "DELETE_USER_SESSION" }
-  | { type: "UPDATE_USER_SESSION" };
-
-const initialState : IAppContext= {
+const initialState: IAppContext = {
   user: null,
   auth: null,
 };
@@ -25,18 +13,4 @@ const AppContext = createContext<{
   dispatch: () => null,
 });
 
-const reducer = (state: IAppContext, action: Action) => ({
-  user: userReducer(state.user, action),
-  auth: authReducer(state.auth, action),
-});
-
-const AppContextProvider = ({ children }: PropsWithChildren<any>) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  return (
-    <AppContext.Provider value={{ state, dispatch }}>
-      {children}
-    </AppContext.Provider>
-  );
-};
-
-export { AppContext, AppContextProvider };
+export default AppContext;

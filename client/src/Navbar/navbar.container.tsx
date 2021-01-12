@@ -12,7 +12,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../routes";
 import SignOutButton from "../SignOut/sign-out.component";
-import { AppContext } from "../App/app.context";
+import AppContext from "../App/app.context";
 
 const useStyles = makeStyles((theme) => ({
   root: {

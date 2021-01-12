@@ -2,7 +2,7 @@ import { Button, Paper, TextField } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import React, { useContext, useState } from "react";
 import FirebaseContext from "../Firebase/firebase.context";
-import { AppContext } from "../App/app.context";
+import AppContext from "../App/app.context";
 import { ALERT_ACTION_TYPE, ALERT_TYPE, USER_ACTION_TYPE } from "../types";
 import AlertsContext from "../Alert/alerts.context";
 import * as ROUTES from "../routes";

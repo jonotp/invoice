@@ -23,7 +23,7 @@ import {
   DialogContentText,
   TextField,
 } from "@material-ui/core";
-import { AppContext } from "../App/app.context";
+import AppContext from "../App/app.context";
 import FirebaseContext from "../Firebase/firebase.context";
 import { PreloaderContext } from "../Preloader/preloader.context";
 import { USER_ACTION_TYPE } from "../types";

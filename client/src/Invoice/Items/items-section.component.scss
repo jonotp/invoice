@@ -1,0 +1,49 @@
+@import "../../variables";
+
+.items-section {
+  .button {
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
+
+  .tr-bold {
+    td {
+      font-weight: bold !important;
+      text-transform: uppercase;
+    }
+  }
+
+  .tax-label{
+    position: relative;
+    cursor: pointer;
+    padding-bottom:32px;
+
+    + * {
+      padding-bottom:32px;
+    }
+    &:hover{
+      color: darken($primary, 15);
+      .tax-helper{
+        color: darken($primary, 15);
+        background-color: rgba(63, 81, 181, 0.04);
+      }
+    }
+  }
+
+  .tax-helper{
+    position: absolute;
+    color: $primary;
+    left: 0.5rem;
+    bottom: 0.75rem;
+    font-size: 0.7rem;
+    text-transform: initial;
+    width: 80%;
+    height: 2.5rem;
+    transition: 0.3s all ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+
+  }
+}

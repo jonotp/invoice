@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  PropsWithChildren,
-  useReducer,
-} from "react";
-import alertsReducer from "./alerts.reducer";
+import React, { createContext } from "react";
 import { IAlert } from "../types";
 
 const AlertsContext = createContext<{
@@ -14,13 +9,4 @@ const AlertsContext = createContext<{
   alertsDispatch: () => null,
 });
 
-const AlertsContextProvider = ({ children }: PropsWithChildren<any>) => {
-  const [alerts, alertsDispatch] = useReducer(alertsReducer, []);
-  return (
-    <AlertsContext.Provider value={{ alerts, alertsDispatch }}>
-      {children}
-    </AlertsContext.Provider>
-  );
-};
-
-export { AlertsContext, AlertsContextProvider };
+export default AlertsContext;

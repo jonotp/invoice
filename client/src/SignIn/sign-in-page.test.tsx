@@ -14,7 +14,7 @@ import Firebase from "../Firebase/firebase";
 import FirebaseContext from "../Firebase/firebase.context";
 import { typeIntoTextBox, typeIntoLabelField } from "../test-helper";
 import Alerts from "../Alert/alerts.container";
-import { AlertsContextProvider } from "../Alert/alerts.context";
+import AlertsProvider from "../Alert/alerts.provider";
 
 const firebase = new Firebase();
 
@@ -129,12 +129,12 @@ describe("Sign in tests", () => {
 
     render(
       <FirebaseContext.Provider value={firebase}>
-        <AlertsContextProvider>
+        <AlertsProvider>
           <div>
             <SignInPage />
             <Alerts />
           </div>
-        </AlertsContextProvider>
+        </AlertsProvider>
       </FirebaseContext.Provider>
     );
 

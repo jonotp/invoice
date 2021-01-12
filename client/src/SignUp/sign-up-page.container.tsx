@@ -7,7 +7,7 @@ import FirebaseContext from "../Firebase/firebase.context";
 import { AppContext } from "../App/app.context";
 import { USER_ACTION_TYPE } from "../types";
 import * as ROUTES from "../routes";
-import { AlertsContext } from "../Alert/alerts.context";
+import AlertsContext from "../Alert/alerts.context";
 import "./sign-up-page.container.scss";
 
 const SignUpPage = () => {

@@ -7,10 +7,8 @@ import {
 import userEvent from "@testing-library/user-event";
 import Alerts, { alertCardTestIds } from "./alerts.container";
 import { ALERT_ACTION_TYPE, ALERT_TYPE, IAlert } from "../types";
-import {
-  AlertsContext,
-  AlertsContextProvider,
-} from "./alerts.context";
+import AlertsProvider from "./alerts.provider";
+import AlertsContext from "./alerts.context";
 
 const testIds = {
   page: "alert-test",
@@ -49,9 +47,9 @@ const AlertTestComponent = () => {
 };
 
 const App = () => (
-  <AlertsContextProvider>
+  <AlertsProvider>
     <AlertTestComponent />
-  </AlertsContextProvider>
+  </AlertsProvider>
 );
 
 beforeEach(() => {

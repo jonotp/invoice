@@ -4,8 +4,8 @@ import React, { useContext, useState } from "react";
 import FirebaseContext from "../Firebase/firebase.context";
 import { AppContext } from "../App/app.context";
 import { ALERT_ACTION_TYPE, ALERT_TYPE, USER_ACTION_TYPE } from "../types";
+import AlertsContext from "../Alert/alerts.context";
 import * as ROUTES from "../routes";
-import { AlertsContext } from "../Alert/alerts.context";
 import "./sign-in-page.container.scss";
 
 const SignInPage = () => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Alert, AlertTitle } from "@material-ui/lab";
-import { IAlert } from "../types";
-import { capitalizeFirstLetter } from "../constants";
+import { IAlert } from "../../types";
+import { capitalizeFirstLetter } from "../../constants";
 import "./alert-card.component.scss";
 
 interface IAlertItem {

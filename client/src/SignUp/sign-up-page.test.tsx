@@ -12,12 +12,9 @@ import FirebaseContext from "../Firebase/firebase.context";
 import { createMemoryHistory } from "history";
 import { Route, Router, Switch } from "react-router-dom";
 import * as ROUTES from "../routes";
-import {
-  typeIntoElement,
-  typeIntoTextBox,
-} from "../test-helper";
+import { typeIntoElement, typeIntoTextBox } from "../test-helper";
 import Alerts from "../Alert/alerts.container";
-import { AlertsContextProvider } from "../Alert/alerts.context";
+import AlertsProvider from "../Alert/alerts.provider";
 
 const firebase = new Firebase();
 const testData = {
@@ -205,12 +202,12 @@ describe("Sign up tests", () => {
 
     render(
       <FirebaseContext.Provider value={firebase}>
-        <AlertsContextProvider>
+        <AlertsProvider>
           <div>
             <SignUpPage />
             <Alerts />
           </div>
-        </AlertsContextProvider>
+        </AlertsProvider>
       </FirebaseContext.Provider>
     );
 

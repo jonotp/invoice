@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import AlertCard, { alertCardTestIds } from "./alert-card.component";
-import { ALERT_TYPE } from "../types";
+import { ALERT_TYPE } from "../../types";
 
 const testIds = {
   page: "alert-test",

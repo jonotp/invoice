@@ -1,30 +1,24 @@
 import React, {
-  ChangeEvent,
   Dispatch,
   FunctionComponent,
   SetStateAction,
   memo,
   useState,
-  useEffect,
 } from "react";
 import {
   Button,
   Switch,
-  TextField,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogContentText,
-  FormControl,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
+import TaxRateDialogue from "./tax-rate-dialogue.component";
 import { IItem, DefaultItem } from "../../types";
 import "./items-section.component.scss";
+import ItemsTableHead from "./items-table-head.component";
+import ItemsTableRow from "./items-table-row.component";
 
 interface ItemsSectionProps {
   items: IItem[];
@@ -34,15 +28,6 @@ interface ItemsSectionProps {
   taxRate: number;
   onTaxRateUpdate: Dispatch<SetStateAction<any>>;
 }
-
-const decimalInput = {
-  steps: ".01",
-  min: 0,
-};
-
-const quanityInput = {
-  min: 1,
-};
 
 const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
   items,
@@ -57,22 +42,6 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
     onItemsUpdate((prevState) => prevState.concat(DefaultItem));
   };
 
-  const handleTextChangeItems = (index: number, property: string) => (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    event.persist();
-    onItemsUpdate((prevState) => {
-      return prevState.map((item: IItem, i: number) =>
-        i === index
-          ? {
-              ...item,
-              [property]: event.target.value,
-            }
-          : item
-      );
-    });
-  };
-
   const handleTaxToggle = () => {
     const value = !hasTax;
     onHasTaxUpdate(value);
@@ -83,15 +52,6 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
       onTaxRateUpdate(0);
     }
   };
-
-  const getTax = (item: IItem): string =>
-    (item.quantity * item.price * 0.01 * taxRate).toFixed(2);
-
-  const getLineTotal = (item: IItem): string =>
-    (
-      item.quantity *
-      (Number(item.price) + Number(item.price * taxRate * 0.01))
-    ).toFixed(2);
 
   // EPISILON is needed to correctly round things like 1.005
   const getToTwoDecimalPlaces = (num: number) =>
@@ -120,89 +80,14 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
         <Switch color="primary" checked={hasTax} onChange={handleTaxToggle} />
       </div>
       <Table aria-label="item table">
-        <TableHead className="table-head">
-          <TableRow>
-            <TableCell style={{ width: "40%" }} align="left">
-              Description
-            </TableCell>
-            <TableCell align="right">Quantity</TableCell>
-            <TableCell align="right">Price ($)</TableCell>
-            {hasTax ? <TableCell align="right">Tax ($)</TableCell> : null}
-            <TableCell align="right">Total ($)</TableCell>
-          </TableRow>
-        </TableHead>
+        <ItemsTableHead hasTax={hasTax} />
         <TableBody>
-          {items.map((x, i) => (
-            <TableRow key={i}>
-              <TableCell>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  id={`description-${i}`}
-                  label="Description"
-                  value={x.description}
-                  fullWidth={true}
-                  name={`description-${i}`}
-                  onChange={handleTextChangeItems(i, "description")}
-                />
-              </TableCell>
-              <TableCell>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  type="number"
-                  inputProps={quanityInput}
-                  label="Quantity"
-                  name={`quantity-${i}`}
-                  error={x.quantity <= 0}
-                  value={x.quantity}
-                  onChange={handleTextChangeItems(i, "quantity")}
-                />
-              </TableCell>
-              <TableCell>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  type="number"
-                  inputProps={decimalInput}
-                  id={`price-${i}`}
-                  label="Price ($)"
-                  error={x.price < 0}
-                  value={x.price}
-                  name={`price-${i}`}
-                  onChange={handleTextChangeItems(i, "price")}
-                />
-              </TableCell>
-              {hasTax ? (
-                <TableCell>
-                  <TextField
-                    variant="filled"
-                    margin="normal"
-                    type="number"
-                    inputProps={decimalInput}
-                    id={`tax-${i}`}
-                    label="Tax ($)"
-                    value={getTax(x)}
-                    name={`total-${i}`}
-                    disabled
-                  />
-                </TableCell>
-              ) : null}
-              <TableCell>
-                <TextField
-                  variant="filled"
-                  margin="normal"
-                  type="number"
-                  inputProps={decimalInput}
-                  id={`total-${i}`}
-                  label="Total ($)"
-                  value={getLineTotal(x)}
-                  name={`total-${i}`}
-                  disabled
-                />
-              </TableCell>
-            </TableRow>
-          ))}
+          <ItemsTableRow
+            items={items}
+            onItemsUpdate={onItemsUpdate}
+            hasTax={hasTax}
+            taxRate={taxRate}
+          />
           {/* Used to shift the spanned table to the end */}
           <TableRow>
             <TableCell rowSpan={4}></TableCell>
@@ -247,77 +132,6 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
         error={(x) => x < 0 || x > 100}
       />
     </section>
-  );
-};
-
-interface TaxRateDialogueProps {
-  open: boolean;
-  value: number | string;
-  onClose(): void;
-  onSubmit(num: number | string): void;
-  error(num: number | string): boolean;
-}
-
-const TaxRateDialogue: FunctionComponent<TaxRateDialogueProps> = ({
-  open,
-  value,
-  onClose,
-  onSubmit,
-  error,
-}) => {
-  const [input, setInput] = useState(value);
-  const [isValid, setIsValid] = useState(!error(value));
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value;
-    setIsValid(!error(inputValue));
-    setInput(inputValue);
-  };
-
-  useEffect(() => {
-    if (open && Number(input) !== value) {
-      setIsValid(!error(value));
-      setInput(value);
-    }
-  // eslint-disable-next-line
-  }, [open]);
-
-  const handleSubmit = () => {
-    if (isValid) {
-      onSubmit(input);
-      onClose();
-    }
-  };
-
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogContent>
-        <DialogContentText>Please enter your tax rate</DialogContentText>
-        <FormControl>
-          <TextField
-            variant="standard"
-            margin="none"
-            type="number"
-            label="Tax Rate (%)"
-            id={`tax`}
-            error={!isValid}
-            value={input}
-            name={`tax`}
-            size="small"
-            helperText="Please enter a value between 0 - 100"
-            onChange={handleInputChange}
-          />
-        </FormControl>
-      </DialogContent>
-      <DialogActions>
-        <Button color="primary" variant="text" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button color="primary" variant="text" onClick={handleSubmit}>
-          Ok
-        </Button>
-      </DialogActions>
-    </Dialog>
   );
 };
 

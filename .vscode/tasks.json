@@ -2,35 +2,35 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Run functions",
 			"type": "npm",
 			"script": "serve",
 			"path": "functions/",
 			"problemMatcher": [],
-			"label": "Run functions",
 			"detail": "npm run build && firebase emulators:start --only functions"
 		},
 		{
+			"label": "Client Run",
 			"type": "npm",
 			"script": "serve",
 			"path": "client/",
 			"problemMatcher": [],
-			"label": "Client Run",
 			"detail": "npm run serve"
 		},
 		{
+			"label": "API Build",
 			"type": "npm",
 			"script": "build:watch",
 			"path": "functions/",
 			"problemMatcher": [],
-			"label": "API Build",
 			"detail": "npm run build:watch"
 		},
 		{
+			"label": "API Run",
 			"type": "npm",
 			"script": "debug",
 			"path": "functions/",
 			"problemMatcher": [],
-			"label": "API Run",
 			"detail": "Build functions and run functions with inspector"
 		},
 		{
@@ -41,7 +41,7 @@
 		},
 		{
 			"label":"Run Web-app",
-			"dependsOn" : ["Client Run","API Build","Firebase Emulators"],
+			"dependsOn" : ["Client Run","API Build","Run functions"],
 			"detail": "Runs the whole web-application"
 		}
 	]

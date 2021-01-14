@@ -29,12 +29,12 @@ class Firebase {
     this.storage = app.storage();
 
     // For development purposes. Will store all data in emulated firestore
-    if (process.env.NODE_ENV.toLowerCase() === "development") {
-      this.db.settings({
-        host: "localhost:8080",
-        ssl: false,
-      });
-    }
+    // if (process.env.NODE_ENV.toLowerCase() === "development") {
+    //   this.db.settings({
+    //     host: "localhost:8080",
+    //     ssl: false,
+    //   });
+    // }
   }
 
   // Auth API

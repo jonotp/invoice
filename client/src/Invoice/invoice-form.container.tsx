@@ -15,19 +15,13 @@ import {
   IUser,
 } from "../types";
 import DateFnsUtils from "@date-io/date-fns";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  TextField,
-} from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import AppContext from "../App/app.context";
 import FirebaseContext from "../Firebase/firebase.context";
 import { PreloaderContext } from "../Preloader/preloader.context";
 import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../LogoUploader/logo-uploader.component";
+import CustomDialog from "../Dialog/custom-dialog.component";
 import "./invoice-form.container.scss";
 
 const colors: Colors = {
@@ -61,7 +55,7 @@ const InvoiceForm = () => {
 
   useEffect(() => {
     (async () => {
-      console.log({auth:state.auth,user:state.user});
+      console.log({ auth: state.auth, user: state.user });
       if (state.auth === null) return;
 
       // May set this in the app component instead
@@ -89,8 +83,7 @@ const InvoiceForm = () => {
         setSupplierDetails(state.user);
       }
     })();
-
-  }, [state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails]);
+  }, [ state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails, ]);
 
   const onSubmit = () => {
     const submittedInvoice: IInvoice = {
@@ -199,42 +192,15 @@ const InvoiceForm = () => {
         {invoice !== undefined && invoice !== null ? (
           <HiddenInvoiceDownloader invoice={invoice} colors={colors} />
         ) : null}
-        <ProfileDialogue
+        <CustomDialog
           open={isProfileDialogueOpen}
           onClose={() => setIsProfileDialogueOpen(false)}
           onSubmit={handleUpdateProfile}
-        />
+        >
+          <span>Update your details?</span>
+        </CustomDialog>
       </section>
     </MuiPickersUtilsProvider>
-  );
-};
-
-interface ProfileDialogProps {
-  open: boolean;
-  onClose(): void;
-  onSubmit(): void;
-}
-
-const ProfileDialogue = ({ open, onClose, onSubmit }: ProfileDialogProps) => {
-  const handleSubmit = () => {
-    onSubmit();
-    onClose();
-  };
-
-  return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogContent>
-        <DialogContentText>Update your details?</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button color="primary" variant="text" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button color="primary" variant="text" onClick={handleSubmit}>
-          Ok
-        </Button>
-      </DialogActions>
-    </Dialog>
   );
 };
 

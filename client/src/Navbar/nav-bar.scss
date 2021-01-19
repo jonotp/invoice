@@ -1,0 +1,15 @@
+@import "../variables";
+
+.nav-bar {
+  font-size: 1.6rem;
+
+  // 1 z-index above drawer
+  z-index: 1201 !important;
+
+  .nav-header {
+    color: $text-color;
+    text-decoration: initial;
+    font-weight: initial;
+    flex-grow: 1;
+  }
+}

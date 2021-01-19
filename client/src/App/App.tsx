@@ -18,6 +18,7 @@ import NotFoundPage from "../NotFound/not-found.container";
 import Alerts from "../Alert/alerts.container";
 import Preloader from "../Preloader/preloader.component";
 import { PreloaderContext } from "../Preloader/preloader.context";
+import { PermanentSideBar, CollapsibleSideBar } from "../SideBar/side-bar";
 import "./App.scss";
 
 const App = () => {
@@ -46,24 +47,28 @@ const App = () => {
   }, [firebase, dispatch, setIsLoading]);
 
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <Navbar />
         <div className="app-body">
-          <Switch>
-            <Route exact path={ROUTES.HOME} component={InvoiceForm} />
-            <Route path={ROUTES.INVOICE_FORM} component={InvoiceForm} />
-            <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-            <Route path={ROUTES.SIGN_IN} component={SignInPage} />
-            <Route
-              path={ROUTES.INVOICE_PREVIEW}
-              component={TestInvoicePDFPreviewer}
-            />
-            <Route path={ROUTES.NOT_FOUND} component={NotFoundPage} />
-            <Redirect from="*" to={ROUTES.NOT_FOUND} />
-          </Switch>
-          <Alerts />
-          <Preloader />
+          <PermanentSideBar />
+          <CollapsibleSideBar />
+          <div className="app-content">
+            <Switch>
+              <Route exact path={ROUTES.HOME} component={InvoiceForm} />
+              <Route path={ROUTES.INVOICE_FORM} component={InvoiceForm} />
+              <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+              <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+              <Route
+                path={ROUTES.INVOICE_PREVIEW}
+                component={TestInvoicePDFPreviewer}
+              />
+              <Route path={ROUTES.NOT_FOUND} component={NotFoundPage} />
+              <Redirect from="*" to={ROUTES.NOT_FOUND} />
+            </Switch>
+            <Alerts />
+            <Preloader />
+          </div>
         </div>
       </Router>
     </div>

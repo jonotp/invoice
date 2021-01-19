@@ -1,5 +1,9 @@
 .app-body {
+  display: flex;
+}
+
+.app-content {
   max-width: 1600px;
-  margin: auto;
   padding: 0 5%;
+  flex-grow: 1;
 }

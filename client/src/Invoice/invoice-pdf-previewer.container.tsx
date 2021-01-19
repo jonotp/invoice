@@ -17,7 +17,7 @@ const colors: Colors = {
 const InvoicePDFPReviewer = (invoice: IInvoice) => {
   return (
     <section className="invoice-pdf-container">
-      <PDFViewer width="90%" height="1200">
+      <PDFViewer width="100%" height="1200">
         <BasicPDF invoice={invoice} colors={colors} />
       </PDFViewer>
       <br />

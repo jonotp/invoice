@@ -1,5 +1,16 @@
+$text-color: #f3f4f9;
 $light-grey: rgba(0, 0, 0, 0.23);
 $grey: #6e6e6e;
 $black: rgba(0, 0, 0, 0.87);
+
+$primary: #386fa4;
+$primary-light: lighten($primary,8%);
+// $primary-light: #59a5d8;
+$primary-dark: #133c55;
+
+$secondary: #5e548e;
+$secondary-light: #9f86c0;
+$secondary-dark: #231942;
+
 $breakpoint-tablet: 768px;
 $side-bar-width: 200px;

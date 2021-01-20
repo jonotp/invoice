@@ -1,9 +1,18 @@
+@import "../variables";
+
+.app {
+  height: 100vh;
+}
+
 .app-body {
   display: flex;
+  height: calc(100% - #{$nav-bar-height});
 }
 
 .app-content {
-  max-width: 1600px;
-  padding: 0 5%;
+  > * {
+    max-width: 1400px;
+    padding: 0 2rem;
+  }
   flex-grow: 1;
 }

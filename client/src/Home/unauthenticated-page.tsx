@@ -12,9 +12,9 @@ import "./home.scss";
 const HomeUnauthenticatedPage = () => {
   return (
     <section className="unauthenticated-home-page">
-      <div className="top-layer"> </div>
-      <div className="middle-layer"> </div>
       <div className="bottom-layer"></div>
+      <div className="middle-layer"> </div>
+      <div className="top-layer"> </div>
       <section className="invoice">
         <div style={{ gridArea: "invoice-text" }}>
           <h1>A New Way To Invoice</h1>
@@ -31,11 +31,11 @@ const HomeUnauthenticatedPage = () => {
         </div>
       </section>
       <section className="create-account">
-        <div className="icon-container">
+        <div className="icon-container" style={{gridArea:"create-icon"}}>
           <div className="lock-hole"></div>
           <IconUnlock />
         </div>
-        <div>
+        <div style={{gridArea:"create-text"}}>
           <h2>Unlock More</h2>
           <p>
             By creating an account you can keep track of all your invoices,
@@ -53,9 +53,12 @@ const HomeUnauthenticatedPage = () => {
         </div>
       </section>
       <section className="footer">
-        <div>
+        <div className="footer-icon-lg">
+          <FavoriteIcon />
+        </div>
+        <div className="footer-text">
           <h2>
-            Build It Together <FavoriteIcon />
+            Build It Together <FavoriteIcon className="footer-icon-md"/>
           </h2>
 
           <p>

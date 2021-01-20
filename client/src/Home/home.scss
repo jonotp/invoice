@@ -3,13 +3,12 @@
 .unauthenticated-home-page {
   position: absolute;
   top: 0;
-  left: 50%;
   width: 100%;
-  max-width: 1400px;
+  max-width: initial !important;
   height: 100vh;
   min-height: 1000px;
   font-size: 1.2rem;
-  transform: translateX(-50%);
+  padding: 0 !important;
 
   .top-layer,
   .middle-layer,
@@ -32,27 +31,17 @@
   }
 
   .middle-layer {
-    top: 45%;
-    height: 55%;
+    top: 14%;
+    height: 50%;
     background-color: white;
-    transform: skewY(-8deg);
+    transform: skewY(8deg);
     transform-origin: 0;
   }
 
   .bottom-layer {
     bottom: 0;
-    height: 20%;
+    height: 40%;
     background-color: #f7f9fc;
-
-    &::before {
-      content: "";
-      display: block;
-      width: 100%;
-      height: 200px;
-      background-color: #f7f9fc;
-      transform: skewY(8deg);
-      transform-origin: 100%;
-    }
   }
 
   .invoice,
@@ -78,7 +67,7 @@
 
   .invoice {
     top: 0;
-    height: 45%;
+    height: 39%;
     color: white;
     grid-template-areas: "invoice-text invoice-icon";
 
@@ -93,8 +82,9 @@
   }
 
   .create-account {
-    top: 30%;
+    top: 31%;
     height: 45%;
+    grid-template-areas: "create-icon create-text";
 
     .lock-hole {
       position: absolute;
@@ -117,24 +107,29 @@
 
   .footer {
     bottom: 0;
-    height: 30%;
+    height: 33%;
     color: #ff5964;
     grid-template-columns: 1fr;
 
-    > div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    .footer-icon-lg {
+      display: none;
+    }
+
+    .footer-icon-md {
+      display: block;
+    }
+
+    .footer-text {
       text-align: center;
 
       h2 {
         position: relative;
-        margin-right: 25px;
+        display: flex;
+        justify-content: center;
 
         svg {
-          position: absolute;
-          right: -58px;
-          top: -4px;
+          margin-left: 0.5rem;
+          margin-top: -1px;
           width: 50px;
           height: 50px;
         }
@@ -181,11 +176,11 @@
 
     .middle-layer {
       height: 50%;
-      top: 42%;
+      top: 23%;
     }
 
     .bottom-layer {
-      height: 20%;
+      height: 30%;
     }
 
     .invoice,
@@ -212,6 +207,7 @@
     .create-account {
       top: 40%;
       height: 30%;
+      grid-template-areas: "create-icon" "create-text";
 
       .lock-hole {
         height: 20px;
@@ -221,7 +217,110 @@
     }
 
     .footer {
-      height: 25%;
+      height: 28%;
+    }
+  }
+}
+
+@media (min-width: 1400px) {
+  .unauthenticated-home-page {
+    font-size: 2rem;
+
+    button {
+      font-size: 1.5rem;
+    }
+
+    .top-layer,
+    .middle-layer,
+    .bottom-layer {
+      height: 100%;
+    }
+
+    .top-layer {
+      width: 45%;
+      transform: skewX(-8deg);
+      transform-origin: 0 0;
+    }
+
+    .middle-layer {
+      top: 0;
+      left: 25%;
+      width: 45%;
+      transform: skewX(12deg);
+    }
+
+    .bottom-layer {
+      width: 58%;
+      right: 0;
+    }
+
+    .invoice,
+    .create-account,
+    .footer {
+      top: 10%;
+      height: 70%;
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+      align-items: center;
+    }
+
+    .invoice,
+    .create-account {
+      text-align: left;
+      svg {
+        height: 320px;
+        width: 320px;
+      }
+    }
+
+    .invoice {
+      width: 35%;
+      left: 2rem;
+      grid-template-areas: "invoice-icon" "invoice-text";
+    }
+
+    .create-account {
+      left: 41%;
+      width: 29%;
+      grid-template-areas: "create-text" "create-icon";
+
+      .lock-hole {
+        height: 60px;
+        width: 60px;
+        top: 59%;
+      }
+    }
+
+    .footer {
+      width: 30%;
+      right: 0;
+
+      .footer-icon-lg {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .footer-icon-md {
+        display: none;
+      }
+
+      svg {
+        position: relative;
+        width: 320px;
+        height: 320px;
+      }
+
+      .footer-text {
+        text-align: left;
+        h2 {
+          justify-content: flex-start;
+        }
+      }
+
+      a {
+        font-size: 1.5rem;
+      }
     }
   }
 }

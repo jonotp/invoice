@@ -99,8 +99,10 @@
 }
 
 @media (max-width: $breakpoint-tablet) {
-  .sign-in-section {
+  .sign-in-page {
+    margin: 0;
     align-items: flex-start;
+
     .form-container {
       margin: 2rem 0 0 0;
     }

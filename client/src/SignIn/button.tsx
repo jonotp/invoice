@@ -7,8 +7,7 @@ const SignInButton = ({ label, className }: CommonButtonProps) => {
   const history = useHistory();
 
   const handleClick = async (event: MouseEvent<any>) => {
-    event?.stopPropagation();
-    console.count("Signed In");
+    event.stopPropagation();
     history.push(ROUTES.SIGN_IN);
   };
   return (

@@ -1,6 +1,7 @@
 import { Button, ListItem, SvgIconProps } from "@material-ui/core";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import UIMaterialButton from "../UI/material-button";
 
 interface SideBarListItemProps {
   route?: string;
@@ -11,7 +12,7 @@ interface SideBarListItemProps {
 const SideBarListItem = ({ route, label, Icon }: SideBarListItemProps) => {
   return (
     <ListItem>
-      <Button fullWidth>
+      <UIMaterialButton fullWidth>
         {route ? (
           <NavLink to={route} className="side-bar-list-item">
             {Icon}
@@ -23,7 +24,7 @@ const SideBarListItem = ({ route, label, Icon }: SideBarListItemProps) => {
             {label}
           </div>
         )}
-      </Button>
+      </UIMaterialButton>
     </ListItem>
   );
 };

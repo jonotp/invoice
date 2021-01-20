@@ -4,12 +4,18 @@ $grey: #6e6e6e;
 $black: rgba(0, 0, 0, 0.87);
 
 $primary: #386fa4;
-$primary-light: lighten($primary,8%);
+$primary-light: lighten($primary, 8%);
 $primary-dark: #133c55;
 
 $secondary: #5e548e;
 $secondary-light: #9f86c0;
 $secondary-dark: #231942;
+
+$error-color: #f44336;
+$error-color-transparent: #f44336d1;
+
+$border-hover-black: rgba(0, 0, 0, 0.87);
+$border-grey: rgba(0, 0, 0, 0.23);
 
 $breakpoint-tablet: 768px;
 $side-bar-width: 200px;

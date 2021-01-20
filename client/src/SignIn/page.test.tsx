@@ -7,7 +7,7 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryHistory } from "history";
-import SignInPage from "./sign-in-page.container";
+import SignInPage from "./page";
 import * as ROUTES from "../routes";
 import { Router, Switch, Route } from "react-router-dom";
 import Firebase from "../Firebase/firebase";
@@ -21,7 +21,7 @@ const firebase = new Firebase();
 const testData = {
   email: "spongebob@invoice.com",
   password: "asdf213@",
-  weakPassword: "asd",
+  weakPassword: "asdf",
 };
 
 const renderMockApp = () => {
@@ -50,7 +50,6 @@ beforeEach(() => {
 describe("Sign in tests", () => {
   it("Can see appropriate fields on sign in page", async () => {
     render(<SignInPage />);
-    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
     expect(screen.getByRole("textbox", { name: /email/i })).toBeRequired();
     expect(screen.getByLabelText(/password/i)).toBeRequired();
     expect(
@@ -64,7 +63,6 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.reject({ code: "auth/invalid-email" }));
 
     renderMockApp();
-    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
 
     userEvent.click(screen.getByRole("button", { name: /sign in/i }));
     await waitFor(() =>
@@ -85,10 +83,12 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.reject({ code: "auth/user-not-found" }));
 
     renderMockApp();
-    expect(screen.getByRole("heading")).toHaveTextContent(/sign in/i);
-    const email = typeIntoTextBox("Email", testData.email);
+    const email = await typeIntoTextBox("Email", testData.email);
     expect(email).toHaveValue(testData.email);
-    const password = typeIntoLabelField("Password", testData.weakPassword);
+    const password = await typeIntoLabelField(
+      "Password",
+      testData.weakPassword
+    );
     expect(password).toHaveValue(testData.weakPassword);
 
     userEvent.click(screen.getByRole("button", { name: /sign in/i }));
@@ -110,15 +110,15 @@ describe("Sign in tests", () => {
       .mockReturnValue(Promise.resolve({ message: "works" }));
 
     renderMockApp();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      /sign in/i
-    );
+    expect(
+      screen.getByRole("button", { name: /sign in/i })
+    ).toBeInTheDocument();
     typeIntoTextBox("Email", testData.email);
     typeIntoLabelField("Password", testData.password);
 
     userEvent.click(screen.getByRole("button", { name: /sign in/i }));
     await waitForElementToBeRemoved(() =>
-      screen.getByRole("heading", { level: 1 })
+      screen.getByRole("button", { name: /sign in/i })
     );
   });
 

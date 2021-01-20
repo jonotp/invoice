@@ -100,14 +100,14 @@ describe("Sign up tests", () => {
 
     typeIntoTextBox("name", testData.name) as HTMLInputElement;
     typeIntoTextBox("email", testData.email) as HTMLInputElement;
-    const password = typeIntoElement(
+    const password = (await typeIntoElement(
       screen.getByPlaceholderText(/^password$/i),
       testData.password
-    ) as HTMLInputElement;
-    const passwordConfirmation = typeIntoElement(
+    )) as HTMLInputElement;
+    const passwordConfirmation = (await typeIntoElement(
       screen.getByPlaceholderText(/password confirmation/i),
       testData.unmatchedPassword
-    ) as HTMLInputElement;
+    )) as HTMLInputElement;
     expect(password.value).not.toEqual(passwordConfirmation.value);
 
     userEvent.click(screen.getByRole("button", { name: /sign up/i }));
@@ -138,14 +138,14 @@ describe("Sign up tests", () => {
     renderMockApp();
     typeIntoTextBox("name", testData.name);
     typeIntoTextBox("email", testData.email);
-    const password = typeIntoElement(
+    const password = (await typeIntoElement(
       screen.getByPlaceholderText(/^password$/i),
       testData.weakPassword
-    ) as HTMLInputElement;
-    const passwordConfirmation = typeIntoElement(
+    )) as HTMLInputElement;
+    const passwordConfirmation = (await typeIntoElement(
       screen.getByPlaceholderText(/password confirmation/i),
       testData.weakPassword
-    ) as HTMLInputElement;
+    )) as HTMLInputElement;
     expect(password.value).toEqual(passwordConfirmation.value);
 
     userEvent.click(screen.getByRole("button", { name: /sign up/i }));

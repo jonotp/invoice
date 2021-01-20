@@ -2,11 +2,12 @@
 
 .sign-in-page {
   height: 100%;
+  width:100%;
+  max-width: initial !important;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 20% 0;
+  background-color: #f3f4f9;
 
   .form-container {
     background-color: white;
@@ -100,7 +101,6 @@
 
 @media (max-width: $breakpoint-tablet) {
   .sign-in-page {
-    margin: 0;
     align-items: flex-start;
 
     .form-container {

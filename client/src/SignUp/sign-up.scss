@@ -2,10 +2,12 @@
 
 .sign-up-page {
   height: 100%;
+  width:100%;
+  max-width: initial !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 15% 0;
+  background-color: #f3f4f9;
 
   .form-container {
     background-color: white;
@@ -126,7 +128,6 @@
 
 @media (max-width: $breakpoint-tablet) {
   .sign-up-page {
-    margin: 0;
     align-items: flex-start;
 
     .form-container {

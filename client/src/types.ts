@@ -28,6 +28,14 @@ export const DefaultUser: IUser = {
   userId: "",
   name: "",
   email: "",
+  businessId: "",
+  address: "",
+  city: "",
+  state: "",
+  zip: "",
+  country: "",
+  phone: "",
+  logo: "",
 }
 
 export interface ICustomer {
@@ -115,7 +123,7 @@ export enum USER_ACTION_TYPE {
   UPDATE_USER_DETAILS = "UPDATE_USER_DETAILS",
 };
 
-export enum ALERT_ACTION_TYPE{
+export enum ALERT_ACTION_TYPE {
   ADD_ALERT = "ADD_ALERT",
   DELETE_ALERT = "DELETE_ALERT",
   CLEAR_ALERTS = "CLEAR_ALERTS"

@@ -9,7 +9,9 @@ const changeInputByTestId = (fn: (match: string) => HTMLElement) => (testId: str
 }
 
 const typeIntoElement = async (element: HTMLElement, value: string) => {
-  await userEvent.type(element, value);
+  // await userEvent.type(element, value);
+
+  fireEvent.change(element, { target: { value: value } });
   return element;
 }
 

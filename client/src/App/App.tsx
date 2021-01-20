@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Navbar from "../Navbar/navbar.container";
 import InvoiceForm from "../Invoice/invoice-form.container";
-import SignUpPage from "../SignUp/sign-up-page.container";
+import SignUpPage from "../SignUp/page";
 import { TestInvoicePDFPreviewer } from "../Invoice/invoice-pdf-previewer.container";
 import * as ROUTES from "../routes";
 import FirebaseContext from "../Firebase/firebase.context";

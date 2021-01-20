@@ -9,7 +9,7 @@ const UIMaterialButton = (props: ButtonProps) => {
   };
 
   return (
-    <Button {...props} color="primary" onClick={handleClick}>
+    <Button {...props} onClick={handleClick}>
       <span ref={buttonEl}>{props.children}</span>
     </Button>
   );

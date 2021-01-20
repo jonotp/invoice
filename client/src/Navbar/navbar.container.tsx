@@ -10,7 +10,7 @@ const Navbar = () => {
       <Toolbar>
         <SideBarToggleButton />
         <NavLink className="nav-header" to="/">
-          Invoice Generator
+          Invoice Lite
         </NavLink>
       </Toolbar>
     </AppBar>

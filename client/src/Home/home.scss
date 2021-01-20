@@ -1,0 +1,227 @@
+@import "../variables";
+
+.unauthenticated-home-page {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  max-width: 1400px;
+  height: 100vh;
+  min-height: 1000px;
+  font-size: 1.2rem;
+  transform: translateX(-50%);
+
+  .top-layer,
+  .middle-layer,
+  .bottom-layer {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+  }
+
+  .top-layer {
+    height: 45%;
+    background: rgb(94, 84, 142);
+    background: linear-gradient(
+      0deg,
+      rgba(94, 84, 142, 1) 0%,
+      rgba(56, 111, 164, 1) 100%
+    );
+    transform: skewY(-8deg);
+    transform-origin: 0%;
+  }
+
+  .middle-layer {
+    top: 45%;
+    height: 55%;
+    background-color: white;
+    transform: skewY(-8deg);
+    transform-origin: 0;
+  }
+
+  .bottom-layer {
+    bottom: 0;
+    height: 20%;
+    background-color: #f7f9fc;
+
+    &::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 200px;
+      background-color: #f7f9fc;
+      transform: skewY(8deg);
+      transform-origin: 100%;
+    }
+  }
+
+  .invoice,
+  .create-account,
+  .footer {
+    display: grid;
+    position: absolute;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 3rem;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    > * {
+      position: relative;
+    }
+  }
+
+  .icon-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .invoice {
+    top: 0;
+    height: 45%;
+    color: white;
+    grid-template-areas: "invoice-text invoice-icon";
+
+    svg {
+      color: white;
+      fill: #7dde92;
+      height: 180px;
+      width: 180px;
+      stroke-width: 1;
+      filter: drop-shadow(1px 4px 4px rgba(0, 0, 0, 0.4));
+    }
+  }
+
+  .create-account {
+    top: 30%;
+    height: 45%;
+
+    .lock-hole {
+      position: absolute;
+      top: 60%;
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      background-color: #e3b23c;
+      box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
+    }
+
+    svg {
+      height: 180px;
+      width: 180px;
+      color: #e3b23c;
+      stroke-width: 1px;
+      filter: drop-shadow(1px 2px 2px rgba(0, 0, 0, 0.4));
+    }
+  }
+
+  .footer {
+    bottom: 0;
+    height: 30%;
+    color: #ff5964;
+    grid-template-columns: 1fr;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      h2 {
+        position: relative;
+        margin-right: 25px;
+
+        svg {
+          position: absolute;
+          right: -58px;
+          top: -4px;
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+
+    a {
+      cursor: pointer;
+      opacity: 0.8;
+      color: inherit;
+      font-weight: bold;
+      text-decoration: underline;
+      transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .create-account {
+    text-align: right;
+    p {
+      margin-block-end: 0.75rem;
+    }
+    .create-account-buttons {
+      > * {
+        margin-top: 0.5rem;
+      }
+      * + * {
+        margin-left: 0.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .unauthenticated-home-page {
+    font-size: 1rem;
+
+    .top-layer {
+      height: 42%;
+    }
+
+    .middle-layer {
+      height: 50%;
+      top: 42%;
+    }
+
+    .bottom-layer {
+      height: 20%;
+    }
+
+    .invoice,
+    .create-account,
+    .footer {
+      grid-template-columns: 1fr;
+      padding: 0 1rem;
+    }
+
+    .invoice,
+    .create-account {
+      svg {
+        height: 120px;
+        width: 120px;
+      }
+    }
+
+    .invoice {
+      margin-top: 64px;
+      height: 30%;
+      grid-template-areas: "invoice-icon" "invoice-text";
+    }
+
+    .create-account {
+      top: 40%;
+      height: 30%;
+
+      .lock-hole {
+        height: 20px;
+        width: 20px;
+        top: 63%;
+      }
+    }
+
+    .footer {
+      height: 25%;
+    }
+  }
+}

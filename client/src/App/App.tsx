@@ -19,6 +19,7 @@ import Alerts from "../Alert/alerts.container";
 import Preloader from "../Preloader/preloader.component";
 import { PreloaderContext } from "../Preloader/preloader.context";
 import { PermanentSideBar, CollapsibleSideBar } from "../SideBar/side-bar";
+import HomePage from "../Home/page";
 import "./App.scss";
 
 const App = () => {
@@ -55,7 +56,7 @@ const App = () => {
           <CollapsibleSideBar />
           <div className="app-content">
             <Switch>
-              <Route exact path={ROUTES.HOME} component={InvoiceForm} />
+              <Route exact path={ROUTES.HOME} component={HomePage} />
               <Route path={ROUTES.INVOICE_FORM} component={InvoiceForm} />
               <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
               <Route path={ROUTES.SIGN_IN} component={SignInPage} />

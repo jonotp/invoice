@@ -8,12 +8,25 @@
     "header header header header header"
     "businessId businessId businessId businessId logo"
     "name name name name logo"
-    "address address address city logo"
-    "country country state zip empty"
+    "address address address address logo"
     "email email phone phone empty";
 
   h1 {
     grid-area: header;
+  }
+}
+
+@media(max-width: $breakpoint-tablet){
+  .supplier-section {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "businessId"
+      "name"
+      "address"
+      "email"
+      "phone"
+      "logo";
   }
 }
 

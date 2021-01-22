@@ -16,10 +16,6 @@ export interface IUser {
   email: string;
   businessId?: string;
   address?: string;
-  city?: string;
-  state?: string;
-  zip?: string;
-  country?: string;
   phone?: string;
   logo?: string;
 }
@@ -30,10 +26,6 @@ export const DefaultUser: IUser = {
   email: "",
   businessId: "",
   address: "",
-  city: "",
-  state: "",
-  zip: "",
-  country: "",
   phone: "",
   logo: "",
 }

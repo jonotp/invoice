@@ -6,11 +6,7 @@ const TestInvoice: IInvoice = {
     userId: "",
     businessId: "123 456 789",
     name: "The Krusty Krab",
-    address: "1 Krusty Street",
-    city: "Bikkini Bottom",
-    state: "Under the sea",
-    zip: "2500",
-    country: "Ocean",
+    address: "1 Krusty Street, Bikini Bottom, NSW, 2500",
     email: "krusty_krab@thekrustkrab.com",
     phone: "0400000000",
     logo:

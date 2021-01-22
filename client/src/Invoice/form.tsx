@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
-import SupplierSection from "./Supplier/supplier-section.component";
+import InvoiceSupplierSection from "./Supplier/section";
 import CustomerSection from "./Customer/customer-section.component";
 import ItemsSection from "./Items/items-section.component";
 import HiddenInvoiceDownloader from "./hidden-invoice-downloader.component";
@@ -138,7 +138,7 @@ const InvoiceForm = () => {
       <section className="invoice-form">
         <div className="invoice-grid">
           <div className="invoice-section">
-            <SupplierSection
+            <InvoiceSupplierSection
               supplier={supplierDetails}
               onUpdateSupplier={setSupplierDetails}
             />

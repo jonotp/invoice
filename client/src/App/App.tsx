@@ -6,7 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 import Navbar from "../Navbar/navbar.container";
-import InvoiceForm from "../Invoice/invoice-form.container";
+import InvoiceForm from "../Invoice/form";
 import SignUpPage from "../SignUp/page";
 import { TestInvoicePDFPreviewer } from "../Invoice/invoice-pdf-previewer.container";
 import * as ROUTES from "../routes";

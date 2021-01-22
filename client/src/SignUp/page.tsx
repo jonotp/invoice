@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState, useContext } from "react";
+import React, { FormEvent, useState, useContext } from "react";
 import {
   Button,
   FormControl,
@@ -46,7 +46,7 @@ function SignUpPage() {
     try {
       event.preventDefault();
       if (hasErrors()) {
-        throw "Error in input fields";
+        throw new Error("Error in input fields");
       }
 
       const createdUser = await firebase?.signUp(
@@ -83,7 +83,7 @@ function SignUpPage() {
   const hasErrors = () => {
     return (
       user.name.trim().length === 0 ||
-      user.email.trim().match(/\w+\@\w+\.\w+/) === null ||
+      user.email.trim().match(/\w+@\w+\.\w+/) === null ||
       isInvalidPassword
     );
   };
@@ -115,7 +115,7 @@ function SignUpPage() {
             value={user.email}
             onChange={handleChange}
             error={
-              hasError && user.email.trim().match(/\w+\@\w+\.\w+/) === null
+              hasError && user.email.trim().match(/\w+@\w+\.\w+/) === null
             }
             required
             helperText=""

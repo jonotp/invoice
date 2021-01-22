@@ -11,7 +11,7 @@ const Navbar = () => {
       <Toolbar>
         <SideBarToggleButton />
         <NavLink className="nav-header" to="/">
-          <img className="nav-logo" src={logoImagePath} />
+          <img alt="invoice lite logo" className="nav-logo" src={logoImagePath} />
         </NavLink>
       </Toolbar>
     </AppBar>

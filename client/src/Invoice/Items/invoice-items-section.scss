@@ -1,0 +1,121 @@
+@import "../../variables";
+
+.items-section {
+  .button {
+    padding: 0.5rem;
+    margin: 0.5rem;
+  }
+
+  .tr-bold {
+    td {
+      font-weight: bold !important;
+      text-transform: uppercase;
+    }
+  }
+
+  .transparent-text {
+    color: transparent;
+    display: none;
+  }
+
+  .tax-total-cell {
+    position: relative;
+  }
+
+  .tax-total {
+    position: absolute;
+    right: 16px;
+    top: 23px;
+  }
+
+  .tax-label-cell {
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 32px;
+
+    + * {
+      padding-bottom: 32px;
+    }
+    &:hover {
+      color: darken($primary, 15);
+      .tax-helper {
+        color: darken($primary, 15);
+        background-color: rgba(63, 81, 181, 0.04);
+      }
+    }
+  }
+
+  .tax-query {
+    margin-right: 12px;
+  }
+
+  .has-tax-toggle {
+    margin-left: -12px;
+  }
+
+  .tax-helper {
+    position: absolute;
+    color: $primary;
+    left: 0.5rem;
+    bottom: 0.75rem;
+    font-size: 0.7rem;
+    text-transform: initial;
+    width: 100%;
+    height: 2.5rem;
+    transition: 0.3s all ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid transparent;
+  }
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .items-section {
+    .tax-header-cell,
+    .total-header-cell,
+    .tax-row-cell,
+    .total-row-cell,
+    .footer-spacing-cell {
+      display: none;
+    }
+
+    .MuiTableCell-root {
+      padding: 8px 4px;
+    }
+
+    .item-table-footer {
+      td {
+        padding: 16px 4px;
+      }
+    }
+
+    .table-head {
+      th {
+        font-size: 0.8rem !important;
+      }
+    }
+
+    .tax-label {
+      position: absolute;
+      left: 4px;
+      top: 10px;
+    }
+
+    .tax-total {
+      position: absolute;
+      right: 4px;
+      top: 16px;
+    }
+
+    .tax-helper {
+      left: -0.2rem;
+      bottom: 0.1rem;
+      width: 150%;
+    }
+
+    .transparent-text {
+      display: block;
+    }
+  }
+}

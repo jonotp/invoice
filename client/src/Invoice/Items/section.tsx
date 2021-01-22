@@ -14,13 +14,13 @@ import {
   TableRow,
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import TaxRateDialogue from "./tax-rate-dialogue.component";
+import InvoiceItemsTaxPopup from "./tax-popup";
 import { IItem, DefaultItem } from "../../types";
-import "./items-section.component.scss";
-import ItemsTableHead from "./items-table-head.component";
-import ItemsTableRow from "./items-table-row.component";
+import InvoiceItemsTableHead from "./table-head";
+import InvoiceItemsTableRow from "./table-row";
+import "./invoice-items-section.scss";
 
-interface ItemsSectionProps {
+interface InvoiceItemsSectionProps {
   items: IItem[];
   onItemsUpdate: Dispatch<SetStateAction<IItem[]>>;
   hasTax: boolean;
@@ -29,7 +29,7 @@ interface ItemsSectionProps {
   onTaxRateUpdate: Dispatch<SetStateAction<any>>;
 }
 
-const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
+const InvoiceItemsSection: FunctionComponent<InvoiceItemsSectionProps> = ({
   items,
   onItemsUpdate,
   hasTax,
@@ -64,7 +64,7 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
   const taxTotal = hasTax
     ? getToTwoDecimalPlaces(
         items.reduce(
-          (prev, curr) => (prev += curr.price * 0.1 * curr.quantity),
+          (prev, curr) => (prev += curr.price * taxRate * 0.01 * curr.quantity),
           0
         )
       )
@@ -76,13 +76,13 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
     <section className="items-section">
       <h1>Enter the items you wish to invoice</h1>
       <div style={{ gridArea: "gst" }}>
-        <strong>Will your invoice include tax?</strong>
-        <Switch color="primary" checked={hasTax} onChange={handleTaxToggle} />
+        <strong className="tax-query">Will your invoice include tax?</strong>
+        <Switch className="has-tax-toggle" color="primary" checked={hasTax} onChange={handleTaxToggle} />
       </div>
-      <Table aria-label="item table">
-        <ItemsTableHead hasTax={hasTax} />
+      <Table aria-label="item table" className="item-table">
+        <InvoiceItemsTableHead hasTax={hasTax} />
         <TableBody>
-          <ItemsTableRow
+          <InvoiceItemsTableRow
             items={items}
             onItemsUpdate={onItemsUpdate}
             hasTax={hasTax}
@@ -90,29 +90,30 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
           />
           {/* Used to shift the spanned table to the end */}
           <TableRow>
-            <TableCell rowSpan={4}></TableCell>
-            <TableCell rowSpan={4}></TableCell>
-            {hasTax ? <TableCell rowSpan={4}></TableCell> : null}
+            <TableCell className="footer-spacing-cell" rowSpan={4}></TableCell>
+            <TableCell className="footer-spacing-cell" rowSpan={4}></TableCell>
+            {hasTax ? <TableCell className="footer-spacing-cell" rowSpan={4}></TableCell> : null}
           </TableRow>
-          <TableRow className="tr-bold">
+          <TableRow className="tr-bold item-table-footer">
             <TableCell>Subtotal</TableCell>
-            <TableCell align="right">$ {subTotal}</TableCell>
+            <TableCell align="right" colSpan={2}>$ {subTotal}</TableCell>
           </TableRow>
           {hasTax ? (
-            <TableRow className="tr-bold">
+            <TableRow className="tr-bold item-table-footer">
               <TableCell
-                className="tax-label"
+                className="tax-label-cell"
                 onClick={() => setIsTaxDialogOpen(true)}
               >
-                Tax ({taxRate}%)
+                <span className="transparent-text">T </span>
+                <span className="tax-label">Tax ({taxRate}%)</span>
                 <span className="tax-helper">Click to change tax</span>
               </TableCell>
-              <TableCell align="right">$ {taxTotal}</TableCell>
+              <TableCell className="tax-total-cell" align="right" colSpan={2}><span className="tax-total">$ {taxTotal}</span></TableCell>
             </TableRow>
           ) : null}
-          <TableRow className="tr-bold">
+          <TableRow className="tr-bold item-table-footer">
             <TableCell>Total</TableCell>
-            <TableCell align="right">$ {total}</TableCell>
+            <TableCell align="right" colSpan={2}>$ {total}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
@@ -124,7 +125,7 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
       >
         Add Item
       </Button>
-      <TaxRateDialogue
+      <InvoiceItemsTaxPopup
         open={isTaxDialogOpen}
         onClose={() => setIsTaxDialogOpen(false)}
         value={taxRate}
@@ -135,4 +136,4 @@ const ItemsSection: FunctionComponent<ItemsSectionProps> = ({
   );
 };
 
-export default memo(ItemsSection);
+export default memo(InvoiceItemsSection);

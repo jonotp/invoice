@@ -2,7 +2,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import InvoiceSupplierSection from "./Supplier/section";
 import InvoiceFormCustomerSection from "./Customer/section";
-import ItemsSection from "./Items/items-section.component";
+import InvoiceItemsSection from "./Items/section";
 import HiddenInvoiceDownloader from "./hidden-invoice-downloader.component";
 import {
   ICustomer,
@@ -154,7 +154,7 @@ const InvoiceForm = () => {
             />
           </div>
           <div className="invoice-section">
-            <ItemsSection
+            <InvoiceItemsSection
               items={items}
               onItemsUpdate={setItems}
               hasTax={hasTax}

@@ -14,9 +14,8 @@ import {
   DialogContentText,
   FormControl,
 } from "@material-ui/core";
-import "./items-section.component.scss";
 
-interface TaxRateDialogueProps {
+interface InvoiceItemsTaxPopupProps {
   open: boolean;
   value: number | string;
   onClose(): void;
@@ -24,7 +23,7 @@ interface TaxRateDialogueProps {
   error(num: number | string): boolean;
 }
 
-const TaxRateDialogue: FunctionComponent<TaxRateDialogueProps> = ({
+const InvoiceItemsTaxPopup: FunctionComponent<InvoiceItemsTaxPopupProps> = ({
   open,
   value,
   onClose,
@@ -87,4 +86,4 @@ const TaxRateDialogue: FunctionComponent<TaxRateDialogueProps> = ({
   );
 };
 
-export default TaxRateDialogue;
+export default InvoiceItemsTaxPopup;

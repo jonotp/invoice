@@ -53,7 +53,7 @@ export interface IItem {
 }
 
 export const DefaultItem = {
-  description: "",
+  description: " ",
   quantity: 1,
   price: 0,
 }

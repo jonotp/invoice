@@ -1,7 +1,6 @@
 import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
 import { TextField, TableCell, TableRow } from "@material-ui/core";
 import { IItem } from "../../types";
-import "./items-section.component.scss";
 
 const decimalInput = {
   steps: ".01",
@@ -12,19 +11,19 @@ const quanityInput = {
   min: 1,
 };
 
-interface ItemsTableRowProps {
+interface InvoiceItemsTableRowProps {
   items: IItem[];
   onItemsUpdate: Dispatch<SetStateAction<IItem[]>>;
   hasTax: boolean;
   taxRate: number;
 }
 
-const ItemsTableRow = ({
+const InvoiceItemsTableRow = ({
   items,
   onItemsUpdate,
   hasTax,
   taxRate,
-}: ItemsTableRowProps) => {
+}: InvoiceItemsTableRowProps) => {
   const handleTextChangeItems = (index: number, property: string) => (
     event: ChangeEvent<HTMLInputElement>
   ) => {
@@ -94,7 +93,7 @@ const ItemsTableRow = ({
             />
           </TableCell>
           {hasTax ? (
-            <TableCell>
+            <TableCell className="tax-row-cell">
               <TextField
                 variant="filled"
                 margin="normal"
@@ -108,7 +107,7 @@ const ItemsTableRow = ({
               />
             </TableCell>
           ) : null}
-          <TableCell>
+          <TableCell className="total-row-cell">
             <TextField
               variant="filled"
               margin="normal"
@@ -127,4 +126,4 @@ const ItemsTableRow = ({
   );
 };
 
-export default ItemsTableRow;
+export default InvoiceItemsTableRow;

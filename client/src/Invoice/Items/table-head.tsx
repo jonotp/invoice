@@ -1,11 +1,11 @@
 import React from "react";
 import { TableCell, TableHead, TableRow } from "@material-ui/core";
 
-interface ItemsTableHead {
+interface InvoiceItemsTableHeadProps {
   hasTax: boolean;
 }
 
-const ItemsTableHead = ({ hasTax }: ItemsTableHead) => {
+const InvoiceItemsTableHead = ({ hasTax }: InvoiceItemsTableHeadProps) => {
   return (
     <TableHead className="table-head">
       <TableRow>
@@ -14,11 +14,11 @@ const ItemsTableHead = ({ hasTax }: ItemsTableHead) => {
         </TableCell>
         <TableCell align="right">Quantity</TableCell>
         <TableCell align="right">Price ($)</TableCell>
-        {hasTax ? <TableCell align="right">Tax ($)</TableCell> : null}
-        <TableCell align="right">Total ($)</TableCell>
+        {hasTax ? <TableCell className="tax-header-cell" align="right">Tax ($)</TableCell> : null}
+        <TableCell className="tax-header-cell" align="right">Total ($)</TableCell>
       </TableRow>
     </TableHead>
   );
 };
 
-export default ItemsTableHead;
+export default InvoiceItemsTableHead;

@@ -22,7 +22,7 @@ import { PreloaderContext } from "../Preloader/preloader.context";
 import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../LogoUploader/logo-uploader.component";
 import CustomDialog from "../Dialog/custom-dialog.component";
-import "./invoice-form.container.scss";
+import "./invoice-form.scss";
 
 const colors: Colors = {
   primary: "#29485d",

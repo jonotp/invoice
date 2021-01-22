@@ -1,6 +1,6 @@
 @import "../variables";
 
-.invoice-form{
+.invoice-form {
   text-align: center;
 }
 
@@ -36,4 +36,10 @@
 
 .total-section {
   border-top: 1px solid $black;
+}
+
+@media (max-width: $breakpoint-tablet) {
+  .notes-field {
+    width: 100%;
+  }
 }

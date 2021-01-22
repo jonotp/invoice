@@ -9,10 +9,23 @@
     "header header header header header"
     "businessId businessId businessId businessId invoice-no"
     "name name name name issue-date"
-    "address address address city empty"
-    "country country state zip empty";
+    "address address address address empty"
+    "email email phone phone empty";
 
     h1{
       grid-area: header;
     }
+}
+
+@media(max-width: $breakpoint-tablet){
+  .customer-section {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "header header"
+      "businessId businessId"
+      "name name"
+      "address address"
+      "email phone"
+      "invoice-no issue-date";
+  }
 }

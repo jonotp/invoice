@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import InvoiceSupplierSection from "./Supplier/section";
-import CustomerSection from "./Customer/customer-section.component";
+import InvoiceFormCustomerSection from "./Customer/section";
 import ItemsSection from "./Items/items-section.component";
 import HiddenInvoiceDownloader from "./hidden-invoice-downloader.component";
 import {
   ICustomer,
   IItem,
-  DefaultPersonel,
+  DefaultCustomer,
   DefaultItem,
   IInvoice,
   Colors,
@@ -41,7 +41,7 @@ const InvoiceForm = () => {
   const [invoiceNo, setInvoiceNo] = useState("");
   const [issueDate, setIssueDate] = useState(new Date());
   const [customerDetails, setCustomerDetails] = useState<ICustomer>(
-    DefaultPersonel
+    DefaultCustomer
   );
 
   const [hasTax, setHasTax] = useState(true);
@@ -144,7 +144,7 @@ const InvoiceForm = () => {
             />
           </div>
           <div className="invoice-section">
-            <CustomerSection
+            <InvoiceFormCustomerSection
               customer={customerDetails}
               onCustomerUpdate={setCustomerDetails}
               invoiceNo={invoiceNo}

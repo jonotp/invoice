@@ -34,22 +34,14 @@ export interface ICustomer {
   businessId?: string;
   name: string;
   address: string;
-  city: string;
-  state: string;
-  zip: string;
-  country: string;
   email?: string;
   phone?: string;
 }
 
-export const DefaultPersonel = {
-  identity: "",
+export const DefaultCustomer = {
+  businessId: "",
   name: "",
   address: "",
-  city: "",
-  state: "",
-  zip: "",
-  country: "",
   email: "",
   phone: "",
 }

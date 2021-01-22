@@ -189,13 +189,15 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
           {/* Customer */}
           <View style={[styles.flexGrow2, styles.borderBox]}>
             <Text style={[styles.heading]}>Bill To:</Text>
-            <Text>{invoice.customer.businessId}</Text>
+            <Text style={[styles.textBold]}>{invoice.customer.businessId}</Text>
             <Text>{invoice.customer.name}</Text>
             <Text>{invoice.customer.address}</Text>
-            <Text>
-              {invoice.customer.city}, {invoice.customer.state},{" "}
-              {invoice.customer.zip}
-            </Text>
+            {invoice.customer.email !== null ? (
+              <Text>{invoice.customer.email}</Text>
+            ) : null}
+            {invoice.customer.phone !== null ? (
+              <Text>{invoice.customer.phone}</Text>
+            ) : null}
           </View>
 
           {/* Invoice Details */}

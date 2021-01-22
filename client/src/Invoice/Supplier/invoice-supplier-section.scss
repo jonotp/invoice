@@ -18,15 +18,14 @@
 
 @media(max-width: $breakpoint-tablet){
   .supplier-section {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      "header"
-      "businessId"
-      "name"
-      "address"
-      "email"
-      "phone"
-      "logo";
+      "header header"
+      "businessId businessId"
+      "name name"
+      "address address"
+      "email phone"
+      "logo logo";
   }
 }
 

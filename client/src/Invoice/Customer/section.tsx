@@ -7,11 +7,12 @@ import React, {
 } from "react";
 import { TextField } from "@material-ui/core";
 import { ICustomer } from "../../types";
-import "./customer-section.component.scss";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { UseStateHelperFormInputChange } from "../../Common/useStateHelper";
+import "./invoice-customer-section.scss";
 
-interface CustomerSectionProps {
+interface InvoiceFormCustomerSectionProps {
   customer: ICustomer;
   onCustomerUpdate: Dispatch<SetStateAction<ICustomer>>;
   invoiceNo: string;
@@ -20,7 +21,7 @@ interface CustomerSectionProps {
   onIssueDateUpdate: Dispatch<SetStateAction<Date>>;
 }
 
-const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
+const InvoiceFormCustomerSection: FunctionComponent<InvoiceFormCustomerSectionProps> = ({
   customer,
   onCustomerUpdate,
   invoiceNo,
@@ -28,21 +29,11 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
   issueDate,
   onIssueDateUpdate,
 }) => {
-  const handleInputChange = (property: string) => (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    event.persist();
-    onCustomerUpdate((prevState) => {
-      return {
-        ...prevState,
-        [property]: event.target.value,
-      };
-    });
-  };
+  const handleInputChange = UseStateHelperFormInputChange(onCustomerUpdate);
 
   const handleInvoiceNoChange = (event: ChangeEvent<HTMLInputElement>) => {
     onInvoiceNoUpdate(event.target.value);
-  }
+  };
 
   const handleDateChange = (date: MaterialUiPickersDate) => {
     if (date !== null) {
@@ -54,14 +45,14 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
     <section className="customer-section">
       <h1>Enter customer & invoice information</h1>
       <TextField
-        id="customer-identity"
+        id="customer-business-id"
         label="Business Identifier"
-        name="identity"
+        name="businessId"
         variant="outlined"
         margin="none"
         style={{ gridArea: "businessId" }}
-        value={customer.businessId || ""}
-        onChange={handleInputChange("businessId")}
+        value={customer.businessId}
+        onChange={handleInputChange}
       />
       <TextField
         id="customer-name"
@@ -70,8 +61,8 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         variant="outlined"
         margin="none"
         style={{ gridArea: "name" }}
-        value={customer.name || ""}
-        onChange={handleInputChange("name")}
+        value={customer.name}
+        onChange={handleInputChange}
       />
       <TextField
         id="customer-address"
@@ -80,48 +71,28 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         variant="outlined"
         margin="none"
         style={{ gridArea: "address" }}
-        value={customer.address || ""}
-        onChange={handleInputChange("address")}
+        value={customer.address}
+        onChange={handleInputChange}
       />
       <TextField
-        id="customer-city"
-        label="City"
-        name="city"
+        id="customer-email"
+        label="Email"
+        name="email"
         variant="outlined"
         margin="none"
-        style={{ gridArea: "city" }}
-        value={customer.city || ""}
-        onChange={handleInputChange("city")}
+        style={{ gridArea: "email" }}
+        value={customer.email}
+        onChange={handleInputChange}
       />
       <TextField
-        id="customer-state"
-        label="State"
-        name="state"
+        id="customer-phone"
+        label="Phone"
+        name="phone"
         variant="outlined"
         margin="none"
-        style={{ gridArea: "state" }}
-        value={customer.state || ""}
-        onChange={handleInputChange("state")}
-      />
-      <TextField
-        id="customer-zip"
-        label="Zip Code"
-        name="zip"
-        variant="outlined"
-        margin="none"
-        style={{ gridArea: "zip" }}
-        value={customer.zip || ""}
-        onChange={handleInputChange("zip")}
-      />
-      <TextField
-        id="customer-country"
-        label="Country"
-        name="country"
-        variant="outlined"
-        margin="none"
-        style={{ gridArea: "country" }}
-        value={customer.country || ""}
-        onChange={handleInputChange("country")}
+        style={{ gridArea: "phone" }}
+        value={customer.phone}
+        onChange={handleInputChange}
       />
       <TextField
         id="invoiceNo"
@@ -130,7 +101,7 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
         variant="outlined"
         margin="none"
         style={{ gridArea: "invoice-no" }}
-        value={invoiceNo || ""}
+        value={invoiceNo}
         onChange={handleInvoiceNoChange}
       />
       <KeyboardDatePicker
@@ -152,4 +123,4 @@ const CustomerSection: FunctionComponent<CustomerSectionProps> = ({
   );
 };
 
-export default memo(CustomerSection);
+export default memo(InvoiceFormCustomerSection);

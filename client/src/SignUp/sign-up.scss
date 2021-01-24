@@ -127,6 +127,12 @@
   }
 }
 
+.sign-up-popup-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+}
+
 @media (max-width: $breakpoint-tablet) {
   .sign-up-page {
     align-items: flex-start;

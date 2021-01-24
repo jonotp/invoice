@@ -78,6 +78,7 @@ function SignUpPage() {
     );
   };
 
+  const isInvalidEmail = user.email.trim().match(/[\w-.]+@[\w-.]+\.\w+/) === null;
   const isInvalidPassword = !doesPasswordMatchRequirements(user.password);
 
   return (
@@ -104,7 +105,7 @@ function SignUpPage() {
             value={user.email}
             onChange={handleChange}
             error={
-              hasError && user.email.trim().match(/\w+@\w+\.\w+/) === null
+              hasError && isInvalidEmail
             }
             required
             helperText=""

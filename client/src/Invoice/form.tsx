@@ -32,22 +32,19 @@ const colors: Colors = {
 };
 
 const InvoiceForm = () => {
+  const [originalInvoice] = useState<IInvoice>(getDefaultInvoice());
   const firebase = useContext(FirebaseContext);
   const { state, dispatch } = useContext(AppContext);
   const { setIsLoading } = useContext(PreloaderContext);
 
-  const [supplierDetails, setSupplierDetails] = useState<IUser>(DefaultUser);
+  const [supplierDetails, setSupplierDetails] = useState<IUser>(originalInvoice.supplier);
+  const [invoiceNo, setInvoiceNo] = useState(originalInvoice.invoiceNo);
+  const [issueDate, setIssueDate] = useState(originalInvoice.issueDate);
+  const [customerDetails, setCustomerDetails] = useState<ICustomer>(originalInvoice.customer);
 
-  const [invoiceNo, setInvoiceNo] = useState("");
-  const [issueDate, setIssueDate] = useState(new Date());
-  const [customerDetails, setCustomerDetails] = useState<ICustomer>(
-    DefaultCustomer
-  );
-
-  const [hasTax, setHasTax] = useState(true);
-  const [taxRatePercentage, setTaxRatePercentage] = useState(10);
-  const [items, setItems] = useState<IItem[]>([DefaultItem]);
-
+  const [hasTax, setHasTax] = useState(originalInvoice.hasTax);
+  const [taxRatePercentage, setTaxRatePercentage] = useState(originalInvoice.taxRatePercentage);
+  const [items, setItems] = useState<IItem[]>(originalInvoice.items);
   const [notes, setNotes] = useState("");
 
   const [invoice, setInvoice] = useState<IInvoice>();
@@ -85,17 +82,18 @@ const InvoiceForm = () => {
     })();
   }, [ state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails, ]);
 
-  const onSubmit = () => {
-    const submittedInvoice: IInvoice = {
-      invoiceNo,
-      issueDate,
-      supplier: supplierDetails,
-      customer: customerDetails,
-      hasTax,
-      taxRatePercentage,
-      items,
-      notes,
-    };
+      const submittedInvoice: IInvoice = {
+        invoiceId: originalInvoice.invoiceId,
+        invoiceNo,
+        issueDate,
+        supplier: supplierDetails,
+        customer: customerDetails,
+        hasTax,
+        taxRatePercentage,
+        items,
+        notes,
+        dateCreated: new Date(),
+      };
 
     console.log(submittedInvoice);
 

@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 export interface IAppContext {
   user: IUser | null;
   auth: firebase.User | null;
@@ -20,17 +21,21 @@ export interface IUser {
   logo?: string;
 }
 
-export const DefaultUser: IUser = {
-  userId: "",
-  name: "",
-  email: "",
-  businessId: "",
-  address: "",
-  phone: "",
-  logo: "",
+export const getDefaultUser = (): IUser => {
+  // userId is set via firebase 
+  return {
+    userId: "",
+    name: "",
+    email: "",
+    businessId: "",
+    address: "",
+    phone: "",
+    logo: "",
+  }
 }
 
 export interface ICustomer {
+  customerId: string;
   businessId?: string;
   name: string;
   address: string;
@@ -38,30 +43,31 @@ export interface ICustomer {
   phone?: string;
 }
 
-export const DefaultCustomer = {
-  businessId: "",
-  name: "",
-  address: "",
-  email: "",
-  phone: "",
+export const getDefaultCustomer = (): ICustomer => {
+  return {
+    customerId: uuid(),
+    businessId: "",
+    name: "",
+    address: "",
+    email: "",
+    phone: "",
+  }
 }
 
 export interface IItem {
+  itemId: string,
   description: string;
   quantity: number;
   price: number;
 }
 
-export const DefaultItem = {
-  description: " ",
-  quantity: 1,
-  price: 0,
-}
-
-export interface IInvoiceDetails {
-  invoiceNo: string;
-  issueDate: Date;
-  hasGST: boolean;
+export const getDefaultItem = () => {
+  return {
+    itemId: uuid(),
+    description: " ",
+    quantity: 1,
+    price: 0,
+  }
 }
 
 export const DefaultInvoiceDetails = {
@@ -70,6 +76,7 @@ export const DefaultInvoiceDetails = {
   hasGST: false,
 }
 export interface IInvoice {
+  invoiceId: string;
   invoiceNo: string;
   issueDate: Date;
   supplier: IUser;
@@ -78,6 +85,22 @@ export interface IInvoice {
   hasTax: boolean;
   taxRatePercentage: number;
   notes?: string;
+  dateCreated: Date;
+}
+
+export const getDefaultInvoice = (): IInvoice => {
+  return {
+    invoiceId: uuid(),
+    invoiceNo: "",
+    issueDate: new Date(),
+    supplier: getDefaultUser(),
+    customer: getDefaultCustomer(),
+    items: [getDefaultItem()],
+    hasTax: true,
+    taxRatePercentage: 10,
+    notes: "",
+    dateCreated: new Date(),
+  }
 }
 
 export interface Colors {

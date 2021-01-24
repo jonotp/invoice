@@ -3,7 +3,7 @@ import { Button, TextField, } from "@material-ui/core";
 import {
   ALERT_ACTION_TYPE,
   ALERT_TYPE,
-  DefaultUser,
+  getDefaultUser,
   USER_ACTION_TYPE,
 } from "../types";
 import { useHistory } from "react-router-dom";
@@ -41,7 +41,7 @@ function SignUpPage() {
 
       const createdUser = await firebase?.signUp(
         {
-          ...DefaultUser,
+          ...getDefaultUser(),
           name: user.name,
           email: user.email,
         },

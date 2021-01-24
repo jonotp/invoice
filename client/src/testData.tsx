@@ -2,6 +2,7 @@ import { IInvoice } from "./types";
 
 // Folder containing test data
 const TestInvoice: IInvoice = {
+  invoiceId: "1",
   supplier: {
     userId: "",
     businessId: "123 456 789",
@@ -15,6 +16,7 @@ const TestInvoice: IInvoice = {
       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT687jtRizt6a0o9ZX3tImT8KhWInsT6MjmFg&usqp=CAU",
   },
   customer: {
+    customerId: "",
     businessId: "",
     name: "Sponge Bob",
     address: "1 Customer Street, Bikini Botom, QLD, 2101",
@@ -28,18 +30,22 @@ const TestInvoice: IInvoice = {
   notes: `Tempor reprehenderit dolore labore eiusmod est dolore sint consectetur nisi non laboris culpa. Amet eiusmod aliqua voluptate amet. Deserunt do est fugiat excepteur occaecat magna dolore ex ullamco incididunt consequat. Deserunt Lorem est eu ex cupidatat Lorem pariatur. Officia id officia mollit fugiat ea. Et excepteur mollit dolor dolor laboris magna ut.
 
 Tempor officia sunt ipsum id cillum in cillum ex pariatur minim ut laborum consectetur esse. Quis enim adipisicing deserunt eu ad do consectetur eu pariatur nostrud veniam. Irure irure esse adipisicing Lorem consequat eu laborum cillum ad. Veniam ex ut esse eu sunt.`,
+  dateCreated: new Date(),
   items: [
     {
+      itemId: "1",
       description: "Burgers",
       price: 10.0,
       quantity: 4,
     },
     {
+      itemId: "2",
       description: "Pickles",
       price: 1.1,
       quantity: 10,
     },
     {
+      itemId: "3",
       description: "Extra sauce",
       price: 0.5,
       quantity: 5,

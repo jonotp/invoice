@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import InvoiceItemsTaxPopup from "./tax-popup";
-import { IItem, DefaultItem } from "../../types";
+import { IItem, getDefaultItem } from "../../types";
 import InvoiceItemsTableHead from "./table-head";
 import InvoiceItemsTableRow from "./table-row";
 import "./invoice-items-section.scss";
@@ -39,7 +39,7 @@ const InvoiceItemsSection: FunctionComponent<InvoiceItemsSectionProps> = ({
 }) => {
   const [isTaxDialogOpen, setIsTaxDialogOpen] = useState(false);
   const handleAddItem = () => {
-    onItemsUpdate((prevState) => prevState.concat(DefaultItem));
+    onItemsUpdate((prevState) => prevState.concat(getDefaultItem()));
   };
 
   const handleTaxToggle = () => {
@@ -63,11 +63,11 @@ const InvoiceItemsSection: FunctionComponent<InvoiceItemsSectionProps> = ({
 
   const taxTotal = hasTax
     ? getToTwoDecimalPlaces(
-        items.reduce(
-          (prev, curr) => (prev += curr.price * taxRate * 0.01 * curr.quantity),
-          0
-        )
+      items.reduce(
+        (prev, curr) => (prev += curr.price * taxRate * 0.01 * curr.quantity),
+        0
       )
+    )
     : getToTwoDecimalPlaces(0);
 
   const total = getToTwoDecimalPlaces(Number(subTotal) + Number(taxTotal));

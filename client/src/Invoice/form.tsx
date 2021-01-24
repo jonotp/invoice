@@ -13,6 +13,7 @@ import { PreloaderContext } from "../Preloader/preloader.context";
 import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../LogoUploader/logo-uploader.component";
 import CustomDialog from "../Dialog/custom-dialog.component";
+import SignUpPopup from "../SignUp/popup";
 import "./invoice-form.scss";
 
 const colors: Colors = {
@@ -39,11 +40,14 @@ const InvoiceForm = () => {
   const [notes, setNotes] = useState("");
 
   const [invoice, setInvoice] = useState<IInvoice>();
-  const [isProfileDialogueOpen, setIsProfileDialogueOpen] = useState(false);
 
+  const [isProfileDialogueOpen, setIsProfileDialogueOpen] = useState(false);
+  const [isSignUpPopupOpen, setIsSignUpPopupOpen] = useState(false);
+
+  // on load of the page if there is a auth object in the app state then get user info
   useEffect(() => {
     (async () => {
-      console.log({ auth: state.auth, user: state.user });
+      if (invoice !== undefined) return;
       if (state.auth === null) return;
 
       // May set this in the app component instead
@@ -53,7 +57,6 @@ const InvoiceForm = () => {
         // Set supplier details
         try {
           const user = await firebase?.getUser(state.auth.uid);
-          console.log(user);
           if (user !== null) {
             dispatch({
               type: USER_ACTION_TYPE.SAVE_USER_DETAILS,
@@ -61,7 +64,7 @@ const InvoiceForm = () => {
             });
           }
         } catch (err) {
-          console.log("Failed to get customer data");
+          console.error("Failed to get user data");
         }
 
         setIsLoading(false);
@@ -71,7 +74,16 @@ const InvoiceForm = () => {
         setSupplierDetails(state.user);
       }
     })();
-  }, [ state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails, ]);
+    // eslint-disable-next-line
+  }, [state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails,]);
+
+  // Show the signup popup when an unuthenticated user saves an invoice
+  useEffect(() => {
+    if (invoice === undefined || state.user !== null) return;
+
+    setIsSignUpPopupOpen(true);
+
+  }, [invoice, state.user])
 
       const submittedInvoice: IInvoice = {
         invoiceId: originalInvoice.invoiceId,
@@ -178,7 +190,7 @@ const InvoiceForm = () => {
         >
           Submit
         </Button>
-        {invoice !== undefined && invoice !== null ? (
+        {invoice !== undefined ? (
           <HiddenInvoiceDownloader invoice={invoice} colors={colors} />
         ) : null}
         <CustomDialog
@@ -188,6 +200,13 @@ const InvoiceForm = () => {
         >
           <span>Update your details?</span>
         </CustomDialog>
+        <SignUpPopup
+          open={isSignUpPopupOpen}
+          user={invoice?.supplier}
+          getFile={getFile}
+          // Temporary
+          onSuccessfulSubmit={() => window.location.reload()}
+          onClose={() => setIsSignUpPopupOpen(false)} />
       </section>
     </MuiPickersUtilsProvider>
   );

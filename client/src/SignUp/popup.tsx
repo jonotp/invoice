@@ -27,8 +27,6 @@ const SignUpPopup = ({ open, onClose, onSuccessfulSubmit, getFile, user, }: Sign
   const isInvalidEmail = account.email.trim().match(/[\w-.]+@[\w-.]+\.\w+/) === null;
   const isInvalidPassword = !doesPasswordMatchRequirements(account.password);
   const handleChange = commonInputChange(setAccount);
-  console.log(user);
-  console.log(account);
 
   useEffect(() => {
     setAccount(prev => {
@@ -37,7 +35,7 @@ const SignUpPopup = ({ open, onClose, onSuccessfulSubmit, getFile, user, }: Sign
         email: user?.email ?? ""
       }
     });
-  }, [user?.email])
+  }, [user])
 
   const handleSubmit = async () => {
     try {

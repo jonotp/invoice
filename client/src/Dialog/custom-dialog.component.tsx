@@ -3,7 +3,7 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
+  DialogTitle,
 } from "@material-ui/core";
 
 interface DialogProps {
@@ -25,7 +25,7 @@ const CustomDialog = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogContent>{children}</DialogContent>
+      <DialogTitle>{children}</DialogTitle>
       <DialogActions>
         <Button color="primary" variant="text" onClick={onClose}>
           Cancel

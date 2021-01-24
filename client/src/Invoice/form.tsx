@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+// import { useHistory } from "react-router-dom";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import InvoiceSupplierSection from "./Supplier/section";
 import InvoiceFormCustomerSection from "./Customer/section";
@@ -11,10 +12,12 @@ import AppContext from "../App/app.context";
 import FirebaseContext from "../Firebase/firebase.context";
 import { PreloaderContext } from "../Preloader/preloader.context";
 import { USER_ACTION_TYPE } from "../types";
-import { getFile } from "../LogoUploader/logo-uploader.component";
+import { getFile } from "../LogoUploader/logo-uploader";
 import CustomDialog from "../Dialog/custom-dialog.component";
 import SignUpPopup from "../SignUp/popup";
+// import * as ROUTES from "../routes";
 import "./invoice-form.scss";
+import AlertsContext from "../Alert/alerts.context";
 
 const colors: Colors = {
   primary: "#29485d",
@@ -26,7 +29,9 @@ const colors: Colors = {
 const InvoiceForm = () => {
   const [originalInvoice] = useState<IInvoice>(getDefaultInvoice());
   const firebase = useContext(FirebaseContext);
+  // const history = useHistory();
   const { state, dispatch } = useContext(AppContext);
+  const { alertsDispatch } = useContext(AlertsContext);
   const { setIsLoading } = useContext(PreloaderContext);
 
   const [supplierDetails, setSupplierDetails] = useState<IUser>(originalInvoice.supplier);
@@ -85,6 +90,15 @@ const InvoiceForm = () => {
 
   }, [invoice, state.user])
 
+  // Show the profile dialogue if there are changes to supplier details on authed user
+  useEffect(() => {
+    if (invoice === undefined || state.user === null || JSON.stringify(state.user) === JSON.stringify(supplierDetails)) return;
+
+    setIsProfileDialogueOpen(true);
+
+    // eslint-disable-next-line
+  }, [invoice, state.user])
+
   const onSubmit = async () => {
     try {
       const submittedInvoice: IInvoice = {
@@ -121,24 +135,10 @@ const InvoiceForm = () => {
   };
 
   const handleUpdateProfile = async () => {
-    if (state.user === null) return;
+    if (state.user === null || invoice === undefined) return;
 
-    const file = getFile();
-
-    // If a new logo was attached then the image needs to be uploaded to storage
-    // before updating the user details
-    const updatedUser =
-      supplierDetails.logo?.match("^blob") && file !== null
-        ? {
-            ...supplierDetails,
-            logo: await firebase?.uploadFile(
-              file,
-              `logo/${state.user?.userId}_${Date.now()}`
-            ),
-          }
-        : supplierDetails;
-
-    firebase?.updateUser(state.user?.userId, updatedUser);
+    firebase?.updateUser(state.user?.userId, invoice?.supplier);
+    window.location.reload();
   };
 
   return (

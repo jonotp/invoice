@@ -9,7 +9,7 @@ import { TextField } from "@material-ui/core";
 import { ICustomer } from "../../types";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import { UseStateHelperFormInputChange } from "../../Common/useStateHelper";
+import { commonInputChange } from "../../Common/input-change";
 import "./invoice-customer-section.scss";
 
 interface InvoiceFormCustomerSectionProps {
@@ -29,7 +29,7 @@ const InvoiceFormCustomerSection: FunctionComponent<InvoiceFormCustomerSectionPr
   issueDate,
   onIssueDateUpdate,
 }) => {
-  const handleInputChange = UseStateHelperFormInputChange(onCustomerUpdate);
+  const handleInputChange = commonInputChange(onCustomerUpdate);
 
   const handleInvoiceNoChange = (event: ChangeEvent<HTMLInputElement>) => {
     onInvoiceNoUpdate(event.target.value);

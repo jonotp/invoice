@@ -7,7 +7,7 @@ import React, {
 import { TextField } from "@material-ui/core";
 import { IUser } from "../../types";
 import { LogoUploader } from "../../LogoUploader/logo-uploader.component";
-import { UseStateHelperFormInputChange } from "../../Common/useStateHelper";
+import { commonInputChange } from "../../Common/input-change";
 import "./invoice-supplier-section.scss";
 
 interface InvoiceSupplierSectionProps {
@@ -19,7 +19,7 @@ const InvoiceSupplierSection: FunctionComponent<InvoiceSupplierSectionProps> = (
   supplier,
   onUpdateSupplier,
 }) => {
-  const handleInputChange = UseStateHelperFormInputChange(onUpdateSupplier);
+  const handleInputChange = commonInputChange(onUpdateSupplier);
   const handleLogoChange = (value: string) => {
     onUpdateSupplier((prevState) => {
       return {

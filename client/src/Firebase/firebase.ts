@@ -2,7 +2,7 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
-import { IUser } from "../types";
+import { IInvoice, IUser } from "../types";
 
 const config = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -116,6 +116,28 @@ class Firebase {
     this.db.collection("users").doc(userId).set(user);
     return await this.getUser(userId);
   };
+
+  saveInvoice = async (invoice: IInvoice, file: File | null) => {
+
+    const updatedInvoice: IInvoice =
+    {
+      ...invoice,
+      supplier: {
+        ...invoice.supplier,
+        
+        // TODO: set the upload file in the logo-uploader component
+        // If a new logo was attached then the image needs to be uploaded to storage
+        // before saving
+        logo: invoice.supplier.logo?.match("^blob") && file !== null 
+          ? await this.uploadFile( file, `logo/${this.auth.currentUser?.uid}_${Date.now()}`) 
+          : invoice.supplier.logo
+
+      }
+    };
+
+    this.db.collection("invoices").doc(invoice.invoiceId).set(updatedInvoice);
+    return updatedInvoice;
+  }
 }
 
 export default Firebase;

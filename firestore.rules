@@ -13,5 +13,9 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /invoices/{invoice} {
+    	allow read: if request.auth != null && request.auth.uid == resource.data.supplier.userId;
+      allow create: if true;
+    }
   }
 }

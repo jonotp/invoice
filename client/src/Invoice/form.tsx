@@ -85,6 +85,8 @@ const InvoiceForm = () => {
 
   }, [invoice, state.user])
 
+  const onSubmit = async () => {
+    try {
       const submittedInvoice: IInvoice = {
         invoiceId: originalInvoice.invoiceId,
         invoiceNo,
@@ -98,14 +100,19 @@ const InvoiceForm = () => {
         dateCreated: new Date(),
       };
 
-    console.log(submittedInvoice);
-
-    // If there are changes show the profile dialogue
-    if (state.user !== null && state.user !== supplierDetails) {
-      setIsProfileDialogueOpen(true);
+      if (firebase === null) throw new Error("Unable to submit invoice");
+      const savedInvoice = await firebase?.saveInvoice(submittedInvoice, getFile());
+      setInvoice(savedInvoice);
     }
-
-    setInvoice(submittedInvoice);
+    catch (error) {
+      alertsDispatch({
+        type: ALERT_ACTION_TYPE.ADD_ALERT,
+        payload: {
+          message: "Error with submitted invoice",
+          type: ALERT_TYPE.ERROR,
+        },
+      });
+    }
   };
 
   const handleNotesTextChange = (event: ChangeEvent<HTMLInputElement>) => {

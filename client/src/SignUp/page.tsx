@@ -1,13 +1,5 @@
 import React, { FormEvent, useState, useContext } from "react";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  TextField,
-} from "@material-ui/core";
+import { Button, TextField, } from "@material-ui/core";
 import {
   ALERT_ACTION_TYPE,
   ALERT_TYPE,
@@ -19,10 +11,9 @@ import FirebaseContext from "../Firebase/firebase.context";
 import AppContext from "../App/app.context";
 import AlertsContext from "../Alert/alerts.context";
 import { commonInputChange } from "../Common/input-change";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import VisibilityIcon from "@material-ui/icons/Visibility";
 import * as ROUTES from "../routes";
-import SignUpPasswordRequirements from "./password-requirements";
+import SignUpPasswordRequirements, { doesPasswordMatchRequirements } from "./password-requirements";
+import SignUpPassword from "./password";
 import SignInButton from "../SignIn/button";
 import "./sign-up.scss";
 
@@ -32,7 +23,6 @@ function SignUpPage() {
   const { dispatch } = useContext(AppContext);
   const { alertsDispatch } = useContext(AlertsContext);
 
-  const [showPassword, setShowPassword] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [user, setUser] = useState({
     name: "",
@@ -44,7 +34,7 @@ function SignUpPage() {
 
   const handleSubmit = async (event: FormEvent) => {
     try {
-      event.preventDefault();
+      event.preventDefault()
       if (hasErrors()) {
         throw new Error("Error in input fields");
       }
@@ -88,8 +78,7 @@ function SignUpPage() {
     );
   };
 
-  const isInvalidPassword =
-    user.password.match(/^(?=.*[A-Z])(?=.*\d)(?=.*[a-z]).{8,}$/) === null;
+  const isInvalidPassword = !doesPasswordMatchRequirements(user.password);
 
   return (
     <div className="sign-up-page">
@@ -120,38 +109,7 @@ function SignUpPage() {
             required
             helperText=""
           />
-          <FormControl
-            className={`text-input ${
-              hasError && isInvalidPassword ? "error" : ""
-            }`}
-            variant="outlined"
-            fullWidth
-          >
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <OutlinedInput
-              className={`text-input ${
-                hasError && isInvalidPassword ? "error" : ""
-              }`}
-              id="password"
-              name="password"
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              value={user.password}
-              onChange={handleChange}
-              required
-              error={hasError && isInvalidPassword}
-              margin="none"
-              fullWidth
-              placeholder="password"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          </FormControl>
+          <SignUpPassword password={user.password} onChange={handleChange} hasError={hasError} isInvalidPassword={isInvalidPassword} />
           <div>
             <SignUpPasswordRequirements
               password={user.password}

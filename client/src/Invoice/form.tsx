@@ -4,16 +4,7 @@ import InvoiceSupplierSection from "./Supplier/section";
 import InvoiceFormCustomerSection from "./Customer/section";
 import InvoiceItemsSection from "./Items/section";
 import HiddenInvoiceDownloader from "./hidden-invoice-downloader.component";
-import {
-  ICustomer,
-  IItem,
-  DefaultCustomer,
-  DefaultItem,
-  IInvoice,
-  Colors,
-  DefaultUser,
-  IUser,
-} from "../types";
+import { ICustomer, IItem, IInvoice, Colors, IUser, getDefaultInvoice, ALERT_ACTION_TYPE, ALERT_TYPE, } from "../types";
 import DateFnsUtils from "@date-io/date-fns";
 import { Button, TextField } from "@material-ui/core";
 import AppContext from "../App/app.context";

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, createRef } from "react";
 import ImageIcon from "@material-ui/icons/Image";
-import "./logo-uploader.component.scss";
+import "./logo-uploader.scss";
 
 interface LogoUploaderProps {
   style?: object;

@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { TextField } from "@material-ui/core";
 import { IUser } from "../../types";
-import { LogoUploader } from "../../LogoUploader/logo-uploader.component";
+import { LogoUploader } from "../../LogoUploader/logo-uploader";
 import { commonInputChange } from "../../Common/input-change";
 import "./invoice-supplier-section.scss";
 

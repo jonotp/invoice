@@ -1,7 +1,7 @@
-
 @import "../variables";
 
 .logo-uploader {
+  position: relative;
   padding: 1rem;
   cursor: pointer;
   border: 1px solid $light-grey;
@@ -19,7 +19,27 @@
     transition: 200ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   }
 
-  svg {
+  .clear-button {
+    position: absolute;
+    top: 18.5px;
+    right: 14px;
+    transition: 300ms all cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+
+    .clear-svg {
+      fill: $light-grey;
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+
+    &:hover {
+      .clear-svg {
+        transform: scale(1.2);
+        fill: $error-color;
+      }
+    }
+  }
+
+  .image-svg {
     height: 5rem;
     width: 5rem;
     fill: $light-grey;
@@ -28,10 +48,12 @@
 
   &:hover {
     border-color: $black;
+
     .logo-container {
       color: $black;
     }
-    svg {
+    .image-svg,
+    .clear-svg {
       fill: $black;
     }
   }
@@ -39,10 +61,16 @@
   &:active,
   &:focus {
     border: 2px solid $primary-light;
-    svg {
+
+    .clear-button {
+      top: 17.5px;
+      right: 13px;
+    }
+
+    .image-svg {
       height: 5.5rem;
       width: 5.5rem;
-      fill:  $primary-light;
+      fill: $primary-light;
     }
 
     .logo-container {
@@ -54,7 +82,7 @@
   .logo-img {
     cursor: pointer;
     max-width: 100%;
-    max-height: 130px;
+    max-height: 105px;
     object-fit: cover;
     transition: 0.5s ease all;
     margin-bottom: 1rem;
@@ -62,5 +90,36 @@
 
   .logo-input {
     display: none;
+  }
+
+  &.error {
+    border: 1px solid $error-color-transparent;
+
+    &:active,
+    &:focus {
+      border: 2px solid $error-color;
+
+      .image-svg {
+        fill: $error-color;
+      }
+      .logo-container {
+        color: $error-color;
+      }
+    }
+
+    .logo-container {
+      color: $error-color-transparent;
+    }
+
+    .image-svg {
+      fill: $error-color-transparent;
+    }
+
+    &:hover {
+      color: $error-color;
+      .image-svg {
+        fill: $error-color;
+      }
+    }
   }
 }

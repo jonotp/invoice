@@ -8,7 +8,7 @@ import {
 import Navbar from "../Navbar/navbar";
 import InvoiceForm from "../Invoice/form";
 import SignUpPage from "../SignUp/page";
-import { TestInvoicePDFPreviewer } from "../Invoice/invoice-pdf-previewer.container";
+import { TestInvoicePDFPreviewer } from "../Invoice/pdf-previewer";
 import * as ROUTES from "../routes";
 import FirebaseContext from "../Firebase/firebase.context";
 import AppContext from "./app.context";

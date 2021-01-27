@@ -4,12 +4,13 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import InvoiceSupplierSection from "./Supplier/section";
 import InvoiceFormCustomerSection from "./Customer/section";
 import InvoiceItemsSection from "./Items/section";
-import HiddenInvoiceDownloader from "./hidden-invoice-downloader.component";
+import InvoiceHiddenDownloader from "./hidden-downloader";
 import { ICustomer, IItem, IInvoice, Colors, IUser, getDefaultInvoice, ALERT_ACTION_TYPE, ALERT_TYPE, } from "../types";
 import DateFnsUtils from "@date-io/date-fns";
 import { Button, TextField } from "@material-ui/core";
 import AppContext from "../App/app.context";
 import FirebaseContext from "../Firebase/firebase.context";
+import AlertsContext from "../Alert/alerts.context";
 import { PreloaderContext } from "../Preloader/preloader.context";
 import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../LogoUploader/logo-uploader";
@@ -17,7 +18,6 @@ import CustomDialog from "../Dialog/custom-dialog.component";
 import SignUpPopup from "../SignUp/popup";
 import * as ROUTES from "../routes";
 import "./invoice-form.scss";
-import AlertsContext from "../Alert/alerts.context";
 
 const colors: Colors = {
   primary: "#29485d",
@@ -55,7 +55,7 @@ const InvoiceForm = () => {
 
   // On load of the page if there is a auth object in the app state then get user info
   useEffect(() => {
-    (async () => { 
+    (async () => {
 
       // Don't need to get details if the invoice form has been submitted already
       if (hasSubmitted) return;
@@ -220,7 +220,7 @@ const InvoiceForm = () => {
           Submit
         </Button>
         {hasSubmitted ? (
-          <HiddenInvoiceDownloader invoice={invoice} colors={colors} />
+          <InvoiceHiddenDownloader invoice={invoice} colors={colors} />
         ) : null}
         <CustomDialog
           open={isProfileDialogueOpen}

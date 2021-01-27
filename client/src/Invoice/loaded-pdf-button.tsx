@@ -2,13 +2,13 @@ import { Button } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { FunctionComponent } from "react";
 
-interface LoadedPDFButtonProps {
+interface InvoiceLoadedPDFButtonProps {
   loading: boolean;
   onLoaded?: (x: boolean) => void;
 }
 
 // Component to style the PDFDownloadLink
-const LoadedPDFButton: FunctionComponent<LoadedPDFButtonProps> = ({
+const InvoiceLoadedPDFButton: FunctionComponent<InvoiceLoadedPDFButtonProps> = ({
   loading,
   onLoaded,
 }) => {
@@ -26,4 +26,4 @@ const LoadedPDFButton: FunctionComponent<LoadedPDFButtonProps> = ({
   );
 };
 
-export default LoadedPDFButton;
+export default InvoiceLoadedPDFButton;

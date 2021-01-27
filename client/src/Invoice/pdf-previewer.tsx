@@ -14,7 +14,7 @@ const colors: Colors = {
   text: "#333",
 };
 
-const InvoicePDFPReviewer = (invoice: IInvoice) => {
+const InvoicePDFPreviewer = (invoice: IInvoice) => {
   return (
     <section className="invoice-pdf-container">
       <PDFViewer width="100%" height="1200">
@@ -37,6 +37,6 @@ const InvoicePDFPReviewer = (invoice: IInvoice) => {
 const condition = (authUser: firebase.User | null) => !!authUser;
 
 const TestInvoicePDFPreviewer = () =>
-  withAuthorization(condition)(InvoicePDFPReviewer(TestInvoice));
+  withAuthorization(condition)(InvoicePDFPreviewer(TestInvoice));
 
-export { InvoicePDFPReviewer, TestInvoicePDFPreviewer };
+export { InvoicePDFPreviewer, TestInvoicePDFPreviewer };

@@ -13,11 +13,10 @@ interface SignUpPopupProps {
   open: boolean;
   onClose(): void;
   onSuccessfulSubmit(): void;
-  getFile(): File | null;
   user: IUser | undefined;
 }
 
-const SignUpPopup = ({ open, onClose, onSuccessfulSubmit, getFile, user, }: SignUpPopupProps) => {
+const SignUpPopup = ({ open, onClose, onSuccessfulSubmit, user, }: SignUpPopupProps) => {
   const firebase = useContext(FirebaseContext);
   const { dispatch } = useContext(AppContext);
   const { alertsDispatch } = useContext(AlertsContext);
@@ -41,7 +40,7 @@ const SignUpPopup = ({ open, onClose, onSuccessfulSubmit, getFile, user, }: Sign
     try {
       if (user === undefined) throw new Error("Error with user details");
       if (isInvalidEmail || isInvalidPassword) throw new Error("Error in input fields");
-      const createdUser = await firebase?.signUp({ ...user, email: account.email }, account.password, getFile());
+      const createdUser = await firebase?.signUp({ ...user, email: account.email }, account.password);
 
       dispatch({
         type: USER_ACTION_TYPE.SAVE_USER_DETAILS,

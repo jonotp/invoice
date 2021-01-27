@@ -2,6 +2,7 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
 import "firebase/storage";
+import { v4 as uuid } from "uuid";
 import { IInvoice, IUser } from "../types";
 
 const config = {
@@ -38,7 +39,7 @@ class Firebase {
   }
 
   // Auth API
-  signUp = async (formUser: IUser, password: string, file: File | null) => {
+  signUp = async (formUser: IUser, password: string) => {
     const createdUser = await this.auth.createUserWithEmailAndPassword(
       formUser.email,
       password
@@ -47,30 +48,13 @@ class Firebase {
       throw Error("User could not be created");
     }
 
-    const imagePath =
-      file !== null
-        ? await this.uploadFile(
-          file,
-          `logo/${createdUser.user?.uid}_${Date.now()}`
-        )
-        : null;
-
-    const storedUser: IUser =
-      imagePath === null
-        ? {
-          ...formUser,
-          userId: createdUser.user?.uid,
-        }
-        : {
-          ...formUser,
-          logo: imagePath,
-          userId: createdUser.user?.uid,
-        };
-
     await this.db
       .collection("users")
       .doc(createdUser.user?.uid)
-      .set(storedUser);
+      .set({
+        ...formUser,
+        userId: createdUser.user?.uid,
+      });
 
     return await this.getUser(createdUser.user?.uid);
   };
@@ -117,19 +101,19 @@ class Firebase {
     return await this.getUser(userId);
   };
 
-  saveInvoice = async (invoice: IInvoice, file: File | null) => {
+  saveInvoice = async (invoice: IInvoice, file?: File) => {
 
     const updatedInvoice: IInvoice =
     {
       ...invoice,
       supplier: {
         ...invoice.supplier,
-        
+        userId: this.auth.currentUser?.uid ?? "",
         // TODO: set the upload file in the logo-uploader component
         // If a new logo was attached then the image needs to be uploaded to storage
         // before saving
-        logo: invoice.supplier.logo?.match("^blob") && file !== null 
-          ? await this.uploadFile( file, `logo/${this.auth.currentUser?.uid}_${Date.now()}`) 
+        logo: invoice.supplier.logo?.match("^blob") && file !== undefined
+          ? await this.uploadFile(file, `logo/${uuid()}`)
           : invoice.supplier.logo
 
       }

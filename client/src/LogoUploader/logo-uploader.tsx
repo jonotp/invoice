@@ -19,7 +19,7 @@ const getFile = () => {
   const file =
     files !== undefined && files !== null && files?.length > 0
       ? files[0]
-      : null;
+      : undefined;
   return file;
 };
 

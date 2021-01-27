@@ -45,8 +45,7 @@ function SignUpPage() {
           name: user.name,
           email: user.email,
         },
-        user.password,
-        null
+        user.password
       );
 
       dispatch({

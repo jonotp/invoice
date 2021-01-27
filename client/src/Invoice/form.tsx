@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import InvoiceSupplierSection from "./Supplier/section";
 import InvoiceFormCustomerSection from "./Customer/section";
@@ -15,7 +15,7 @@ import { USER_ACTION_TYPE } from "../types";
 import { getFile } from "../LogoUploader/logo-uploader";
 import CustomDialog from "../Dialog/custom-dialog.component";
 import SignUpPopup from "../SignUp/popup";
-// import * as ROUTES from "../routes";
+import * as ROUTES from "../routes";
 import "./invoice-form.scss";
 import AlertsContext from "../Alert/alerts.context";
 
@@ -28,7 +28,7 @@ const colors: Colors = {
 
 const InvoiceForm = () => {
   const firebase = useContext(FirebaseContext);
-  // const history = useHistory();
+  const history = useHistory();
   const { state, dispatch } = useContext(AppContext);
   const { alertsDispatch } = useContext(AlertsContext);
   const { setIsLoading } = useContext(PreloaderContext);
@@ -48,8 +48,11 @@ const InvoiceForm = () => {
   const [isProfileDialogueOpen, setIsProfileDialogueOpen] = useState(false);
   const [isSignUpPopupOpen, setIsSignUpPopupOpen] = useState(false);
 
-  // on load of the page if there is a auth object in the app state then get user info
+  // Scroll to top on load of page 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
+
   // On load of the page if there is a auth object in the app state then get user info
   useEffect(() => {
     (async () => { 
@@ -154,6 +157,12 @@ const InvoiceForm = () => {
     firebase?.updateUser(state.user?.userId, invoice.supplier);
   };
 
+  const handleSignUp = async () => {
+    await firebase?.saveInvoice({ ...invoice, dateUpdated: new Date() });
+
+    history.push(ROUTES.HOME);
+  }
+
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <section className="invoice-form">
@@ -223,8 +232,7 @@ const InvoiceForm = () => {
         <SignUpPopup
           open={isSignUpPopupOpen}
           user={invoice?.supplier}
-          // Temporary
-          onSuccessfulSubmit={() => window.location.reload()}
+          onSuccessfulSubmit={handleSignUp}
           onClose={() => setIsSignUpPopupOpen(false)} />
       </section>
     </MuiPickersUtilsProvider>

@@ -27,32 +27,35 @@ const colors: Colors = {
 };
 
 const InvoiceForm = () => {
-  const [originalInvoice] = useState<IInvoice>(getDefaultInvoice());
   const firebase = useContext(FirebaseContext);
   // const history = useHistory();
   const { state, dispatch } = useContext(AppContext);
   const { alertsDispatch } = useContext(AlertsContext);
   const { setIsLoading } = useContext(PreloaderContext);
 
-  const [supplierDetails, setSupplierDetails] = useState<IUser>(originalInvoice.supplier);
-  const [invoiceNo, setInvoiceNo] = useState(originalInvoice.invoiceNo);
-  const [issueDate, setIssueDate] = useState(originalInvoice.issueDate);
-  const [customerDetails, setCustomerDetails] = useState<ICustomer>(originalInvoice.customer);
+  const [invoice, setInvoice] = useState<IInvoice>(getDefaultInvoice());
+  const [supplierDetails, setSupplierDetails] = useState<IUser>(invoice.supplier);
+  const [invoiceNo, setInvoiceNo] = useState(invoice.invoiceNo);
+  const [issueDate, setIssueDate] = useState(invoice.issueDate);
+  const [customerDetails, setCustomerDetails] = useState<ICustomer>(invoice.customer);
 
-  const [hasTax, setHasTax] = useState(originalInvoice.hasTax);
-  const [taxRatePercentage, setTaxRatePercentage] = useState(originalInvoice.taxRatePercentage);
-  const [items, setItems] = useState<IItem[]>(originalInvoice.items);
-  const [notes, setNotes] = useState("");
+  const [hasTax, setHasTax] = useState(invoice.hasTax);
+  const [taxRatePercentage, setTaxRatePercentage] = useState(invoice.taxRatePercentage);
+  const [items, setItems] = useState<IItem[]>(invoice.items);
+  const [notes, setNotes] = useState(invoice.notes);
 
-  const [invoice, setInvoice] = useState<IInvoice>();
-
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [isProfileDialogueOpen, setIsProfileDialogueOpen] = useState(false);
   const [isSignUpPopupOpen, setIsSignUpPopupOpen] = useState(false);
 
   // on load of the page if there is a auth object in the app state then get user info
   useEffect(() => {
-    (async () => {
-      if (invoice !== undefined) return;
+  // On load of the page if there is a auth object in the app state then get user info
+  useEffect(() => {
+    (async () => { 
+
+      // Don't need to get details if the invoice form has been submitted already
+      if (hasSubmitted) return;
       if (state.auth === null) return;
 
       // May set this in the app component instead
@@ -74,35 +77,35 @@ const InvoiceForm = () => {
 
         setIsLoading(false);
 
-        // TODO: Set tax rate
       } else if (state.user !== null && supplierDetails.userId === "") {
         setSupplierDetails(state.user);
       }
     })();
     // eslint-disable-next-line
-  }, [state, firebase, dispatch, setIsLoading, setSupplierDetails, supplierDetails,]);
+  }, [state, firebase, dispatch, hasSubmitted]);
 
   // Show the signup popup when an unuthenticated user saves an invoice
   useEffect(() => {
-    if (invoice === undefined || state.user !== null) return;
+    if (!hasSubmitted || state.user !== null) return;
 
-    setIsSignUpPopupOpen(true);
+    setTimeout(() => { setIsSignUpPopupOpen(true) }, 1000);
 
-  }, [invoice, state.user])
+  }, [hasSubmitted, state.user])
 
   // Show the profile dialogue if there are changes to supplier details on authed user
   useEffect(() => {
-    if (invoice === undefined || state.user === null || JSON.stringify(state.user) === JSON.stringify(supplierDetails)) return;
+    if (!hasSubmitted || state.user === null || supplierDetails.userId === "" || JSON.stringify(state.user) === JSON.stringify(supplierDetails)) return;
 
     setIsProfileDialogueOpen(true);
 
     // eslint-disable-next-line
-  }, [invoice, state.user])
+  }, [hasSubmitted, state.user])
 
-  const onSubmit = async () => {
+  const handleSubmit = async () => {
     try {
+
       const submittedInvoice: IInvoice = {
-        invoiceId: originalInvoice.invoiceId,
+        invoiceId: invoice.invoiceId,
         invoiceNo,
         issueDate,
         supplier: supplierDetails,
@@ -111,12 +114,23 @@ const InvoiceForm = () => {
         taxRatePercentage,
         items,
         notes,
-        dateCreated: new Date(),
+        dateCreated: hasSubmitted ? invoice.dateCreated : new Date(),
+        dateUpdated: hasSubmitted ? invoice.dateUpdated : new Date(),
       };
 
       if (firebase === null) throw new Error("Unable to submit invoice");
-      const savedInvoice = await firebase?.saveInvoice(submittedInvoice, getFile());
-      setInvoice(savedInvoice);
+
+      if (JSON.stringify(submittedInvoice) !== JSON.stringify(invoice)) {
+        const savedInvoice = await firebase?.saveInvoice(submittedInvoice, getFile());
+        setInvoice(savedInvoice);
+        setSupplierDetails(savedInvoice.supplier);
+      }
+      else {
+        // Update last dateUpdated property, which will trigger re-download
+        setInvoice({ ...invoice, dateUpdated: new Date() });
+      }
+
+      setHasSubmitted(true);
     }
     catch (error) {
       alertsDispatch({
@@ -193,11 +207,11 @@ const InvoiceForm = () => {
           className="submit-button"
           color="primary"
           variant="contained"
-          onClick={onSubmit}
+          onClick={handleSubmit}
         >
           Submit
         </Button>
-        {invoice !== undefined ? (
+        {hasSubmitted ? (
           <HiddenInvoiceDownloader invoice={invoice} colors={colors} />
         ) : null}
         <CustomDialog
@@ -210,7 +224,6 @@ const InvoiceForm = () => {
         <SignUpPopup
           open={isSignUpPopupOpen}
           user={invoice?.supplier}
-          getFile={getFile}
           // Temporary
           onSuccessfulSubmit={() => window.location.reload()}
           onClose={() => setIsSignUpPopupOpen(false)} />

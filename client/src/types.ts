@@ -84,8 +84,9 @@ export interface IInvoice {
   items: IItem[];
   hasTax: boolean;
   taxRatePercentage: number;
-  notes?: string;
+  notes: string;
   dateCreated: Date;
+  dateUpdated: Date;
 }
 
 export const getDefaultInvoice = (): IInvoice => {
@@ -100,6 +101,7 @@ export const getDefaultInvoice = (): IInvoice => {
     taxRatePercentage: 10,
     notes: "",
     dateCreated: new Date(),
+    dateUpdated: new Date(),
   }
 }
 

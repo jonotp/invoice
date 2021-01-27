@@ -31,6 +31,7 @@ const TestInvoice: IInvoice = {
 
 Tempor officia sunt ipsum id cillum in cillum ex pariatur minim ut laborum consectetur esse. Quis enim adipisicing deserunt eu ad do consectetur eu pariatur nostrud veniam. Irure irure esse adipisicing Lorem consequat eu laborum cillum ad. Veniam ex ut esse eu sunt.`,
   dateCreated: new Date(),
+  dateUpdated: new Date(),
   items: [
     {
       itemId: "1",

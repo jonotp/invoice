@@ -149,10 +149,9 @@ const InvoiceForm = () => {
   };
 
   const handleUpdateProfile = async () => {
-    if (state.user === null || invoice === undefined) return;
+    if (state.user === null || invoice.supplier.userId === "") return;
 
-    firebase?.updateUser(state.user?.userId, invoice?.supplier);
-    window.location.reload();
+    firebase?.updateUser(state.user?.userId, invoice.supplier);
   };
 
   return (

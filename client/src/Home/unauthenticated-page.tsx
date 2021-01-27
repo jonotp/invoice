@@ -1,4 +1,3 @@
-import { Button } from "@material-ui/core";
 import React from "react";
 import IconFeather from "../Icon/feather";
 import IconUnlock from "../Icon/unlock";
@@ -22,9 +21,9 @@ const HomeUnauthenticatedPage = () => {
             <u>Invoice Lite</u> is designed to be lightweight and simple so you
             can focus on your product and services
           </p>
-          <Button variant="contained" color="primary">
+          <UIMaterialButton variant="contained" color="primary">
             <InvoiceButton label="Try It Now!" />
-          </Button>
+          </UIMaterialButton>
         </div>
         <div className="icon-container" style={{ gridArea: "invoice-icon" }}>
           <IconFeather height="180px" width="180px" />
@@ -42,9 +41,9 @@ const HomeUnauthenticatedPage = () => {
             customers and products
           </p>
           <div className="create-account-buttons">
-            <Button variant="outlined" color="primary">
+            <UIMaterialButton variant="outlined" color="primary">
               <SignUpButton label="Create Account" />
-            </Button>
+            </UIMaterialButton>
             <span>or</span>
             <UIMaterialButton variant="outlined" color="secondary">
               <SignInButton label="Sign In Now" />

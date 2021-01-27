@@ -1,7 +1,7 @@
 # [Invoice Lite]((https://invoice-lite.project-jtp.dev))
 ![invoice-lite](client/src/Icon/dark.svg)
 
-Send professional invoices quickly & easily whilst having all your information saved in the one place. After creating your first invoice, [Invoice Lite](https://invoice-lite.project-jtp.dev) will save your details, so, the next time you create an invoice your business information will come pre-populated. 
+Send professional invoices quickly & easily whilst having all your information saved in the one place. After creating your first invoice, [Invoice Lite](https://invoice-lite.project-jtp.dev) will pre-populate your company/business information in all newly created invoices. 
 Easily track the status of your invoices & update your customer information with simple workflows and beautiful UI. 
 
 ## Motivation 
@@ -13,11 +13,12 @@ Key focus areas in web-development are Typescript, React (Hooks, Context & reduc
 In progress
 
 ## Features 
-- Generate invoice
-- User account creation 
-- Pre-populate user information
+- Generate invoice ✔️
+- User account creation ✔️
+- Pre-populate user information ✔️
 - Display & edit all invoices
 - Select & edit customer information 
+- Select & edit item information 
 - Email invoice 
 - Recurring invoice
 - Select different invoice templates 

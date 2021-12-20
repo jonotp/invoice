@@ -9,6 +9,27 @@ This project started with my need to send an invoice to a customer/client. The f
 
 Key focus areas in web-development are Typescript, React (Hooks, Context & reducers), Jest unit testing & Design with MaterialUI library, HTML and SCSS.
 
+## Getting Started
+This project will uses vscode tasks for jobs such as build and run. Ensure you have install completed the following: 
+- Installed the firebase CLI on your machine (see https://firebase.google.com/docs/cli)
+- Executed `npm install`  in both the client/ and the functions/ folders
+- Created and populated an client/.env file (variables are shown below) 
+
+### Client environment variables 
+Environment variables from the client are loaded using an .env. The .env file has the following variables:
+```
+REACT_APP_API_KEY=
+REACT_APP_AUTH_DOMAIN=
+REACT_APP_DATABASE_URL=
+REACT_APP_PROJECT_ID=
+REACT_APP_STORAGE_BUCKET=
+REACT_APP_MESSAGING_SENDER_ID=
+REACT_APP_ID=
+REACT_APP_API_URL=
+```
+
+The first 6 variables can be obtained from firebase, while the last variable specifies the local api url used. 
+
 ## Status 
 In progress
 

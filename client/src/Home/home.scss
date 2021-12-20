@@ -9,6 +9,9 @@
   min-height: 1000px;
   font-size: 1.2rem;
   padding: 0 !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .top-layer,
   .middle-layer,
@@ -47,6 +50,7 @@
   .invoice,
   .create-account,
   .footer {
+    max-width: 1400px;
     display: grid;
     position: absolute;
     box-sizing: border-box;
@@ -222,8 +226,9 @@
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1800px) {
   .unauthenticated-home-page {
+    display: block;
     font-size: 2rem;
 
     button {

@@ -25,11 +25,9 @@ REACT_APP_PROJECT_ID=
 REACT_APP_STORAGE_BUCKET=
 REACT_APP_MESSAGING_SENDER_ID=
 REACT_APP_ID=
-REACT_APP_API_URL=
 ```
 
-The first 6 variables can be obtained from firebase, while the last variable specifies the local api url used. 
-
+The first variables can be obtained from firebase.
 ## Status 
 In progress
 

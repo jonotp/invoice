@@ -38,6 +38,7 @@ const InvoiceForm = () => {
   const [invoiceNo, setInvoiceNo] = useState(invoice.invoiceNo);
   const [issueDate, setIssueDate] = useState(invoice.issueDate);
   const [customerDetails, setCustomerDetails] = useState<ICustomer>(invoice.customer);
+  const [paymentDetails, setPaymentDetails] = useState(invoice.paymentDetails);
 
   const [hasTax, setHasTax] = useState(invoice.hasTax);
   const [taxRatePercentage, setTaxRatePercentage] = useState(invoice.taxRatePercentage);
@@ -113,6 +114,7 @@ const InvoiceForm = () => {
         issueDate,
         supplier: supplierDetails,
         customer: customerDetails,
+        paymentDetails,
         hasTax,
         taxRatePercentage,
         items,
@@ -181,6 +183,8 @@ const InvoiceForm = () => {
               onInvoiceNoUpdate={setInvoiceNo}
               issueDate={issueDate}
               onIssueDateUpdate={setIssueDate}
+              paymentDetails={paymentDetails}
+              onPaymentDetails={setPaymentDetails}
             />
           </div>
           <div className="invoice-section">

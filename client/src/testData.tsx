@@ -27,6 +27,7 @@ const TestInvoice: IInvoice = {
   taxRatePercentage: 10,
   invoiceNo: "INV001",
   issueDate: new Date(),
+  paymentDetails:"EFT\nBSB: XXX-XXX\nAccount: XXXX-XXXX",
   notes: `Tempor reprehenderit dolore labore eiusmod est dolore sint consectetur nisi non laboris culpa. Amet eiusmod aliqua voluptate amet. Deserunt do est fugiat excepteur occaecat magna dolore ex ullamco incididunt consequat. Deserunt Lorem est eu ex cupidatat Lorem pariatur. Officia id officia mollit fugiat ea. Et excepteur mollit dolor dolor laboris magna ut.
 
 Tempor officia sunt ipsum id cillum in cillum ex pariatur minim ut laborum consectetur esse. Quis enim adipisicing deserunt eu ad do consectetur eu pariatur nostrud veniam. Irure irure esse adipisicing Lorem consequat eu laborum cillum ad. Veniam ex ut esse eu sunt.`,

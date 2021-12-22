@@ -19,6 +19,8 @@ interface InvoiceFormCustomerSectionProps {
   onInvoiceNoUpdate: Dispatch<SetStateAction<string>>;
   issueDate: Date;
   onIssueDateUpdate: Dispatch<SetStateAction<Date>>;
+  paymentDetails: string;
+  onPaymentDetails: Dispatch<SetStateAction<string>>;
 }
 
 const InvoiceFormCustomerSection: FunctionComponent<InvoiceFormCustomerSectionProps> = ({
@@ -28,11 +30,17 @@ const InvoiceFormCustomerSection: FunctionComponent<InvoiceFormCustomerSectionPr
   onInvoiceNoUpdate,
   issueDate,
   onIssueDateUpdate,
+  paymentDetails,
+  onPaymentDetails,
 }) => {
   const handleInputChange = commonInputChange(onCustomerUpdate);
 
   const handleInvoiceNoChange = (event: ChangeEvent<HTMLInputElement>) => {
     onInvoiceNoUpdate(event.target.value);
+  };
+
+  const handlePaymentDetails = (event: ChangeEvent<HTMLInputElement>) => {
+    onPaymentDetails(event.target.value);
   };
 
   const handleDateChange = (date: MaterialUiPickersDate) => {
@@ -103,6 +111,20 @@ const InvoiceFormCustomerSection: FunctionComponent<InvoiceFormCustomerSectionPr
         style={{ gridArea: "invoice-no" }}
         value={invoiceNo}
         onChange={handleInvoiceNoChange}
+      />
+      <hr className="separator" style={{gridArea:"separator"}}></hr>
+      <TextField
+        id="paymentDetails"
+        name="paymentDetails"
+        label="Payment Details"
+        variant="outlined"
+        margin="none"
+        multiline={true}
+        rows="5"
+        placeholder={"EFT\nBSB: XXX-XXX\nAccount: XXXX-XXXX"}
+        style={{ gridArea: "payment-details" }}
+        value={paymentDetails}
+        onChange={handlePaymentDetails}
       />
       <KeyboardDatePicker
         id="issueDate"

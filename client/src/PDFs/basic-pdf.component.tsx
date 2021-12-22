@@ -137,7 +137,7 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
   });
 
   const tax = invoice.taxRatePercentage;
-  const dateDue = format(invoice.issueDate, "do MMMM, yyyy");
+  const dateDue = format(invoice.issueDate, "do MMM yyyy");
   const subTotal = getSubTotal(invoice.items);
   const taxTotal = getTaxTotal(invoice.items, tax);
   const total = Number(subTotal) + Number(taxTotal);

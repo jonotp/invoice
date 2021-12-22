@@ -256,8 +256,12 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
         <View style={[styles.flexRow, styles.borderBox]}>
           {/* Notes */}
           <View style={[styles.flexGrow2]}>
-            <Text style={[styles.heading]}>Notes:</Text>
-            <Text style={[styles.notes]}>{invoice.notes}</Text>
+            {invoice.notes.trim().length > 0 ?
+              <>
+                <Text style={[styles.heading]}>Notes:</Text>
+                <Text style={[styles.notes]}>{invoice.notes}</Text>
+              </>
+              : null}
           </View>
           <View style={[styles.flexGrow, { alignItems: "center" }]}>
             <View style={[styles.flexRow]}>

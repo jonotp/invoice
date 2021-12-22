@@ -81,6 +81,7 @@ export interface IInvoice {
   issueDate: Date;
   supplier: IUser;
   customer: ICustomer;
+  paymentDetails: string;
   items: IItem[];
   hasTax: boolean;
   taxRatePercentage: number;
@@ -96,6 +97,7 @@ export const getDefaultInvoice = (): IInvoice => {
     issueDate: new Date(),
     supplier: getDefaultUser(),
     customer: getDefaultCustomer(),
+    paymentDetails: "",
     items: [getDefaultItem()],
     hasTax: true,
     taxRatePercentage: 10,

@@ -81,6 +81,9 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
       flex: 5,
       paddingRight: "25",
     },
+    fullWidth: {
+      width: "100%",
+    },
     borderBox: {
       // border: `1 solid ${colors.primary}`,
     },
@@ -91,6 +94,9 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
     quantity: {
       width: "15%",
       textAlign: "right",
+    },
+    paymentDetails: {
+      marginTop: "6"
     },
     price: {
       width: invoice.taxRatePercentage > 0 ? "11.25%" : "22.5%",
@@ -223,6 +229,14 @@ const BasicPDF: FunctionComponent<PDFProps> = ({ invoice, colors }) => {
               </View>
               <View style={[styles.flexGrow, { textAlign: "right" }]}>
                 <Text>{dateDue}</Text>
+              </View>
+            </View>
+            <View style={[styles.paymentDetails, styles.fullWidth]}>
+              <View>
+                <Text style={[styles.subHeadings]}>Payment details</Text>
+              </View>
+              <View>
+                <Text>{invoice.paymentDetails}</Text>
               </View>
             </View>
           </View>

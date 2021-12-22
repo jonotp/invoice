@@ -9,11 +9,15 @@
     "header header header header header"
     "businessId businessId businessId businessId invoice-no"
     "name name name name issue-date"
-    "address address address address empty"
-    "email email phone phone empty";
+    "address address address address payment-details"
+    "email email phone phone payment-details";
 
     h1{
       grid-area: header;
+    }
+
+    .separator {
+      display: none;
     }
 }
 
@@ -26,6 +30,17 @@
       "name name"
       "address address"
       "email phone"
-      "invoice-no issue-date";
+      "separator separator"
+      "invoice-no issue-date"
+      "payment-details payment-details"
+      "payment-details payment-details";
+  }
+
+  .separator{
+    display: block !important;
+    width: 75%;
+    border-color: $primary;
+    opacity: 75%;
+    border-bottom: 0;
   }
 }
